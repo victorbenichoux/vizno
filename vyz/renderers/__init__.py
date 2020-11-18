@@ -2,8 +2,9 @@ from typing import Any
 
 from vyz.renderers.base import ContentConfiguration, FallbackContentRenderer
 from vyz.renderers.matplotlib import MatplotlibRenderer
+from vyz.renderers.text import TextRenderer
 
-RENDERERS = [MatplotlibRenderer]
+RENDERERS = [MatplotlibRenderer, TextRenderer]
 
 
 def render(content: Any, **kwargs) -> ContentConfiguration:

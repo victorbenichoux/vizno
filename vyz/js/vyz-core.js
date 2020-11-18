@@ -40,6 +40,8 @@ function WidgetContent({ content }) {
       ? html`<${FallbackContent} ...${spec} />`
       : component === "SVGContent"
       ? html`<${SVGContent} ...${spec} />`
+      : component=== "TextContent"
+      ? html`<${MarkdownText} ...${spec} />`
       : html`<p>Error</p>`}
   </div>`;
 }
