@@ -13,10 +13,26 @@ function MarkdownText({ text }) {
   return html`<div ref="${divRef}" />`;
 }
 
+function FallbackContent({ detected_type }) {
+  return html`<p>Unknown content type "${detected_type}"</p>`;
+}
+
+function WidgetContent({ content }) {
+    console.log(content)
+  const { component, ...spec } = content;
+  return html` <div class="vz-widget-content">
+    ${component === "FallbackContent"
+      ? html`<${FallbackContent} ...${spec} />`
+      : html`<p>Error</p>`}
+  </div>`;
+}
+
 function Widget({ widgetSpec }) {
+  const { name, description, content } = widgetSpec;
   return html` <div class="vz-widget">
-    <h2>${widgetSpec.name}</h2>
-    <${MarkdownText} text=${widgetSpec.description} />
+    <h2>${name}</h2>
+    <${MarkdownText} text=${description} />
+    <${WidgetContent} content=${content} />
   </div>`;
 }
 
