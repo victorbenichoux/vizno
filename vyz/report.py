@@ -60,6 +60,8 @@ class Report:
             f.write("configuration=" + json.dumps(self._get_configuration()))
 
     def render(self, output_dir: str):
+        print("Starting report generation")
+        output_dir = os.path.realpath(output_dir)
         os.makedirs(output_dir, exist_ok=True)
         shutil.copyfile(
             pkg_resources.resource_filename("vyz", "js/index.html"),
@@ -70,3 +72,4 @@ class Report:
             os.path.join(output_dir, "vyz-core.js"),
         )
         self._write_config(os.path.join(output_dir, "vyz-config.js"))
+        print(f"Wrote output to {output_dir}")
