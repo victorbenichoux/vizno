@@ -45,7 +45,7 @@ def report(report_fn: str, reload: bool = False, dev: bool = False):
         if dev:
             vyz_src_path = os.path.join(dir_realpath, "vyz")
             dev_event_handler = ReportFileChangedHandler(
-                fn, patterns=["*/index.html", "*.js", "*.py"]
+                fn, patterns=["*/index.html", "*.js", "*.py", "*.css"]
             )
             observer.schedule(dev_event_handler, vyz_src_path, recursive=True)
         observer.start()
