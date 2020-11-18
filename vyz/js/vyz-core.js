@@ -40,7 +40,7 @@ function WidgetContent({ content }) {
       ? html`<${FallbackContent} ...${spec} />`
       : component === "SVGContent"
       ? html`<${SVGContent} ...${spec} />`
-      : component=== "TextContent"
+      : component === "TextContent"
       ? html`<${MarkdownText} ...${spec} />`
       : html`<p>Error</p>`}
   </div>`;
@@ -59,14 +59,18 @@ function VizApp({ pageTitle, dateTime, description, widgets }) {
   return html`
     <title>${pageTitle}</title>
     <div class="vz-titlebar">
-      <ul>
-        <li><h1>${pageTitle}</h1></li>
-        <li><p>text=${dateTime}</p></li>
-      </ul>
+      <div class="container">
+        <div id="title">${pageTitle}</div>
+        <div id="date-time">${dateTime}</div>
+      </div>
     </div>
-    <${MarkdownText} text=${description} />
-    <div class="vz-widget-body">
-      ${widgets.map((d) => html`<${Widget} widgetSpec=${d} />`)}
+    <div class="vz-body">
+      <div class="vz-report-description">
+        <${MarkdownText} text=${description} />
+      </div>
+      <div class="vz-widget-body">
+        ${widgets.map((d) => html`<${Widget} widgetSpec=${d} />`)}
+      </div>
     </div>
   `;
 }
