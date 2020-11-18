@@ -13,16 +13,33 @@ function MarkdownText({ text }) {
   return html`<div ref="${divRef}" />`;
 }
 
+function SVGContainer({ data }) {
+  const divRef = useRef(null);
+
+  useEffect(() => {
+    if (divRef.current) {
+      divRef.current.innerHTML = data;
+    }
+  }, []);
+
+  return html`<div ref="${divRef}" />`;
+}
+
+function SVGContent({ data }) {
+  return html`<${SVGContainer} data="${data}" />`;
+}
+
 function FallbackContent({ detected_type }) {
   return html`<p>Unknown content type "${detected_type}"</p>`;
 }
 
 function WidgetContent({ content }) {
-    console.log(content)
   const { component, ...spec } = content;
   return html` <div class="vz-widget-content">
     ${component === "FallbackContent"
       ? html`<${FallbackContent} ...${spec} />`
+      : component === "SVGContent"
+      ? html`<${SVGContent} ...${spec} />`
       : html`<p>Error</p>`}
   </div>`;
 }

@@ -1,12 +1,13 @@
 from typing import Any
 
 from vyz.renderers.base import ContentConfiguration, FallbackContentRenderer
+from vyz.renderers.matplotlib import MatplotlibRenderer
 
-RENDERERS = []
+RENDERERS = [MatplotlibRenderer]
 
 
-def render(content: Any) -> ContentConfiguration:
+def render(content: Any, **kwargs) -> ContentConfiguration:
     for renderer in RENDERERS:
-        if isinstance(content, FallbackContentRenderer.__orig_bases__[0].__args__[0]):
-            return renderer.render(content)
+        if isinstance(content, renderer.__orig_bases__[0].__args__[0]):
+            return renderer.render(content, **kwargs)
     return FallbackContentRenderer.render(content)
