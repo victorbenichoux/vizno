@@ -64,8 +64,7 @@ output/*/index.html
 /*.log
 /ci-venv/
 .pytest_cache/
-/examples
-
+examples/output
 dev/
 
 /__pycache__/
