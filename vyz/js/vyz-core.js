@@ -1,10 +1,22 @@
 "use strict";
-const { html, render } = window.htmPreact;
+const { html, render, useEffect, useRef } = window.htmPreact;
+
+function MarkdownText({ text }) {
+  const divRef = useRef(null);
+
+  useEffect(() => {
+    if (divRef.current) {
+      divRef.current.innerHTML = marked(text);
+    }
+  }, []);
+
+  return html`<div ref="${divRef}" />`;
+}
 
 function Widget({ widgetSpec }) {
   return html` <div class="vz-widget">
     <h2>${widgetSpec.name}</h2>
-    <p>${widgetSpec.description}</p>
+    <${MarkdownText} text=${widgetSpec.description} />
   </div>`;
 }
 
@@ -14,10 +26,10 @@ function VizApp({ pageTitle, dateTime, description, widgets }) {
     <div class="vz-titlebar">
       <ul>
         <li><h1>${pageTitle}</h1></li>
-        <li><p>${dateTime}</p></li>
+        <li><p>text=${dateTime}</p></li>
       </ul>
     </div>
-    <p>${description}</p>
+    <${MarkdownText} text=${description} />
     <div class="vz-widget-body">
       ${widgets.map((d) => html`<${Widget} widgetSpec=${d} />`)}
     </div>
