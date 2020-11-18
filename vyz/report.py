@@ -90,6 +90,10 @@ class Report:
             os.path.join(output_dir, "index.html"),
         )
         shutil.copyfile(
+            pkg_resources.resource_filename("vyz", "js/vyz.css"),
+            os.path.join(output_dir, "vyz.css"),
+        )
+        shutil.copyfile(
             pkg_resources.resource_filename("vyz", "js/vyz-core.js"),
             os.path.join(output_dir, "vyz-core.js"),
         )
