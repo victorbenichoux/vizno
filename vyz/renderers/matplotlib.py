@@ -3,12 +3,12 @@ import io
 import xml.etree.ElementTree as et
 
 import matplotlib
-import pydantic
 
 from vyz.renderers.base import ContentConfiguration, GenericContentRenderer
 
-matplotlib.use("Agg")  # NOQA
-from matplotlib.pyplot import Figure, rcParams
+matplotlib.use("Agg")
+
+from matplotlib.pyplot import Figure, rcParams  # noqa: E402
 
 rcParams["svg.fonttype"] = "none"
 

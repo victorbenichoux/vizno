@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-import pydantic
-
 from vyz.renderers.base import ContentConfiguration, GenericContentRenderer
 
 
