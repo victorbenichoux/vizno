@@ -6,3 +6,5 @@ black
 pytest
 isort
 coverage
+# plotting
+matplotlib
