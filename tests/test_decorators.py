@@ -1,5 +1,6 @@
 from vyz.report import Report
 
+
 def test_basic_report():
     r = Report()
 
