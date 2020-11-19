@@ -68,3 +68,5 @@ examples/output
 dev/
 
 /__pycache__/
+
+node_modules/
