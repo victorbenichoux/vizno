@@ -7,4 +7,4 @@ target-version = ['py37']
 
 [tool.isort]
 profile = "black"
-src_paths = ["vyz", "tests", "bin"]
+src_paths = ["vyz", "tests"]

@@ -5,6 +5,7 @@
 
 # Packages
 .eggs
+*.whl
 *.egg
 *.egg-info
 dist

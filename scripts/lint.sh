@@ -3,7 +3,7 @@
 set -e
 set -x
 
-black vyz tests bin examples --check
-isort vyz tests bin examples --check-only
-flake8 vyz tests bin examples
-mypy vyz tests bin examples
+black vyz tests examples --check
+isort vyz tests examples --check-only
+flake8 vyz tests examples
+mypy vyz tests examples

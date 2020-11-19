@@ -3,5 +3,5 @@
 set -e
 set -x
 
-black vyz tests bin
-isort vyz tests bin
+black vyz tests examples
+isort vyz tests examples

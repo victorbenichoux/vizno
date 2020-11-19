@@ -56,6 +56,8 @@ def report(report_fn: str, reload: bool = False, dev: bool = False):
             observer.stop()
         observer.join()
 
+def main():
+    typer.run(report)
 
 if __name__ == "__main__":
-    typer.run(report)
+    main()
