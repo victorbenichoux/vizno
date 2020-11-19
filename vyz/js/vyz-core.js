@@ -1,6 +1,9 @@
 "use strict";
 const { html, render, useEffect, useRef } = window.htmPreact;
 
+const dictComponent = {};
+
+dictComponent.MarkdownText = MarkdownText;
 function MarkdownText({ text }) {
   const divRef = useRef(null);
 
@@ -25,10 +28,12 @@ function SVGContainer({ data }) {
   return html`<div ref="${divRef}" />`;
 }
 
+dictComponent.SVGContent = SVGContent;
 function SVGContent({ data }) {
   return html`<${SVGContainer} data="${data}" />`;
 }
 
+dictComponent.FallbackContent = FallbackContent;
 function FallbackContent({ detected_type }) {
   return html`<p>Unknown content type "${detected_type}"</p>`;
 }
@@ -36,12 +41,8 @@ function FallbackContent({ detected_type }) {
 function WidgetContent({ content }) {
   const { component, ...spec } = content;
   return html` <div class="vz-widget-content">
-    ${component === "FallbackContent"
-      ? html`<${FallbackContent} ...${spec} />`
-      : component === "SVGContent"
-      ? html`<${SVGContent} ...${spec} />`
-      : component === "TextContent"
-      ? html`<${MarkdownText} ...${spec} />`
+    ${dictComponent[component]
+      ? html`<${dictComponent[component]} ...${spec} />`
       : html`<p>Error</p>`}
   </div>`;
 }
