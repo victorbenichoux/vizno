@@ -11,7 +11,7 @@ def f():
 
 
 @r.widget(name="A second widget", description="with another *description*")
-def f():
+def g():
     return "This one returns text"
 
 
