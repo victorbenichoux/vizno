@@ -81,7 +81,9 @@ class Report:
     def _write_config(self, output_fn):
         with open(output_fn, "w", encoding="utf-8") as f:
             f.write(
-                f"configuration=JSON.parse({json.dumps(self.get_configuration().json())})"
+                "configuration=JSON.parse("
+                f"{json.dumps(self.get_configuration().json())}"
+                ")"
             )
 
     def render(self, output_dir: str):
