@@ -1,14 +1,20 @@
+import functools
 from typing import Any
 
-from vyz.renderers.base import ContentConfiguration, FallbackContentRenderer
-from vyz.renderers.matplotlib import MatplotlibRenderer
-from vyz.renderers.text import TextRenderer
-
-RENDERERS = [MatplotlibRenderer, TextRenderer]
+import pydantic
 
 
-def render(content: Any, **kwargs) -> ContentConfiguration:
-    for renderer in RENDERERS:
-        if isinstance(content, renderer.__orig_bases__[0].__args__[0]):
-            return renderer.render(content, **kwargs)
-    return FallbackContentRenderer.render(content)
+class ContentConfiguration(pydantic.BaseModel):
+    component: str
+    component_module: str = "vyz-core.js"
+
+
+class FallbackContentConfiguration(ContentConfiguration):
+    component: str = "FallbackContent"
+    component_module: str = "vyz-core.js"
+    detected_type: str
+
+
+@functools.singledispatch
+def render(content: Any) -> ContentConfiguration:
+    return FallbackContentConfiguration(detected_type=type(content).__name__)

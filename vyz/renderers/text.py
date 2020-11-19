@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from vyz.renderers.base import ContentConfiguration, GenericContentRenderer
+from vyz.renderers import ContentConfiguration, render
 
 
 class TextContentConfiguration(ContentConfiguration):
@@ -8,7 +8,6 @@ class TextContentConfiguration(ContentConfiguration):
     text: str
 
 
-class TextRenderer(GenericContentRenderer[str, TextContentConfiguration]):
-    @staticmethod
-    def render(text):
-        return TextContentConfiguration(text=text)
+@render.register
+def _(text):
+    return TextContentConfiguration(text=text)

@@ -11,8 +11,7 @@ from typing import Callable, List
 import pkg_resources
 import pydantic
 
-from vyz.renderers import render
-from vyz.renderers.base import ContentConfiguration
+from vyz.renderers import ContentConfiguration, render
 
 
 class WidgetConfiguration(pydantic.BaseModel):
