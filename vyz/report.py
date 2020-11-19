@@ -3,6 +3,7 @@
 This package contains the parent class for vyz reports.
 """
 
+import json
 import os
 import shutil
 from typing import Callable, List
@@ -79,7 +80,9 @@ class Report:
 
     def _write_config(self, output_fn):
         with open(output_fn, "w", encoding="utf-8") as f:
-            f.write("configuration=" + self.get_configuration().json())
+            f.write(
+                f"configuration=JSON.parse({json.dumps(self.get_configuration().json())})"
+            )
 
     def render(self, output_dir: str):
         print("Starting report generation")
@@ -98,4 +101,4 @@ class Report:
             os.path.join(output_dir, "vyz-core.js"),
         )
         self._write_config(os.path.join(output_dir, "vyz-config.js"))
-        print(f"Success:\n\t{os.path.join(output_dir, 'index.html')}")
+        print(f"Success:\n\tfile://{os.path.join(output_dir, 'index.html')}")
