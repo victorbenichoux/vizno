@@ -3,7 +3,7 @@ from vyz.renderers import ContentConfiguration, render
 
 
 class TextContentConfiguration(ContentConfiguration):
-    component: str = "TextContent"
+    component: str = "MarkdownText"
     component_module: str = "vyz-core.js"
     text: str
 
