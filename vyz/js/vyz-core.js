@@ -28,7 +28,7 @@ function VegaContent({ spec, content_uuid }) {
         .then(function (result) {})
         .catch(console.error);
     }
-  }, [divRef, content_uuid,  window.vegaEmbed]);
+  }, [divRef, content_uuid, window.vegaEmbed]);
 
   return html`<div id="${content_uuid}" ref="${divRef}" />`;
 }
@@ -79,11 +79,57 @@ function WidgetContent({ content }) {
 
 function Widget({ widgetSpec }) {
   const { name, description, content } = widgetSpec;
-  return html` <div class="vz-widget pure-u-1-3">
+  return html` <div class="vz-widget">
     <h2>${name}</h2>
     <${MarkdownText} text=${description} />
     <${WidgetContent} content=${content} />
   </div>`;
+}
+
+const widthToPureClass = [
+  null,
+  "1-12",
+  "1-6",
+  "1-4",
+  "1-3",
+  "5-12",
+  "1-2",
+  "7-12",
+  "2-3",
+  "3-4",
+  "5-6",
+  "11-12",
+  "1-1",
+];
+
+function WidgetLayout({ widgets }) {
+  console.log(widgets);
+  let currentLine = [];
+  var currentLineWidth = 0;
+  var widgetLines = [];
+  for (let widget of widgets) {
+    if (currentLineWidth + widget.layout.width <= 12) {
+      currentLine = [...currentLine, widget];
+      currentLineWidth = currentLineWidth + widget.layout.width;
+    } else {
+      widgetLines = [...widgetLines, currentLine];
+      currentLineWidth = widget.layout.width;
+      currentLine = [widget];
+    }
+  }
+  if (currentLine.length) {
+    widgetLines = [...widgetLines, currentLine];
+  }
+  return html`${widgetLines.map(
+    (line) =>
+      html`<div class="pure-g">
+        ${line.map(
+          (w) => html` <div class="pure-u-${widthToPureClass[w.layout.width]}">
+            <${Widget} widgetSpec=${w} />
+          </div>`
+        )}
+      </div>`
+  )}`;
 }
 
 function VizApp({ pageTitle, dateTime, description, widgets }) {
@@ -99,8 +145,8 @@ function VizApp({ pageTitle, dateTime, description, widgets }) {
       <div class="vz-report-description">
         <${MarkdownText} text=${description} />
       </div>
-      <div class="vz-widget-body pure-g">
-        ${widgets.map((d) => html`<${Widget} widgetSpec=${d} />`)}
+      <div class="vz-widget-body">
+        <${WidgetLayout} widgets=${widgets} />
       </div>
     </div>
   `;
