@@ -37,5 +37,19 @@ body {
 .vz-widget-content {
   width: 100%;
   height: 100%;
+}
 
+.vz-body {
+  margin-top: 60px;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: whitesmoke;
+}
+
+.vz-widget {
+  background-color: white;
+  border-radius: 5px;
+  border: solid 1px darkgray;
+  padding: 10px;
+  margin: 10px;
 }
