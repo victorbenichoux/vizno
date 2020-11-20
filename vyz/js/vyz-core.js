@@ -3,6 +3,23 @@ const { html, render, useEffect, useRef } = window.htmPreact;
 
 const dictComponent = {};
 
+dictComponent.VegaContent = VegaContent;
+function VegaContent({ spec, content_uuid }) {
+  const divRef = useRef(null);
+
+  useEffect(() => {
+    if (divRef.current && content_uuid) {
+      spec.config.width = divRef.current.offsetWidth;
+      window
+        .vegaEmbed("#".concat(content_uuid), spec)
+        .then(function (result) {})
+        .catch(console.error);
+    }
+  }, [divRef.current, content_uuid]);
+
+  return html`<div id="${content_uuid}" style="width: 90%" ref="${divRef}" />`;
+}
+
 dictComponent.MarkdownText = MarkdownText;
 function MarkdownText({ text }) {
   const divRef = useRef(null);

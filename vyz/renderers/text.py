@@ -8,6 +8,6 @@ class TextContentConfiguration(ContentConfiguration):
     text: str
 
 
-@render.register(str)
-def _(text):
+@render.register
+def _(text: str):
     return TextContentConfiguration(text=text)

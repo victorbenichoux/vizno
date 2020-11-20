@@ -1,5 +1,5 @@
 import functools
-from typing import Any
+from typing import Any, List
 
 import pydantic
 
@@ -7,6 +7,7 @@ import pydantic
 class ContentConfiguration(pydantic.BaseModel):
     component: str
     component_module: str = "vyz-core.js"
+    external_js_dependencies: List[str] = []
 
 
 class FallbackContentConfiguration(ContentConfiguration):

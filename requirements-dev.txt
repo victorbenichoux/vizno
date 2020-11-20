@@ -8,3 +8,5 @@ isort
 coverage
 # plotting
 matplotlib
+altair
+pandas
