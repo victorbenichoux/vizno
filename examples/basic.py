@@ -5,14 +5,14 @@ r = Report(
 )
 
 
-@r.widget(name="A first widget", description="with a *description*")
-def f():
-    pass
+r.widget(None, name="A first widget", description="with a *description*")
 
 
-@r.widget(name="A second widget", description="with another *description*")
-def g():
-    return "This one returns text"
+r.widget(
+    "This one returns text",
+    name="A second widget",
+    description="with another *description*",
+)
 
 
 r.render("examples/output/basic")

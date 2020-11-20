@@ -56,9 +56,7 @@ def content(request):
 def test_renderers(content):
     r = Report()
 
-    @r.widget()
-    def something():
-        return content[0]
+    r.widget(content[0])
 
     assert isinstance(r.get_configuration().widgets[0].content, content[1])
     with tempfile.TemporaryDirectory() as tmpdir:

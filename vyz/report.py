@@ -24,17 +24,17 @@ class WidgetConfiguration(pydantic.BaseModel):
 
 
 class Widget:
-    def __init__(self, func, name, description):
-        self.func = func
+    def __init__(self, content, name, description):
+        self.content = content
         self.name = name
         self.description = description
 
     def render_content(self):
-        return render(self.func())
+        return
 
     def get_configuration(self):
         return WidgetConfiguration(
-            name=self.name, description=self.description, content=self.render_content()
+            name=self.name, description=self.description, content=render(self.content)
         )
 
 
@@ -62,15 +62,8 @@ class Report:
         self.datetime = datetime
         self.description = description
 
-    def widget(self, name: str = "", description: str = "") -> Callable:
-        def decorator(func: Callable) -> Callable:
-            self.add_widget(func, name, description)
-            return func
-
-        return decorator
-
-    def add_widget(self, func, name, description):
-        self.widgets.append(Widget(func, name, description))
+    def widget(self, content, name: str = "", description: str = ""):
+        self.widgets.append(Widget(content, name, description))
 
     def get_configuration(self):
         return ReportConfiguration(
