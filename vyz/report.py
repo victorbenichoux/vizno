@@ -10,6 +10,7 @@ from typing import Callable, List
 import pydantic
 
 import vyz.renderers.altair  # noqa: F401
+import vyz.renderers.bokeh  # noqa: F401
 import vyz.renderers.matplotlib  # noqa: F401
 import vyz.renderers.text  # noqa: F401
 from vyz.renderers import ContentConfiguration, render

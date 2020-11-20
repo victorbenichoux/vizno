@@ -3,6 +3,19 @@ const { html, render, useEffect, useRef } = window.htmPreact;
 
 const dictComponent = {};
 
+dictComponent.BokehContent = BokehContent;
+function BokehContent({ spec, content_uuid }) {
+  const divRef = useRef(null);
+
+  useEffect(() => {
+    if (divRef.current && content_uuid) {
+      window.Bokeh.embed.embed_item(spec, content_uuid);
+    }
+  }, [divRef.current, content_uuid]);
+
+  return html`<div id="${content_uuid}" ref="${divRef}" />`;
+}
+
 dictComponent.VegaContent = VegaContent;
 function VegaContent({ spec, content_uuid }) {
   const divRef = useRef(null);

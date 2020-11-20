@@ -1,12 +1,15 @@
+import random
 import tempfile
 
 import altair
 import matplotlib.pyplot as plt
 import pandas as pd
 import pytest
+from bokeh.plotting import figure as bokeh_figure
 
 from vyz.renderers import FallbackContentConfiguration
 from vyz.renderers.altair import AltairContentConfiguration
+from vyz.renderers.bokeh import BokehContentConfiguration
 from vyz.renderers.matplotlib import MatplotlibContentConfiguration
 from vyz.renderers.text import TextContentConfiguration
 from vyz.report import Report
@@ -16,7 +19,7 @@ class OddContent:
     pass
 
 
-@pytest.fixture(scope="module", params=["str", "matplotlib", "odd", "altair"])
+@pytest.fixture(scope="module", params=["str", "matplotlib", "odd", "altair", "bokeh"])
 def content(request):
 
     if request.param == "str":
@@ -42,6 +45,12 @@ def content(request):
             .encode(x="a", y="b")
         )
         yield (chart, AltairContentConfiguration)
+    if request.param == "bokeh":
+        plot = bokeh_figure(plot_width=400, plot_height=300)
+        plot.circle(
+            [random.random() for _ in range(100)], [random.random() for _ in range(100)]
+        )
+        yield (plot, BokehContentConfiguration)
 
 
 def test_renderers(content):

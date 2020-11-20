@@ -10,3 +10,4 @@ coverage
 matplotlib
 altair
 pandas
+bokeh
