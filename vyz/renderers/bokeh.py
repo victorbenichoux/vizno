@@ -20,6 +20,7 @@ class BokehContentConfiguration(ContentConfiguration):
 def _(
     model: bokeh.models.Model,
 ) -> BokehContentConfiguration:
+    model.sizing_mode = "scale_both"
     item = bokeh.embed.json_item(model)
     version = item["doc"]["version"]
     return BokehContentConfiguration(

@@ -11,7 +11,7 @@ function BokehContent({ spec, content_uuid }) {
     if (divRef.current && content_uuid) {
       window.Bokeh.embed.embed_item(spec, content_uuid);
     }
-  }, [divRef.current, content_uuid]);
+  }, [divRef, content_uuid, window.Bokeh]);
 
   return html`<div id="${content_uuid}" ref="${divRef}" />`;
 }
@@ -22,15 +22,15 @@ function VegaContent({ spec, content_uuid }) {
 
   useEffect(() => {
     if (divRef.current && content_uuid) {
-      spec.config.width = divRef.current.offsetWidth;
+      spec.config.width = "container";
       window
         .vegaEmbed("#".concat(content_uuid), spec)
         .then(function (result) {})
         .catch(console.error);
     }
-  }, [divRef.current, content_uuid]);
+  }, [divRef, content_uuid,  window.vegaEmbed]);
 
-  return html`<div id="${content_uuid}" style="width: 90%" ref="${divRef}" />`;
+  return html`<div id="${content_uuid}" ref="${divRef}" />`;
 }
 
 dictComponent.MarkdownText = MarkdownText;
@@ -79,7 +79,7 @@ function WidgetContent({ content }) {
 
 function Widget({ widgetSpec }) {
   const { name, description, content } = widgetSpec;
-  return html` <div class="vz-widget">
+  return html` <div class="vz-widget pure-u-1-3">
     <h2>${name}</h2>
     <${MarkdownText} text=${description} />
     <${WidgetContent} content=${content} />
@@ -99,7 +99,7 @@ function VizApp({ pageTitle, dateTime, description, widgets }) {
       <div class="vz-report-description">
         <${MarkdownText} text=${description} />
       </div>
-      <div class="vz-widget-body">
+      <div class="vz-widget-body pure-g">
         ${widgets.map((d) => html`<${Widget} widgetSpec=${d} />`)}
       </div>
     </div>
