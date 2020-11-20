@@ -21,6 +21,7 @@ from vyz.utils import copy_index_template, copy_template
 class WidgetConfiguration(pydantic.BaseModel):
     class LayoutParameters(pydantic.BaseModel):
         width: int = 3
+        newline: bool = False
 
     name: str = ""
     description: str = ""
@@ -30,12 +31,19 @@ class WidgetConfiguration(pydantic.BaseModel):
 
 class Widget:
     def __init__(
-        self, content, name: str = "", description: str = "", width: int = 3, **kwargs
+        self,
+        content,
+        name: str = "",
+        description: str = "",
+        width: int = 3,
+        newline: bool = False,
+        **kwargs,
     ):
         self.content = content
         self.name = name
         self.description = description
         self.width = width
+        self.newline = newline
         self.render_kwargs = kwargs
 
     def get_configuration(self):
@@ -43,7 +51,7 @@ class Widget:
             name=self.name,
             description=self.description,
             content=render(self.content, **self.render_kwargs),
-            layout={"width": self.width},
+            layout={"width": self.width, "newline": self.newline},
         )
 
 

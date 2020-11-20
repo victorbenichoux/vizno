@@ -108,7 +108,10 @@ function WidgetLayout({ widgets }) {
   var currentLineWidth = 0;
   var widgetLines = [];
   for (let widget of widgets) {
-    if (currentLineWidth + widget.layout.width <= 12) {
+    if (
+      currentLineWidth + widget.layout.width <= 12 &&
+      !widget.layout.newline
+    ) {
       currentLine = [...currentLine, widget];
       currentLineWidth = currentLineWidth + widget.layout.width;
     } else {

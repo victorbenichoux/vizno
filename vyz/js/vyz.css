@@ -52,4 +52,5 @@ body {
   border: solid 1px darkgray;
   padding: 10px;
   margin: 10px;
+  overflow-x: scroll;
 }
