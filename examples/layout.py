@@ -1,10 +1,3 @@
-import random
-
-import altair
-import matplotlib.pyplot as plt
-import pandas as pd
-from bokeh.plotting import figure as bokeh_figure
-
 from vyz.report import Report
 
 r = Report(
