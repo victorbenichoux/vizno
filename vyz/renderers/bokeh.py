@@ -5,7 +5,7 @@ import uuid
 import bokeh.embed
 import bokeh.models
 
-from vyz.renderers import ContentConfiguration, render
+from vyz.renderers import ContentConfiguration, magic_include, render
 
 
 class BokehContentConfiguration(ContentConfiguration):
@@ -15,6 +15,7 @@ class BokehContentConfiguration(ContentConfiguration):
     content_uuid: str
 
 
+@magic_include
 @render.register
 def _(
     model: bokeh.models.Model,

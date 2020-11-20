@@ -1,5 +1,5 @@
 import functools
-from typing import Any, List
+from typing import Any, Callable, List
 
 import pydantic
 
@@ -19,3 +19,8 @@ class FallbackContentConfiguration(ContentConfiguration):
 @functools.singledispatch
 def render(content: Any) -> ContentConfiguration:
     return FallbackContentConfiguration(detected_type=type(content).__name__)
+
+
+def magic_include(func: Callable) -> Callable:
+    func._magic_include = True  # type: ignore[attr-defined]
+    return func

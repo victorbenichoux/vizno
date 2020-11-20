@@ -4,7 +4,7 @@ import xml.etree.ElementTree as et
 
 import matplotlib
 
-from vyz.renderers import ContentConfiguration, render
+from vyz.renderers import ContentConfiguration, magic_include, render
 
 matplotlib.use("Agg")
 
@@ -19,6 +19,7 @@ class MatplotlibContentConfiguration(ContentConfiguration):
     data: str
 
 
+@magic_include
 @render.register
 def _(
     figure: Figure,

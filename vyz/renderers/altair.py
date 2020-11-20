@@ -6,7 +6,7 @@ import altair
 import altair.vega
 import altair.vegalite
 
-from vyz.renderers import ContentConfiguration, render
+from vyz.renderers import ContentConfiguration, magic_include, render
 
 
 class AltairContentConfiguration(ContentConfiguration):
@@ -16,6 +16,7 @@ class AltairContentConfiguration(ContentConfiguration):
     content_uuid: str
 
 
+@magic_include
 @render.register
 def _(
     chart: altair.Chart,

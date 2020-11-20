@@ -5,7 +5,7 @@ This package contains the parent class for vyz reports.
 
 import json
 import os
-from typing import Callable, List
+from typing import List
 
 import pydantic
 
