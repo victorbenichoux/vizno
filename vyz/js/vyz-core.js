@@ -73,15 +73,15 @@ function WidgetContent({ content }) {
   return html` <div class="vz-widget-content">
     ${dictComponent[component]
       ? html`<${dictComponent[component]} ...${spec} />`
-      : html`<p>Error</p>`}
+      : html`<p>Component has no renderable content.</p>`}
   </div>`;
 }
 
 function Widget({ widgetSpec }) {
   const { name, description, content } = widgetSpec;
   return html` <div class="vz-widget">
-    <h2>${name}</h2>
-    <${MarkdownText} text=${description} />
+    ${name ? html`<h2>${name}</h2>` : null}
+    ${description ? html`<${MarkdownText} text=${description} />` : null}
     <${WidgetContent} content=${content} />
   </div>`;
 }
@@ -142,9 +142,11 @@ function VizApp({ pageTitle, dateTime, description, widgets }) {
       </div>
     </div>
     <div class="vz-body">
-      <div class="vz-report-description">
-        <${MarkdownText} text=${description} />
-      </div>
+      ${description
+        ? html`<div class="vz-report-description">
+            <${MarkdownText} text=${description} />
+          </div>`
+        : null}
       <div class="vz-widget-body">
         <${WidgetLayout} widgets=${widgets} />
       </div>

@@ -5,6 +5,7 @@ This package contains the parent class for vyz reports.
 
 import json
 import os
+import time
 from typing import List
 
 import pydantic
@@ -21,33 +22,40 @@ class WidgetConfiguration(pydantic.BaseModel):
     class LayoutParameters(pydantic.BaseModel):
         width: int = 3
 
-    name: str
+    name: str = ""
     description: str = ""
     content: ContentConfiguration
     layout: LayoutParameters
 
 
 class Widget:
-    def __init__(self, content, name, description, width: int = 3):
+    def __init__(
+        self, content, name: str = "", description: str = "", width: int = 3, **kwargs
+    ):
         self.content = content
         self.name = name
         self.description = description
         self.width = width
+        self.render_kwargs = kwargs
 
     def get_configuration(self):
         return WidgetConfiguration(
             name=self.name,
             description=self.description,
-            content=render(self.content),
+            content=render(self.content, **self.render_kwargs),
             layout={"width": self.width},
         )
 
 
 class ReportConfiguration(pydantic.BaseModel):
-    title: str
-    description: str
+    title: str = ""
+    description: str = ""
     datetime: str
     widgets: List[WidgetConfiguration]
+
+    @pydantic.validator("datetime")
+    def validate_datetime(v):
+        return v or time.ctime()
 
 
 class Report:
@@ -67,8 +75,8 @@ class Report:
         self.datetime = datetime
         self.description = description
 
-    def widget(self, content, name: str = "", description: str = "", width: int = 3):
-        self.widgets.append(Widget(content, name, description, width))
+    def widget(self, content, **kwargs):
+        self.widgets.append(Widget(content, **kwargs))
 
     def get_configuration(self):
         return ReportConfiguration(
