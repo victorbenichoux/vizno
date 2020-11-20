@@ -6,76 +6,18 @@ r = Report(
 )
 
 
-r.widget(
-    "Content",
-    width=1,
-    name="1",
-)
-
-r.widget(
-    "Content",
-    width=2,
-    name="2",
-)
-
-r.widget(
-    "Content",
-    width=3,
-    name="3",
-)
-
-r.widget(
-    "Content",
-    width=4,
-    name="4",
-)
-
-r.widget(
-    "Content",
-    width=5,
-    name="5",
-)
-
-
-r.widget(
-    "Content",
-    width=6,
-    name="6",
-)
-
-r.widget(
-    "Content",
-    width=7,
-    name="7",
-)
-
-r.widget(
-    "Content",
-    width=8,
-    name="8",
-)
-
-r.widget(
-    "Content",
-    width=9,
-    name="9",
-)
-
-r.widget(
-    "Content",
-    width=10,
-    name="10",
-)
-r.widget(
-    "Content",
-    width=11,
-    name="11",
-)
-r.widget(
-    "Content",
-    width=12,
-    name="12",
-)
+r.widget("Size 1", width=1)
+r.widget("Size 2", width=2)
+r.widget("Size 3", width=3)
+r.widget("Size 4", width=4)
+r.widget("Size 5", width=5)
+r.widget("Size 6", width=6)
+r.widget("Size 7", width=7)
+r.widget("Size 8", width=8)
+r.widget("Size 9", width=9)
+r.widget("Size 10", width=10)
+r.widget("Size 11", width=11)
+r.widget("Size 12", width=12)
 
 
 r.render("examples/output/layout")
