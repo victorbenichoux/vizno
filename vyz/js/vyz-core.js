@@ -65,7 +65,7 @@ function SVGContent({ data }) {
 
 dictComponent.FallbackContent = FallbackContent;
 function FallbackContent({ detected_type }) {
-  return html`<p>Unknown content type "${detected_type}"</p>`;
+  return html`<p class="vz-text">Unknown content type "${detected_type}"</p>`;
 }
 
 function WidgetContent({ content }) {
@@ -73,7 +73,7 @@ function WidgetContent({ content }) {
   return html` <div class="vz-widget-content">
     ${dictComponent[component]
       ? html`<${dictComponent[component]} ...${spec} />`
-      : html`<p>Component has no renderable content.</p>`}
+      : html`<p class="vz-text">Component has no renderable content.</p>`}
   </div>`;
 }
 
@@ -81,7 +81,9 @@ function Widget({ widgetSpec }) {
   const { name, description, content } = widgetSpec;
   return html` <div class="vz-widget">
     ${name ? html`<h2>${name}</h2>` : null}
-    ${description ? html`<${MarkdownText} text=${description} />` : null}
+    ${description
+      ? html`<div class="vz-text"><${MarkdownText} text=${description} /></div>`
+      : null}
     <${WidgetContent} content=${content} />
   </div>`;
 }

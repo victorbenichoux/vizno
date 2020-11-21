@@ -1,5 +1,6 @@
-body {
+html {
   font-family: "IBM Plex Sans";
+  color: rgb(46, 46, 46);
 }
 
 .vz-titlebar {
@@ -26,6 +27,22 @@ body {
   font-size: 3vh;
 }
 
+.vz-text {
+  color: #757575;
+  font-size: 0.8rem;
+}
+
+.vz-report-description {
+  color: #757575;
+  font-size: 1rem;
+}
+
+h2 {
+  color: #1a1a1a;
+  font-weight: 300;
+  margin: 0;
+}
+
 .vz-titlebar #date-time {
   padding: 0px;
 }
@@ -48,8 +65,9 @@ body {
 
 .vz-widget {
   background-color: white;
+  box-shadow: 0 0 3px lightgray;
   border-radius: 5px;
-  border: solid 1px darkgray;
+  /* border: solid 1px darkgray; */
   padding: 10px;
   margin: 10px;
   overflow-x: scroll;
