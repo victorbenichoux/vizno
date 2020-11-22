@@ -1,5 +1,5 @@
 "use strict";
-const { html, render, useEffect, useRef } = window.htmPreact;
+const { html, render, useEffect, useRef, useState } = window.htmPreact;
 
 const dictComponent = {};
 
@@ -105,7 +105,6 @@ const widthToPureClass = [
 ];
 
 function WidgetLayout({ widgets }) {
-  console.log(widgets);
   let currentLine = [];
   var currentLineWidth = 0;
   var widgetLines = [];
@@ -160,13 +159,42 @@ function VizApp({ pageTitle, dateTime, description, widgets }) {
 }
 
 function App() {
-  const configuration = window.configuration;
-  return html`<${VizApp}
-    pageTitle="${configuration.title}"
-    dateTime=${configuration.datetime}
-    description=${configuration.description}
-    widgets=${configuration.widgets}
-  />`;
+  const [configuration, setConfiguration] = useState(null);
+  const [configurationRequest, setConfigurationRequest] = useState(null);
+
+  useEffect(() => {
+    if (configurationRequest) {
+      const configurationRequestURL = configurationRequest.get("configurationRequestURL");
+      configurationRequest.delete("configurationRequestURL")
+      fetch(`${configurationRequestURL}?${configurationRequest.toString()}`, {
+        headers: {'content-type' : 'application/json'},
+        method: "GET",
+      })
+        .then((resp) => resp.json())
+        .then((configuration) => setConfiguration(configuration))
+    }
+  }, [configurationRequest]);
+
+  useEffect(() => {
+    if (window.configuration) {
+      setConfiguration(window.configuration);
+    } else {
+      if (window.location.search) {
+        let queryParams = new URLSearchParams(window.location.search);
+        if (queryParams.has("configurationRequestURL")) {
+          setConfigurationRequest(queryParams);
+        }
+      }
+    }
+  }, [window.configuration]);
+  return configuration
+    ? html`<${VizApp}
+        pageTitle="${configuration.title}"
+        dateTime=${configuration.datetime}
+        description=${configuration.description}
+        widgets=${configuration.widgets}
+      />`
+    : html`No configuration`;
 }
 
 render(html` <${App} /> `, document.getElementById("root"));
