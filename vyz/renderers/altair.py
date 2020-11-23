@@ -18,13 +18,7 @@ class AltairContentConfiguration(ContentConfiguration):
 
 @magic_include
 @render.register
-def _(
-    chart: altair.Chart,
-    scale: str = "down",
-    inherit_font: bool = True,
-    tight_layout: bool = True,
-    bbox_inches: str = None,
-) -> AltairContentConfiguration:
+def _(chart: altair.Chart) -> AltairContentConfiguration:
     return AltairContentConfiguration(
         spec=chart.to_dict(),
         external_js_dependencies=[
