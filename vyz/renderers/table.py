@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import uuid
-from typing import Any, List
+from typing import List
 
 import pandas as pd
 
@@ -17,7 +17,6 @@ class TableContentConfiguration(ContentConfiguration):
 
 @render.register
 def _(df: pd.DataFrame):
-    columns = [c for c in df.columns]
     return TableContentConfiguration(
         data=[{c: getattr(row, c) for c in df.columns} for row in df.itertuples()],
         columns=[c for c in df.columns],

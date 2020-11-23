@@ -8,7 +8,7 @@ import json
 import os
 import time
 import uuid
-from typing import List, Optional, Sequence, Union
+from typing import List, Optional, Sequence
 
 import pydantic
 
