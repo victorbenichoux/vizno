@@ -59,43 +59,21 @@ function SVGContainer({ data }) {
 
 dictComponent.TableContent = TableContent;
 function TableContent({ data, columns, content_uuid }) {
-  const areaRef = useRef(null);
-
+  const tableRef = useRef(null);
   useEffect(() => {
-    if (areaRef.current && content_uuid) {
-      new Clusterize({
-        rows: data.map(
-          (row) => `<tr>${row.map((v) => `<td>${v}</td>`).join("")}</tr>`
-        ),
-        scrollId: `${content_uuid}-scroll`,
-        contentId: `${content_uuid}-area`
+    if (tableRef.current && content_uuid) {
+      // console.log(columns.map((c) => ({ field: c, title: c })));
+      // console.log(data.map((d, i) => ({ id: i, ...d }))[0]);
+      var table = new window.Tabulator(`#${content_uuid}`, {
+        data: data.map((d, i) => ({ id: i, ...d })),
+        columns: columns.map((c) => ({ field: c, title: c })),
+        layout:"fitColumns",
+        height:"30vh", 
       });
     }
-  }, [areaRef, content_uuid, window.Clusterize]);
+  }, [tableRef, content_uuid]);
 
-  return html`<div class="clusterize">
-    <table class="pure-table pure-table-bordered" id="${content_uuid}-headers">
-      <thead>
-        <tr>
-          ${columns.map((header) => html`<th>${header}</th>`)}
-        </tr>
-      </thead>
-    </table>
-    <div id="${content_uuid}-scroll" class="clusterize-scroll">
-      <table class="pure-table pure-table-bordered">
-        <tbody
-          ref=${areaRef}
-          id="${content_uuid}-area"
-          class="clusterize-content"
-          style="max-height: 100px"
-        >
-          <tr class="clusterize-no-data">
-            <td>Loading data...</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>`;
+  return html`<div ref=${tableRef} id="${content_uuid}"></div>`;
 }
 
 dictComponent.SVGContent = SVGContent;

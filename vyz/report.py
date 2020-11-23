@@ -111,13 +111,17 @@ class Report:
         copy_index_template(
             "index.html",
             output_dir,
+            # There are defined as dicts such that insertion key
+            # order is maintained, but values are discarded
+            # This is particularly useful when the order of import
+            # in dependencies is important (e.g. for tabulator)
             external_js_dependencies={
-                dep
+                dep: None
                 for widget in configuration.widgets
                 for dep in widget.content.external_js_dependencies
             },
             external_css_dependencies={
-                dep
+                dep: None
                 for widget in configuration.widgets
                 for dep in widget.content.external_css_dependencies
             },
