@@ -44,7 +44,7 @@ class Widget:
         content,
         name: str = "",
         description: str = "",
-        width: int = 3,
+        width: int = 12,
         newline: bool = False,
         **kwargs,
     ):
