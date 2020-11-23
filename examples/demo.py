@@ -7,45 +7,56 @@ from bokeh.plotting import figure as bokeh_figure
 
 from vyz.report import Report
 
-r = Report(title="The demo report", description="A demo report")
+xs = [random.random() for _ in range(100)]
+ys = [x + random.random() * 0.1 for x in xs]
+
+r = Report(
+    title="The demo report",
+    description="This demo report showcases the capabilities of vyz.",
+)
 
 
-r.widget(None, name="A first widget", description="with a *description*")
+r.header("Some Header", description="In each section we can find multiple widgets.")
 
 f = plt.figure()
 ax = f.add_subplot(111)
-ax.plot([1, 2, 3], [2, 1, 3])
+ax.plot(xs, ys, ".")
 ax.set_xlabel("Label")
 
-r.widget(f, name="A matplotlib widget", description="with a *description*")
+r.widget(
+    f,
+    name="This is a matplotlib widget",
+    description="It contains the above figure, but also a description, which _may include_ [markdown](https://daringfireball.net/projects/markdown/) ***formatted*** text",
+)
 
 chart = (
     altair.Chart(
         pd.DataFrame(
             {
-                "a": ["A", "B", "C", "D", "E", "F", "G", "H", "I"],
-                "b": [28, 55, 43, 91, 81, 53, 19, 87, 52],
+                "a": xs,
+                "b": ys,
             }
         )
     )
-    .mark_bar()
+    .mark_circle(size=20)
     .encode(x="a", y="b")
 )
 
 r.widget(chart, name="An altair widget")
 
-
 plot = bokeh_figure(plot_width=400, plot_height=300)
-plot.circle(
-    [random.random() for _ in range(100)], [random.random() for _ in range(100)]
-)
+plot.circle(xs, ys)
 
 r.widget(plot, name="A bokeh widget")
 
 r.widget(
-    "This one returns text",
-    name="A widget",
-    description="with another *description*",
+    pd.DataFrame(
+        {
+            "a": xs,
+            "b": ys,
+        }
+    ),
+    name="A table",
 )
 
 

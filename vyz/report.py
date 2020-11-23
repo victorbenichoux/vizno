@@ -7,7 +7,8 @@ import importlib
 import json
 import os
 import time
-from typing import List
+import uuid
+from typing import List, Optional, Sequence, Union
 
 import pydantic
 
@@ -27,18 +28,41 @@ for renderer in [
         pass
 
 
-class WidgetConfiguration(pydantic.BaseModel):
-    class LayoutParameters(pydantic.BaseModel):
-        width: int = 3
-        newline: bool = False
+class LayoutParameters(pydantic.BaseModel):
+    width: int = 12
+    newline: bool = False
 
+
+class ElementConfiguration(pydantic.BaseModel):
     name: str = ""
     description: str = ""
+    layout: Optional[LayoutParameters]
+    element_type: str
+
+    @pydantic.validator("layout", always=True, pre=True)
+    def default_layout(v):
+        return v or LayoutParameters()
+
+
+class WidgetConfiguration(ElementConfiguration):
+    element_type: str = "widget"
     content: ContentConfiguration
-    layout: LayoutParameters
 
 
-class Widget:
+class HeaderConfiguration(ElementConfiguration):
+    id: Optional[str]
+    element_type: str = "header"
+
+    @pydantic.validator("id", always=True, pre=True)
+    def generate_header_id(v):
+        return v or f"header-{uuid.uuid4().hex[:8]}"
+
+
+class Element:
+    pass
+
+
+class Widget(Element):
     def __init__(
         self,
         content,
@@ -64,11 +88,23 @@ class Widget:
         )
 
 
+class Header(Element):
+    def __init__(self, name: str = "", description: str = ""):
+        self.name = name
+        self.description = description
+
+    def get_configuration(self):
+        return HeaderConfiguration(
+            name=self.name,
+            description=self.description,
+        )
+
+
 class ReportConfiguration(pydantic.BaseModel):
     title: str = ""
     description: str = ""
     datetime: str
-    widgets: List[WidgetConfiguration]
+    widgets: Sequence[ElementConfiguration]
 
     @pydantic.validator("datetime")
     def validate_datetime(v):
@@ -85,7 +121,7 @@ class Report:
         title: str = "",
         description: str = "",
         datetime: str = "",
-        widgets: List[Widget] = None,
+        widgets: List[Element] = None,
     ):
         self.widgets = widgets or []
         self.title = title
@@ -94,6 +130,9 @@ class Report:
 
     def widget(self, content, **kwargs):
         self.widgets.append(Widget(content, **kwargs))
+
+    def header(self, name, description: str = ""):
+        self.widgets.append(Header(name=name, description=description))
 
     def get_configuration(self):
         return ReportConfiguration(
@@ -118,11 +157,13 @@ class Report:
             external_js_dependencies={
                 dep: None
                 for widget in configuration.widgets
+                if isinstance(widget, WidgetConfiguration)
                 for dep in widget.content.external_js_dependencies
             },
             external_css_dependencies={
                 dep: None
                 for widget in configuration.widgets
+                if isinstance(widget, WidgetConfiguration)
                 for dep in widget.content.external_css_dependencies
             },
         )

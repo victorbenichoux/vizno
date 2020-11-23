@@ -23,9 +23,9 @@ function VegaContent({ spec, content_uuid }) {
   useEffect(() => {
     if (divRef.current && content_uuid) {
       spec.config.width = "container";
+      spec.config.height = "container";
       window
         .vegaEmbed("#".concat(content_uuid), spec)
-        .then(function (result) {})
         .catch(console.error);
     }
   }, [divRef, content_uuid, window.vegaEmbed]);
@@ -67,8 +67,8 @@ function TableContent({ data, columns, content_uuid }) {
       var table = new window.Tabulator(`#${content_uuid}`, {
         data: data.map((d, i) => ({ id: i, ...d })),
         columns: columns.map((c) => ({ field: c, title: c })),
-        layout:"fitColumns",
-        height:"30vh", 
+        layout: "fitColumns",
+        height: "30vh",
       });
     }
   }, [tableRef, content_uuid]);
@@ -98,12 +98,33 @@ function WidgetContent({ content }) {
 function Widget({ widgetSpec }) {
   const { name, description, content } = widgetSpec;
   return html` <div class="vz-widget">
+    ${name ? html`<h3>${name}</h3>` : null}
+    <${WidgetContent} content=${content} />
+    ${description
+      ? html`<div class="vz-description"><${MarkdownText} text=${description} /></div>`
+      : null}
+  </div>`;
+}
+
+function Header({ widgetSpec }) {
+  const { name, description } = widgetSpec;
+  return html` <div class="vz-header">
     ${name ? html`<h2>${name}</h2>` : null}
+    <hr/>
     ${description
       ? html`<div class="vz-text"><${MarkdownText} text=${description} /></div>`
       : null}
-    <${WidgetContent} content=${content} />
   </div>`;
+}
+
+function Element({ widgetSpec }) {
+
+  const { element_type } = widgetSpec;
+  return element_type === "widget"
+    ? html`<div class="vz-element"> <${Widget} widgetSpec=${widgetSpec} /> </div>`
+    : element_type === "header"
+    ? html`<div class="vz-element"><${Header} widgetSpec=${widgetSpec} /> </div>`
+    : null;
 }
 
 const widthToPureClass = [
@@ -126,8 +147,10 @@ function WidgetLayout({ widgets }) {
   let currentLine = [];
   var currentLineWidth = 0;
   var widgetLines = [];
+  console.log(widgets)
   for (let widget of widgets) {
     if (
+      widget.element_type !== "header" &&
       currentLineWidth + widget.layout.width <= 12 &&
       !widget.layout.newline
     ) {
@@ -147,7 +170,7 @@ function WidgetLayout({ widgets }) {
       html`<div class="pure-g">
         ${line.map(
           (w) => html` <div class="pure-u-${widthToPureClass[w.layout.width]}">
-            <${Widget} widgetSpec=${w} />
+            <${Element} widgetSpec=${w} />
           </div>`
         )}
       </div>`
@@ -157,15 +180,13 @@ function WidgetLayout({ widgets }) {
 function VizApp({ pageTitle, dateTime, description, widgets }) {
   return html`
     <title>${pageTitle}</title>
-    <div class="vz-titlebar">
-      <div class="container">
-        <div id="title">${pageTitle}</div>
-        <div id="date-time">${dateTime}</div>
-      </div>
-    </div>
     <div class="vz-body">
+      <div class="vz-titlesection">
+      <h1>${pageTitle}</h1>
+      <div class="vz-datetime"><p>${dateTime}</p></div>
+      </div>
       ${description
-        ? html`<div class="vz-report-description">
+        ? html`<div class="vz-report-description vz-element">
             <${MarkdownText} text=${description} />
           </div>`
         : null}
