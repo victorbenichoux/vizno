@@ -19,7 +19,6 @@ for renderer in [
     "vyz.renderers.altair",
     "vyz.renderers.bokeh",
     "vyz.renderers.matplotlib",
-    "vyz.renderers.text",
     "vyz.renderers.table",
 ]:
     try:
@@ -56,6 +55,11 @@ class HeaderConfiguration(ElementConfiguration):
     @pydantic.validator("id", always=True, pre=True)
     def generate_header_id(v):
         return v or f"header-{uuid.uuid4().hex[:8]}"
+
+
+class TextConfiguration(ElementConfiguration):
+    element_type: str = "text"
+    text: str
 
 
 class Element:
@@ -100,6 +104,14 @@ class Header(Element):
         )
 
 
+class Text(Element):
+    def __init__(self, text: str = ""):
+        self.text = text
+
+    def get_configuration(self):
+        return TextConfiguration(text=self.text)
+
+
 class ReportConfiguration(pydantic.BaseModel):
     title: str = ""
     description: str = ""
@@ -133,6 +145,9 @@ class Report:
 
     def header(self, name, description: str = ""):
         self.widgets.append(Header(name=name, description=description))
+
+    def text(self, text):
+        self.widgets.append(Text(text=text))
 
     def get_configuration(self):
         return ReportConfiguration(

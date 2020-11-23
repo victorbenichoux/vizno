@@ -24,9 +24,7 @@ function VegaContent({ spec, content_uuid }) {
     if (divRef.current && content_uuid) {
       spec.config.width = "container";
       spec.config.height = "container";
-      window
-        .vegaEmbed("#".concat(content_uuid), spec)
-        .catch(console.error);
+      window.vegaEmbed("#".concat(content_uuid), spec).catch(console.error);
     }
   }, [divRef, content_uuid, window.vegaEmbed]);
 
@@ -101,7 +99,9 @@ function Widget({ widgetSpec }) {
     ${name ? html`<h3>${name}</h3>` : null}
     <${WidgetContent} content=${content} />
     ${description
-      ? html`<div class="vz-description"><${MarkdownText} text=${description} /></div>`
+      ? html`<div class="vz-description">
+          <${MarkdownText} text=${description} />
+        </div>`
       : null}
   </div>`;
 }
@@ -110,21 +110,32 @@ function Header({ widgetSpec }) {
   const { name, description } = widgetSpec;
   return html` <div class="vz-header">
     ${name ? html`<h2>${name}</h2>` : null}
-    <hr/>
+    <hr />
     ${description
       ? html`<div class="vz-text"><${MarkdownText} text=${description} /></div>`
       : null}
   </div>`;
 }
 
-function Element({ widgetSpec }) {
+function Text({ widgetSpec }) {
+  const { text } = widgetSpec;
+  console.log(text);
+  return html` <div class="vz-text-element">
+    <${MarkdownText} text=${text} />
+  </div>`;
+}
 
+function Element({ widgetSpec }) {
   const { element_type } = widgetSpec;
-  return element_type === "widget"
-    ? html`<div class="vz-element"> <${Widget} widgetSpec=${widgetSpec} /> </div>`
-    : element_type === "header"
-    ? html`<div class="vz-element"><${Header} widgetSpec=${widgetSpec} /> </div>`
-    : null;
+  return html`<div class="vz-element">
+    ${element_type === "widget"
+      ? html` <${Widget} widgetSpec=${widgetSpec} />`
+      : element_type === "header"
+      ? html`<${Header} widgetSpec=${widgetSpec} />`
+      : element_type === "text"
+      ? html`<${Text} widgetSpec=${widgetSpec} />`
+      : null}
+  </div>`;
 }
 
 const widthToPureClass = [
@@ -147,7 +158,7 @@ function WidgetLayout({ widgets }) {
   let currentLine = [];
   var currentLineWidth = 0;
   var widgetLines = [];
-  console.log(widgets)
+  console.log(widgets);
   for (let widget of widgets) {
     if (
       widget.element_type !== "header" &&
@@ -182,8 +193,8 @@ function VizApp({ pageTitle, dateTime, description, widgets }) {
     <title>${pageTitle}</title>
     <div class="vz-body">
       <div class="vz-titlesection">
-      <h1>${pageTitle}</h1>
-      <div class="vz-datetime"><p>${dateTime}</p></div>
+        <h1>${pageTitle}</h1>
+        <div class="vz-datetime"><p>${dateTime}</p></div>
       </div>
       ${description
         ? html`<div class="vz-report-description vz-element">

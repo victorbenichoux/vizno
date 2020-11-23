@@ -11,7 +11,6 @@ from vyz.renderers import FallbackContentConfiguration
 from vyz.renderers.altair import AltairContentConfiguration
 from vyz.renderers.bokeh import BokehContentConfiguration
 from vyz.renderers.matplotlib import MatplotlibContentConfiguration
-from vyz.renderers.text import TextContentConfiguration
 from vyz.report import Report
 
 
@@ -19,11 +18,8 @@ class OddContent:
     pass
 
 
-@pytest.fixture(scope="module", params=["str", "matplotlib", "odd", "altair", "bokeh"])
+@pytest.fixture(scope="module", params=["matplotlib", "odd", "altair", "bokeh"])
 def content(request):
-
-    if request.param == "str":
-        yield ("Bonjour", TextContentConfiguration)
     if request.param == "matplotlib":
         f = plt.figure()
         yield (f, MatplotlibContentConfiguration)

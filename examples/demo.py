@@ -58,6 +58,64 @@ r.widget(
     ),
     name="A table",
 )
+r.text(
+    """
+It is possible to just write some Markdown text.
+
+### Sections
+
+Use `#` for sections.
+
+# H1
+## H2
+### H3
+#### H4
+##### H5
+###### H6
+
+### Links and images
+
+You can include linked images:
+
+![image](https://via.placeholder.com/300.png)
+
+[via placeholder](https://placeholder.com/)
+
+As well as links [**important** important link](#example)
+
+
+### Code
+
+    You can indent
+    blocks to format
+    code
+
+Or wrap in backticks
+
+```
+print("Hello")
+```
+
+### Quotes
+
+> You can insert block quotes by
+> preceeding each line with `>`.
+>
+> Blockquotes can also contain line  
+> breaks.
+
+
+### Lists
+
+- Unordered
+* Lists
++ Of mixed type
+
+1. Ordered
+2. Lists
+4. Numbers are ignored
+    """
+)
 
 
 r.render("examples/output/demo")
