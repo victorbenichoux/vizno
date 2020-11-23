@@ -1,6 +1,6 @@
 import os
 import shutil
-from typing import Set
+from typing import Dict
 
 import pkg_resources
 
@@ -15,8 +15,8 @@ def copy_template(template_name: str, output_dir: str):
 def copy_index_template(
     template_name: str,
     output_dir: str,
-    external_js_dependencies: Set[str],
-    external_css_dependencies: Set[str],
+    external_js_dependencies: Dict[str, None],
+    external_css_dependencies: Dict[str, None],
 ):
     with open(
         pkg_resources.resource_filename("vyz", os.path.join("js", template_name))
