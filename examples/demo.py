@@ -26,7 +26,9 @@ ax.set_xlabel("Label")
 r.widget(
     f,
     name="This is a matplotlib widget",
-    description="It contains the above figure, but also a description, which _may include_ [markdown](https://daringfireball.net/projects/markdown/) ***formatted*** text",
+    description="It contains the above figure, but "
+    "also a description, which _may include_ "
+    "[markdown](https://daringfireball.net/projects/markdown/) ***formatted*** text",
 )
 
 chart = (
@@ -114,7 +116,7 @@ print("Hello")
 1. Ordered
 2. Lists
 4. Numbers are ignored
-    """
+    """  # NOQA
 )
 
 
