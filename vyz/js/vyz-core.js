@@ -36,12 +36,11 @@ function VegaContent({ spec, content_uuid }) {
 dictComponent.MarkdownText = MarkdownText;
 function MarkdownText({ text }) {
   const divRef = useRef(null);
-
   useEffect(() => {
-    if (divRef.current) {
-      divRef.current.innerHTML = marked(text);
+    if (window.snarkdown && divRef.current) {
+      divRef.current.innerHTML = window.snarkdown(text);
     }
-  }, []);
+  }, [window.snarkdown]);
 
   return html`<div ref="${divRef}" />`;
 }
@@ -164,14 +163,16 @@ function App() {
 
   useEffect(() => {
     if (configurationRequest) {
-      const configurationRequestURL = configurationRequest.get("configurationRequestURL");
-      configurationRequest.delete("configurationRequestURL")
+      const configurationRequestURL = configurationRequest.get(
+        "configurationRequestURL"
+      );
+      configurationRequest.delete("configurationRequestURL");
       fetch(`${configurationRequestURL}?${configurationRequest.toString()}`, {
-        headers: {'content-type' : 'application/json'},
+        headers: { "content-type": "application/json" },
         method: "GET",
       })
         .then((resp) => resp.json())
-        .then((configuration) => setConfiguration(configuration))
+        .then((configuration) => setConfiguration(configuration));
     }
   }, [configurationRequest]);
 
