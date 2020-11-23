@@ -19,10 +19,10 @@ for renderer in [
     "vyz.renderers.bokeh",
     "vyz.renderers.matplotlib",
     "vyz.renderers.text",
+    "vyz.renderers.table",
 ]:
     try:
         importlib.import_module(renderer)
-        print(f"Renderer `{renderer}` available")
     except ImportError:
         pass
 
@@ -108,15 +108,19 @@ class Report:
 
         output_dir = os.path.realpath(output_dir)
         os.makedirs(output_dir, exist_ok=True)
-        external_js_dependencies = {
-            dep
-            for widget in configuration.widgets
-            for dep in widget.content.external_js_dependencies
-        }
         copy_index_template(
             "index.html",
             output_dir,
-            external_js_dependencies=external_js_dependencies,
+            external_js_dependencies={
+                dep
+                for widget in configuration.widgets
+                for dep in widget.content.external_js_dependencies
+            },
+            external_css_dependencies={
+                dep
+                for widget in configuration.widgets
+                for dep in widget.content.external_css_dependencies
+            },
         )
         copy_template("vyz.css", output_dir)
         copy_template("vyz-core.js", output_dir)

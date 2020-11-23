@@ -13,7 +13,10 @@ def copy_template(template_name: str, output_dir: str):
 
 
 def copy_index_template(
-    template_name: str, output_dir: str, external_js_dependencies: Set[str]
+    template_name: str,
+    output_dir: str,
+    external_js_dependencies: Set[str],
+    external_css_dependencies: Set[str],
 ):
     with open(
         pkg_resources.resource_filename("vyz", os.path.join("js", template_name))
@@ -24,3 +27,6 @@ def copy_index_template(
                 if "<!-- external_js_dependencies -->" in l:
                     for dep in external_js_dependencies:
                         fout.write(f"""    <script defer src="{dep}"></script>\n""")
+                if "<!-- external_css_dependencies -->" in l:
+                    for dep in external_css_dependencies:
+                        fout.write(f"""    <link rel="stylesheet" href="{dep}" />\n""")

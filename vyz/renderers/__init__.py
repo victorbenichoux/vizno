@@ -8,6 +8,7 @@ class ContentConfiguration(pydantic.BaseModel):
     component: str
     component_module: str = "vyz-core.js"
     external_js_dependencies: List[str] = []
+    external_css_dependencies: List[str] = []
 
 
 class FallbackContentConfiguration(ContentConfiguration):
