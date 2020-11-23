@@ -3,6 +3,7 @@
 This package contains the parent class for vyz reports.
 """
 
+import importlib
 import json
 import os
 import time
@@ -10,12 +11,20 @@ from typing import List
 
 import pydantic
 
-import vyz.renderers.altair  # noqa: F401
-import vyz.renderers.bokeh  # noqa: F401
-import vyz.renderers.matplotlib  # noqa: F401
-import vyz.renderers.text  # noqa: F401
 from vyz.renderers import ContentConfiguration, render
 from vyz.utils import copy_index_template, copy_template
+
+for renderer in [
+    "vyz.renderers.altair",
+    "vyz.renderers.bokeh",
+    "vyz.renderers.matplotlib",
+    "vyz.renderers.text",
+]:
+    try:
+        importlib.import_module(renderer)
+        print(f"Renderer `{renderer}` available")
+    except ImportError:
+        pass
 
 
 class WidgetConfiguration(pydantic.BaseModel):
