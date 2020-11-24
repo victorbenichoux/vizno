@@ -62,56 +62,6 @@ class TextConfiguration(ElementConfiguration):
     text: str
 
 
-class Element:
-    pass
-
-
-class Widget(Element):
-    def __init__(
-        self,
-        content,
-        name: str = "",
-        description: str = "",
-        width: int = 12,
-        newline: bool = False,
-        **kwargs,
-    ):
-        self.content = content
-        self.name = name
-        self.description = description
-        self.width = width
-        self.newline = newline
-        self.render_kwargs = kwargs
-
-    def get_configuration(self):
-        return WidgetConfiguration(
-            name=self.name,
-            description=self.description,
-            content=render(self.content, **self.render_kwargs),
-            layout={"width": self.width, "newline": self.newline},
-        )
-
-
-class Header(Element):
-    def __init__(self, name: str = "", description: str = ""):
-        self.name = name
-        self.description = description
-
-    def get_configuration(self):
-        return HeaderConfiguration(
-            name=self.name,
-            description=self.description,
-        )
-
-
-class Text(Element):
-    def __init__(self, text: str = ""):
-        self.text = text
-
-    def get_configuration(self):
-        return TextConfiguration(text=self.text)
-
-
 class ReportConfiguration(pydantic.BaseModel):
     title: str = ""
     description: str = ""
@@ -133,7 +83,7 @@ class Report:
         title: str = "",
         description: str = "",
         datetime: str = "",
-        elements: List[Element] = None,
+        elements: List[ElementConfiguration] = None,
     ):
         self.elements = elements or []
         self.title = title
@@ -141,20 +91,20 @@ class Report:
         self.description = description
 
     def widget(self, content, **kwargs):
-        self.elements.append(Widget(content, **kwargs))
+        self.elements.append(WidgetConfiguration(content=render(content), **kwargs))
 
-    def header(self, name, description: str = ""):
-        self.elements.append(Header(name=name, description=description))
+    def header(self, name, **kwargs):
+        self.elements.append(HeaderConfiguration(name=name, **kwargs))
 
-    def text(self, text):
-        self.elements.append(Text(text=text))
+    def text(self, text, **kwargs):
+        self.elements.append(TextConfiguration(text=text, **kwargs))
 
     def get_configuration(self):
         return ReportConfiguration(
             title=self.title,
             description=self.description,
             datetime=self.datetime,
-            elements=[w.get_configuration() for w in self.elements],
+            elements=[element for element in self.elements],
         )
 
     def render(self, output_dir: str):
