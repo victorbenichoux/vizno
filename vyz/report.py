@@ -12,6 +12,7 @@ from typing import List, Optional, Sequence
 
 import pydantic
 
+from vyz.magic import iterate_frame_objects, renderable_objects
 from vyz.renderers import ContentConfiguration, render
 from vyz.utils import copy_index_template, copy_template
 
@@ -142,3 +143,14 @@ class Report:
                 "configuration=JSON.parse(" f"{json.dumps(configuration.json())}" ")"
             )
         print(f"Success:\n\tfile://{os.path.join(output_dir, 'index.html')}")
+
+    @staticmethod
+    def magic(title: str = "", description: str = "", datetime: str = ""):
+        r = Report(title=title, description=description, datetime=datetime)
+
+        for l in renderable_objects(iterate_frame_objects(-1)):
+            dispatched_fun = render.dispatch(type(l))
+            if hasattr(dispatched_fun, "_magic_include"):
+                r.widget(l)
+
+        return r

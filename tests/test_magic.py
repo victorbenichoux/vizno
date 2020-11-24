@@ -1,5 +1,6 @@
 from vyz.magic import renderable_objects
 from vyz.renderers import magic_include, render
+from vyz.report import Report
 
 
 class NonRenderableObject:
