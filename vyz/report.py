@@ -135,6 +135,7 @@ class Report:
         )
         copy_template("vyz.css", output_dir)
         copy_template("vyz-core.js", output_dir)
+        copy_template("vz-ico.png", output_dir)
 
         with open(
             os.path.join(output_dir, "vyz-config.js"), "w", encoding="utf-8"
