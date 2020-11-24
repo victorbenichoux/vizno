@@ -7,11 +7,11 @@ import pandas as pd
 import pytest
 from bokeh.plotting import figure as bokeh_figure
 
-from vyz.renderers import FallbackContentConfiguration
-from vyz.renderers.altair import AltairContentConfiguration
-from vyz.renderers.bokeh import BokehContentConfiguration
-from vyz.renderers.matplotlib import MatplotlibContentConfiguration
-from vyz.report import Report
+from vizno.renderers import FallbackContentConfiguration
+from vizno.renderers.altair import AltairContentConfiguration
+from vizno.renderers.bokeh import BokehContentConfiguration
+from vizno.renderers.matplotlib import MatplotlibContentConfiguration
+from vizno.report import Report
 
 
 class OddContent:

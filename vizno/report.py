@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-This package contains the parent class for vyz reports.
+This package contains the parent class for vizno reports.
 """
 
 import importlib
@@ -12,15 +12,15 @@ from typing import List, Optional, Sequence
 
 import pydantic
 
-from vyz.magic import iterate_frame_objects, renderable_objects
-from vyz.renderers import ContentConfiguration, render
-from vyz.utils import copy_index_template, copy_template
+from vizno.magic import iterate_frame_objects, renderable_objects
+from vizno.renderers import ContentConfiguration, render
+from vizno.utils import copy_index_template, copy_template
 
 for renderer in [
-    "vyz.renderers.altair",
-    "vyz.renderers.bokeh",
-    "vyz.renderers.matplotlib",
-    "vyz.renderers.table",
+    "vizno.renderers.altair",
+    "vizno.renderers.bokeh",
+    "vizno.renderers.matplotlib",
+    "vizno.renderers.table",
 ]:
     try:
         importlib.import_module(renderer)
@@ -133,12 +133,12 @@ class Report:
                 for dep in widget.content.external_css_dependencies
             },
         )
-        copy_template("vyz.css", output_dir)
-        copy_template("vyz-core.js", output_dir)
+        copy_template("vizno.css", output_dir)
+        copy_template("vizno-core.js", output_dir)
         copy_template("vz-ico.png", output_dir)
 
         with open(
-            os.path.join(output_dir, "vyz-config.js"), "w", encoding="utf-8"
+            os.path.join(output_dir, "vizno-config.js"), "w", encoding="utf-8"
         ) as f:
             f.write(
                 "configuration=JSON.parse(" f"{json.dumps(configuration.json())}" ")"

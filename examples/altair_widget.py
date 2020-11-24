@@ -1,7 +1,7 @@
 import altair
 import pandas as pd
 
-from vyz.report import Report
+from vizno.report import Report
 
 chart = (
     altair.Chart(

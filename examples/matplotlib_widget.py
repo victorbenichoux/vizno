@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-from vyz.report import Report
+from vizno.report import Report
 
 f = plt.figure()
 ax = f.add_subplot(111)
@@ -11,6 +11,6 @@ r = Report(
     title="My super report", datetime="The datetime", description="a very basic report"
 )
 
-r.widget(f, name="A matplotlib widget", description="with a *description*")
+r.widget(f, width=12, name="A matplotlib widget", description="with a *description*")
 
 r.render("examples/output/matplotlib_widget")

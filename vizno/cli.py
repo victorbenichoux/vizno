@@ -43,11 +43,11 @@ def report(report_fn: str, reload: bool = False, dev: bool = False):
         event_handler = ReportFileChangedHandler(fn, patterns=[fn])
         observer.schedule(event_handler, os.path.dirname(fn))
         if dev:
-            vyz_src_path = os.path.join(dir_realpath, "vyz")
+            vizno_src_path = os.path.join(dir_realpath, "vizno")
             dev_event_handler = ReportFileChangedHandler(
                 fn, patterns=["*/index.html", "*.js", "*.py", "*.css"]
             )
-            observer.schedule(dev_event_handler, vyz_src_path, recursive=True)
+            observer.schedule(dev_event_handler, vizno_src_path, recursive=True)
         observer.start()
         try:
             while True:

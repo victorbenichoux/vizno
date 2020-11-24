@@ -1,6 +1,6 @@
-from vyz.magic import renderable_objects
-from vyz.renderers import magic_include, render
-from vyz.report import Report
+from vizno.magic import renderable_objects
+from vizno.renderers import magic_include, render
+from vizno.report import Report
 
 
 class NonRenderableObject:

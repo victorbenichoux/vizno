@@ -3,5 +3,5 @@
 set -e
 set -x
 
-black vyz tests examples
-isort vyz tests examples
+black vizno tests examples
+isort vizno tests examples

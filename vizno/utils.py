@@ -7,7 +7,7 @@ import pkg_resources
 
 def copy_template(template_name: str, output_dir: str):
     shutil.copyfile(
-        pkg_resources.resource_filename("vyz", os.path.join("js", template_name)),
+        pkg_resources.resource_filename("vizno", os.path.join("js", template_name)),
         os.path.join(output_dir, template_name),
     )
 
@@ -19,7 +19,7 @@ def copy_index_template(
     external_css_dependencies: Dict[str, None],
 ):
     with open(
-        pkg_resources.resource_filename("vyz", os.path.join("js", template_name))
+        pkg_resources.resource_filename("vizno", os.path.join("js", template_name))
     ) as fin:
         with open(os.path.join(output_dir, template_name), "w") as fout:
             for l in fin:

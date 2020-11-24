@@ -5,14 +5,14 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from bokeh.plotting import figure as bokeh_figure
 
-from vyz.report import Report
+from vizno.report import Report
 
 xs = [random.random() for _ in range(100)]
 ys = [x + random.random() * 0.1 for x in xs]
 
 r = Report(
     title="The demo report",
-    description="This demo report showcases the capabilities of vyz.",
+    description="This demo report showcases the capabilities of vizno.",
 )
 
 

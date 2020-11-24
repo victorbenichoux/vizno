@@ -5,12 +5,12 @@ import uuid
 import bokeh.embed
 import bokeh.models
 
-from vyz.renderers import ContentConfiguration, magic_include, render
+from vizno.renderers import ContentConfiguration, magic_include, render
 
 
 class BokehContentConfiguration(ContentConfiguration):
     component: str = "BokehContent"
-    component_module: str = "vyz-core.js"
+    component_module: str = "vizno-core.js"
     spec: dict
     content_uuid: str
 

@@ -2,7 +2,7 @@ import random
 
 from bokeh.plotting import figure as bokeh_figure
 
-from vyz.report import Report
+from vizno.report import Report
 
 r = Report(title="My bokeh", datetime="The datetime", description="a very basic report")
 

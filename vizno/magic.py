@@ -1,7 +1,7 @@
 import inspect
 from typing import Sequence
 
-from vyz.renderers import render
+from vizno.renderers import render
 
 
 def renderable_objects(objects: Sequence[object]):

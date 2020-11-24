@@ -4,7 +4,7 @@ import xml.etree.ElementTree as et
 
 import matplotlib
 
-from vyz.renderers import ContentConfiguration, magic_include, render
+from vizno.renderers import ContentConfiguration, magic_include, render
 
 matplotlib.use("Agg")
 
@@ -15,7 +15,7 @@ rcParams["svg.fonttype"] = "none"
 
 class MatplotlibContentConfiguration(ContentConfiguration):
     component: str = "SVGContent"
-    component_module: str = "vyz-core.js"
+    component_module: str = "vizno-core.js"
     data: str
 
 

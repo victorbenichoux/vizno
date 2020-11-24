@@ -1,7 +1,7 @@
-from vyz.api import VyzApp
-from vyz.report import Report
+from vizno.api import viznoApp
+from vizno.report import Report
 
-app = VyzApp()
+app = viznoApp()
 
 
 @app.report("/something")

@@ -1,11 +1,8 @@
-from vyz.report import Report
+from vizno.report import Report
 
 r = Report(
     title="My super report", datetime="The datetime", description="a very basic report"
 )
-
-
-r.widget(None, name="A first widget", description="with a *description*")
 
 
 r.widget(

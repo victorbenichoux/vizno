@@ -6,14 +6,14 @@ import pydantic
 
 class ContentConfiguration(pydantic.BaseModel):
     component: str
-    component_module: str = "vyz-core.js"
+    component_module: str = "vizno-core.js"
     external_js_dependencies: List[str] = []
     external_css_dependencies: List[str] = []
 
 
 class FallbackContentConfiguration(ContentConfiguration):
     component: str = "FallbackContent"
-    component_module: str = "vyz-core.js"
+    component_module: str = "vizno-core.js"
     detected_type: str
 
 

@@ -1,4 +1,4 @@
-from vyz.report import Report
+from vizno.report import Report
 
 r = Report(
     title="The demo report",
