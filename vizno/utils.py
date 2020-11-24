@@ -1,15 +1,15 @@
+import importlib.resources
 import os
 import shutil
 from typing import Dict
 
-import pkg_resources
+import vizno.js
 
 
-def copy_template(template_name: str, output_dir: str):
-    shutil.copyfile(
-        pkg_resources.resource_filename("vizno", os.path.join("js", template_name)),
-        os.path.join(output_dir, template_name),
-    )
+def copy_resource(resource_name: str, output_dir: str):
+    with importlib.resources.open_binary(vizno.js, resource_name) as fresource:
+        with open(os.path.join(output_dir, resource_name), "wb") as fdestination:
+            shutil.copyfileobj(fresource, fdestination)
 
 
 def copy_index_template(
@@ -18,9 +18,7 @@ def copy_index_template(
     external_js_dependencies: Dict[str, None],
     external_css_dependencies: Dict[str, None],
 ):
-    with open(
-        pkg_resources.resource_filename("vizno", os.path.join("js", template_name))
-    ) as fin:
+    with importlib.resources.open_text(vizno.js, template_name) as fin:
         with open(os.path.join(output_dir, template_name), "w") as fout:
             for l in fin:
                 fout.write(l)
