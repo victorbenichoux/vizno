@@ -6,4 +6,4 @@ def test_basic_report():
 
     r.widget(None)
 
-    assert len(r.widgets) == 1
+    assert len(r.elements) == 1

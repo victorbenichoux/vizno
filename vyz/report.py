@@ -116,7 +116,7 @@ class ReportConfiguration(pydantic.BaseModel):
     title: str = ""
     description: str = ""
     datetime: str
-    widgets: Sequence[ElementConfiguration]
+    elements: Sequence[ElementConfiguration]
 
     @pydantic.validator("datetime")
     def validate_datetime(v):
@@ -133,28 +133,28 @@ class Report:
         title: str = "",
         description: str = "",
         datetime: str = "",
-        widgets: List[Element] = None,
+        elements: List[Element] = None,
     ):
-        self.widgets = widgets or []
+        self.elements = elements or []
         self.title = title
         self.datetime = datetime
         self.description = description
 
     def widget(self, content, **kwargs):
-        self.widgets.append(Widget(content, **kwargs))
+        self.elements.append(Widget(content, **kwargs))
 
     def header(self, name, description: str = ""):
-        self.widgets.append(Header(name=name, description=description))
+        self.elements.append(Header(name=name, description=description))
 
     def text(self, text):
-        self.widgets.append(Text(text=text))
+        self.elements.append(Text(text=text))
 
     def get_configuration(self):
         return ReportConfiguration(
             title=self.title,
             description=self.description,
             datetime=self.datetime,
-            widgets=[w.get_configuration() for w in self.widgets],
+            elements=[w.get_configuration() for w in self.elements],
         )
 
     def render(self, output_dir: str):
@@ -171,13 +171,13 @@ class Report:
             # in dependencies is important (e.g. for tabulator)
             external_js_dependencies={
                 dep: None
-                for widget in configuration.widgets
+                for widget in configuration.elements
                 if isinstance(widget, WidgetConfiguration)
                 for dep in widget.content.external_js_dependencies
             },
             external_css_dependencies={
                 dep: None
-                for widget in configuration.widgets
+                for widget in configuration.elements
                 if isinstance(widget, WidgetConfiguration)
                 for dep in widget.content.external_css_dependencies
             },

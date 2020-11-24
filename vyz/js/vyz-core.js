@@ -106,8 +106,8 @@ function Widget({ widgetSpec }) {
   </div>`;
 }
 
-function Header({ widgetSpec }) {
-  const { name, description } = widgetSpec;
+function Header({ headerSpec }) {
+  const { name, description } = headerSpec;
   return html` <div class="vz-header">
     ${name ? html`<h2>${name}</h2>` : null}
     <hr />
@@ -117,23 +117,23 @@ function Header({ widgetSpec }) {
   </div>`;
 }
 
-function Text({ widgetSpec }) {
-  const { text } = widgetSpec;
+function Text({ textSpec }) {
+  const { text } = textSpec;
   console.log(text);
   return html` <div class="vz-text-element">
     <${MarkdownText} text=${text} />
   </div>`;
 }
 
-function Element({ widgetSpec }) {
-  const { element_type } = widgetSpec;
+function Element({ element }) {
+  const { element_type } = element;
   return html`<div class="vz-element">
     ${element_type === "widget"
-      ? html` <${Widget} widgetSpec=${widgetSpec} />`
+      ? html` <${Widget} widgetSpec=${element} />`
       : element_type === "header"
-      ? html`<${Header} widgetSpec=${widgetSpec} />`
+      ? html`<${Header} headerSpec=${element} />`
       : element_type === "text"
-      ? html`<${Text} widgetSpec=${widgetSpec} />`
+      ? html`<${Text} textSpec=${element} />`
       : null}
   </div>`;
 }
@@ -154,41 +154,40 @@ const widthToPureClass = [
   "1-1",
 ];
 
-function WidgetLayout({ widgets }) {
+function WidgetLayout({ elements }) {
   let currentLine = [];
   var currentLineWidth = 0;
-  var widgetLines = [];
-  console.log(widgets);
-  for (let widget of widgets) {
+  var elementLines = [];
+  for (let element of elements) {
     if (
-      widget.element_type !== "header" &&
-      currentLineWidth + widget.layout.width <= 12 &&
-      !widget.layout.newline
+      element.element_type !== "header" &&
+      currentLineWidth + element.layout.width <= 12 &&
+      !element.layout.newline
     ) {
-      currentLine = [...currentLine, widget];
-      currentLineWidth = currentLineWidth + widget.layout.width;
+      currentLine = [...currentLine, element];
+      currentLineWidth = currentLineWidth + element.layout.width;
     } else {
-      widgetLines = [...widgetLines, currentLine];
-      currentLineWidth = widget.layout.width;
-      currentLine = [widget];
+      elementLines = [...elementLines, currentLine];
+      currentLineWidth = element.layout.width;
+      currentLine = [element];
     }
   }
   if (currentLine.length) {
-    widgetLines = [...widgetLines, currentLine];
+    elementLines = [...elementLines, currentLine];
   }
-  return html`${widgetLines.map(
+  return html`${elementLines.map(
     (line) =>
       html`<div class="pure-g">
         ${line.map(
-          (w) => html` <div class="pure-u-${widthToPureClass[w.layout.width]}">
-            <${Element} widgetSpec=${w} />
+          (e) => html` <div class="pure-u-${widthToPureClass[e.layout.width]}">
+            <${Element} element=${e} />
           </div>`
         )}
       </div>`
   )}`;
 }
 
-function VizApp({ pageTitle, dateTime, description, widgets }) {
+function VizApp({ pageTitle, dateTime, description, elements }) {
   return html`
     <title>${pageTitle}</title>
     <div class="vz-body">
@@ -202,7 +201,7 @@ function VizApp({ pageTitle, dateTime, description, widgets }) {
           </div>`
         : null}
       <div class="vz-widget-body">
-        <${WidgetLayout} widgets=${widgets} />
+        <${WidgetLayout} elements=${elements} />
       </div>
     </div>
   `;
@@ -244,7 +243,7 @@ function App() {
         pageTitle="${configuration.title}"
         dateTime=${configuration.datetime}
         description=${configuration.description}
-        widgets=${configuration.widgets}
+        elements=${configuration.elements}
       />`
     : html`No configuration`;
 }

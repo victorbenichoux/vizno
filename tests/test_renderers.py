@@ -54,6 +54,6 @@ def test_renderers(content):
 
     r.widget(content[0])
 
-    assert isinstance(r.get_configuration().widgets[0].content, content[1])
+    assert isinstance(r.get_configuration().elements[0].content, content[1])
     with tempfile.TemporaryDirectory() as tmpdir:
         r.render(tmpdir)
