@@ -209,7 +209,8 @@ function VizApp({ pageTitle, dateTime, description, elements }) {
 
 function App() {
   const [configuration, setConfiguration] = useState(null);
-  const [ready, setReady] = useState(false);
+  const [readyScript, setReadyScript] = useState(false);
+  const [readyCSS, setReadyCSS] = useState(false);
   const [configurationRequest, setConfigurationRequest] = useState(null);
 
   useEffect(() => {
@@ -241,41 +242,39 @@ function App() {
   }, [window.configuration]);
 
   function loadScripts(sources) {
-    sources.forEach((src) => {
+    sources.forEach((src, i) => {
       var script = document.createElement("script");
       script.src = src;
       script.type = "text/javascript";
-      script.async = false; //<-- the important part
+      script.async = false;
       script.onload = () => {
-        console.log("loaded", src);
+        setReadyScript(i == sources.length - 1);
       };
-      document.head.appendChild(script); //<-- make sure to append to body instead of head
+      document.head.appendChild(script);
+    });
+  }
+
+  function loadCSSScripts(sources) {
+    sources.forEach((src, i) => {
+      var link = document.createElement("link");
+      link.href = src;
+      link.rel = "stylesheet";
+      link.async = false;
+      link.onload = () => {
+        setReadyCSS(i == sources.length - 1);
+      };
+      document.head.appendChild(link);
     });
   }
 
   useEffect(() => {
     if (configuration) {
-      console.log(configuration.js_dependencies);
       loadScripts(configuration.js_dependencies);
-      // render(
-      //   html`${configuration.js_dependencies.map(
-      //     (dep) => html`<script defer type="text/javascript" src="${dep}"></script>`
-      //   )}`,
-      //   document.head
-      // );
-      // render(
-      //   html`${configuration.css_dependencies.map(
-      //     (dep) => html` <link href="${dep}" rel="stylesheet" />`
-      //   )}`,
-      //   document.head
-      // );
-      setReady(true);
+      loadCSSScripts(configuration.css_dependencies)
     }
   }, [configuration]);
 
-  console.log(ready);
-  console.log(window.Bokeh);
-  return configuration && ready
+  return configuration && readyScript && readyCSS
     ? html` <${VizApp}
         pageTitle="${configuration.title}"
         dateTime=${configuration.datetime}
