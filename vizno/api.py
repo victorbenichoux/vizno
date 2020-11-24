@@ -7,7 +7,7 @@ from starlette.requests import Request
 from starlette.responses import RedirectResponse
 
 
-class viznoApp(fastapi.FastAPI):
+class ViznoApp(fastapi.FastAPI):
     def __init__(self, static_url: str = "/static", **kwargs):
         super().__init__(**kwargs)
         self.static_url = static_url

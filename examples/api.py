@@ -1,7 +1,7 @@
 from vizno.api import viznoApp
 from vizno.report import Report
 
-app = viznoApp()
+app = ViznoApp()
 
 
 @app.report("/something")
