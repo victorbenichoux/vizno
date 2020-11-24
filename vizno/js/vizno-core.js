@@ -60,8 +60,6 @@ function TableContent({ data, columns, content_uuid }) {
   const tableRef = useRef(null);
   useEffect(() => {
     if (tableRef.current && content_uuid && window.Tabulator) {
-      // console.log(columns.map((c) => ({ field: c, title: c })));
-      // console.log(data.map((d, i) => ({ id: i, ...d }))[0]);
       var table = new window.Tabulator(`#${content_uuid}`, {
         data: data.map((d, i) => ({ id: i, ...d })),
         columns: columns.map((c) => ({ field: c, title: c })),
@@ -119,7 +117,6 @@ function Header({ headerSpec }) {
 
 function Text({ textSpec }) {
   const { text } = textSpec;
-  console.log(text);
   return html` <div class="vz-text-element">
     <${MarkdownText} text=${text} />
   </div>`;
