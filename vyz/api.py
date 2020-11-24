@@ -21,7 +21,6 @@ class VyzApp(fastapi.FastAPI):
         def report_redirect(request: Request):
             params = dict(request.query_params)
             params["configurationRequestURL"] = f"{path}_config"
-            print(f"{self.static_url}/index.html?{urllib.parse.urlencode(params)}")
             return RedirectResponse(
                 url=f"{self.static_url}/index.html?{urllib.parse.urlencode(params)}"
             )
