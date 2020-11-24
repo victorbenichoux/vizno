@@ -8,7 +8,7 @@ function BokehContent({ spec, content_uuid }) {
   const divRef = useRef(null);
 
   useEffect(() => {
-    if (divRef.current && content_uuid) {
+    if (divRef.current && content_uuid && window.Bokeh && window.Bokeh.embed) {
       window.Bokeh.embed.embed_item(spec, content_uuid);
     }
   }, [divRef, content_uuid, window.Bokeh]);
@@ -21,7 +21,7 @@ function VegaContent({ spec, content_uuid }) {
   const divRef = useRef(null);
 
   useEffect(() => {
-    if (divRef.current && content_uuid) {
+    if (divRef.current && content_uuid && window.vegaEmbed) {
       spec.config.width = "container";
       spec.config.height = "container";
       window.vegaEmbed("#".concat(content_uuid), spec).catch(console.error);
@@ -59,7 +59,7 @@ dictComponent.TableContent = TableContent;
 function TableContent({ data, columns, content_uuid }) {
   const tableRef = useRef(null);
   useEffect(() => {
-    if (tableRef.current && content_uuid) {
+    if (tableRef.current && content_uuid && window.Tabulator) {
       // console.log(columns.map((c) => ({ field: c, title: c })));
       // console.log(data.map((d, i) => ({ id: i, ...d }))[0]);
       var table = new window.Tabulator(`#${content_uuid}`, {
@@ -209,6 +209,7 @@ function VizApp({ pageTitle, dateTime, description, elements }) {
 
 function App() {
   const [configuration, setConfiguration] = useState(null);
+  const [ready, setReady] = useState(false);
   const [configurationRequest, setConfigurationRequest] = useState(null);
 
   useEffect(() => {
@@ -238,8 +239,44 @@ function App() {
       }
     }
   }, [window.configuration]);
-  return configuration
-    ? html`<${VizApp}
+
+  function loadScripts(sources) {
+    sources.forEach((src) => {
+      var script = document.createElement("script");
+      script.src = src;
+      script.type = "text/javascript";
+      script.async = false; //<-- the important part
+      script.onload = () => {
+        console.log("loaded", src);
+      };
+      document.head.appendChild(script); //<-- make sure to append to body instead of head
+    });
+  }
+
+  useEffect(() => {
+    if (configuration) {
+      console.log(configuration.js_dependencies);
+      loadScripts(configuration.js_dependencies);
+      // render(
+      //   html`${configuration.js_dependencies.map(
+      //     (dep) => html`<script defer type="text/javascript" src="${dep}"></script>`
+      //   )}`,
+      //   document.head
+      // );
+      // render(
+      //   html`${configuration.css_dependencies.map(
+      //     (dep) => html` <link href="${dep}" rel="stylesheet" />`
+      //   )}`,
+      //   document.head
+      // );
+      setReady(true);
+    }
+  }, [configuration]);
+
+  console.log(ready);
+  console.log(window.Bokeh);
+  return configuration && ready
+    ? html` <${VizApp}
         pageTitle="${configuration.title}"
         dateTime=${configuration.datetime}
         description=${configuration.description}

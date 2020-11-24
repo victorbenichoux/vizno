@@ -68,6 +68,8 @@ class ReportConfiguration(pydantic.BaseModel):
     description: str = ""
     datetime: str
     elements: Sequence[ElementConfiguration]
+    js_dependencies: List[str]
+    css_dependencies: List[str]
 
     @pydantic.validator("datetime")
     def validate_datetime(v):
@@ -101,11 +103,30 @@ class Report:
         self.elements.append(TextConfiguration(text=text, **kwargs))
 
     def get_configuration(self):
+        elements = [element for element in self.elements]
         return ReportConfiguration(
             title=self.title,
             description=self.description,
             datetime=self.datetime,
-            elements=[element for element in self.elements],
+            elements=elements,
+            js_dependencies=[
+                dep
+                for dep in {
+                    dep: None
+                    for widget in elements
+                    if isinstance(widget, WidgetConfiguration)
+                    for dep in widget.content.external_js_dependencies
+                }
+            ],
+            css_dependencies=[
+                dep
+                for dep in {
+                    dep: None
+                    for widget in elements
+                    if isinstance(widget, WidgetConfiguration)
+                    for dep in widget.content.external_css_dependencies
+                }
+            ],
         )
 
     def render(self, output_dir: str):
@@ -113,26 +134,27 @@ class Report:
 
         output_dir = os.path.realpath(output_dir)
         os.makedirs(output_dir, exist_ok=True)
-        copy_index_template(
-            "index.html",
-            output_dir,
-            # There are defined as dicts such that insertion key
-            # order is maintained, but values are discarded
-            # This is particularly useful when the order of import
-            # in dependencies is important (e.g. for tabulator)
-            external_js_dependencies={
-                dep: None
-                for widget in configuration.elements
-                if isinstance(widget, WidgetConfiguration)
-                for dep in widget.content.external_js_dependencies
-            },
-            external_css_dependencies={
-                dep: None
-                for widget in configuration.elements
-                if isinstance(widget, WidgetConfiguration)
-                for dep in widget.content.external_css_dependencies
-            },
-        )
+        # copy_index_template(
+        #     "index.html",
+        #     output_dir,
+        #     # There are defined as dicts such that insertion key
+        #     # order is maintained, but values are discarded
+        #     # This is particularly useful when the order of import
+        #     # in dependencies is important (e.g. for tabulator)
+        #     external_js_dependencies={
+        #         dep: None
+        #         for widget in configuration.elements
+        #         if isinstance(widget, WidgetConfiguration)
+        #         for dep in widget.content.external_js_dependencies
+        #     },
+        #     external_css_dependencies={
+        #         dep: None
+        #         for widget in configuration.elements
+        #         if isinstance(widget, WidgetConfiguration)
+        #         for dep in widget.content.external_css_dependencies
+        #     },
+        # )
+        copy_resource("index.html", output_dir)
         copy_resource("vizno.css", output_dir)
         copy_resource("vizno-core.js", output_dir)
         copy_resource("vz-ico.png", output_dir)
