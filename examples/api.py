@@ -1,4 +1,4 @@
-from vizno.api import viznoApp
+from vizno.api import ViznoApp
 from vizno.report import Report
 
 app = ViznoApp()

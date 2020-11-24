@@ -1,7 +1,6 @@
 import importlib.resources
 import os
 import shutil
-from typing import Dict
 
 import vizno.js
 

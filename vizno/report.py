@@ -14,7 +14,7 @@ import pydantic
 
 from vizno.magic import iterate_frame_objects, renderable_objects
 from vizno.renderers import ContentConfiguration, render
-from vizno.utils import copy_index_template, copy_resource
+from vizno.utils import copy_resource
 
 for renderer in [
     "vizno.renderers.altair",
@@ -134,7 +134,7 @@ class Report:
 
         output_dir = os.path.realpath(output_dir)
         os.makedirs(output_dir, exist_ok=True)
-        
+
         copy_resource("index.html", output_dir)
         copy_resource("vizno.css", output_dir)
         copy_resource("vizno-core.js", output_dir)
