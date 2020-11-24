@@ -134,26 +134,7 @@ class Report:
 
         output_dir = os.path.realpath(output_dir)
         os.makedirs(output_dir, exist_ok=True)
-        # copy_index_template(
-        #     "index.html",
-        #     output_dir,
-        #     # There are defined as dicts such that insertion key
-        #     # order is maintained, but values are discarded
-        #     # This is particularly useful when the order of import
-        #     # in dependencies is important (e.g. for tabulator)
-        #     external_js_dependencies={
-        #         dep: None
-        #         for widget in configuration.elements
-        #         if isinstance(widget, WidgetConfiguration)
-        #         for dep in widget.content.external_js_dependencies
-        #     },
-        #     external_css_dependencies={
-        #         dep: None
-        #         for widget in configuration.elements
-        #         if isinstance(widget, WidgetConfiguration)
-        #         for dep in widget.content.external_css_dependencies
-        #     },
-        # )
+        
         copy_resource("index.html", output_dir)
         copy_resource("vizno.css", output_dir)
         copy_resource("vizno-core.js", output_dir)
