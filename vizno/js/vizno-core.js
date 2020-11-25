@@ -385,7 +385,7 @@ function App() {
         description=${configuration.description}
         elements=${configuration.elements}
       /></${DependencyLoader}>`
-    : html`No configuration`;
+    : html`Loading configuration...`;
 }
 
 render(html` <${App} /> `, document.getElementById("root"));
