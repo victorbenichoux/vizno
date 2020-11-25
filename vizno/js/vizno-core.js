@@ -20,19 +20,10 @@ function useDependencies({ componentName, jsDependencies, cssDependencies }) {
   const readyCSSRef = useRef(cssDependencies.length == 0);
 
   useEffect(() => {
-    console.log(
-      "in useeffect dependencyContext.isLoadingDependencies.current",
-      dependencyContext.isLoadingDependencies.current
-    );
-    console.log(
-      "in useeffect dependencyContext.canRender",
-      dependencyContext.canRender
-    );
     if (
       dependencyContext.canRender[componentName] !== true &&
       dependencyContext.isLoadingDependencies.current[componentName] !== true
     ) {
-      console.log("loading dependecies for componentName", componentName);
       dependencyContext.isLoadingDependencies.current = {
         ...dependencyContext.isLoadingDependencies.current,
         [componentName]: true,
@@ -75,15 +66,6 @@ function useDependencies({ componentName, jsDependencies, cssDependencies }) {
       });
     }
   }, []);
-  console.log(
-    "render dependencyContext.isLoadingDependencies.current",
-    dependencyContext.isLoadingDependencies.current
-  );
-  console.log(
-    "render dependencyContext.canRender[componentName]",
-    componentName,
-    dependencyContext.canRender[componentName]
-  );
   return dependencyContext.canRender[componentName];
 }
 
@@ -133,7 +115,6 @@ function VegaContent({
       window.vegaEmbed("#".concat(content_uuid), spec).catch(console.error);
     }
   }, [divRef, content_uuid, ready]);
-  console.log(ready);
   return html`<div id="${content_uuid}" ref="${divRef}" />`;
 }
 
