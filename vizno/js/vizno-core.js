@@ -1,59 +1,113 @@
 "use strict";
-const { html, render, useEffect, useRef, useState } = window.htmPreact;
 
+const {
+  html,
+  render,
+  useEffect,
+  useRef,
+  useState,
+  useContext,
+  createContext,
+} = window.htmPreact;
+
+/**
+ * @param {Object} props
+ * @param {string} props.componentName
+ */
 function useDependencies({ componentName, jsDependencies, cssDependencies }) {
+  const dependencyContext = useContext(DependencyLoader);
   const readyJSRef = useRef(jsDependencies.length == 0);
   const readyCSSRef = useRef(cssDependencies.length == 0);
-  const [ready, setReady] = useState(loadedComponents[componentName] || false);
-  useEffect(() => {
-    jsDependencies.forEach((src, i) => {
-      var script = document.createElement("script");
-      script.src = src;
-      script.type = "text/javascript";
-      script.async = false;
-      script.onload = () => {
-        console.log(i, ready, src);
-        if (i == jsDependencies.length - 1) {
-          if (readyCSSRef.current) {
-            setReady(true);
-            loadedComponents[componentName] = true;
-          }
 
-          readyJSRef.current = true;
-        }
+  useEffect(() => {
+    console.log(
+      "in useeffect dependencyContext.isLoadingDependencies.current",
+      dependencyContext.isLoadingDependencies.current
+    );
+    console.log(
+      "in useeffect dependencyContext.canRender",
+      dependencyContext.canRender
+    );
+    if (
+      dependencyContext.canRender[componentName] !== true &&
+      dependencyContext.isLoadingDependencies.current[componentName] !== true
+    ) {
+      console.log("loading dependecies for componentName", componentName);
+      dependencyContext.isLoadingDependencies.current = {
+        ...dependencyContext.isLoadingDependencies.current,
+        [componentName]: true,
       };
-      document.head.appendChild(script);
-    });
-    cssDependencies.forEach((src, i) => {
-      var link = document.createElement("link");
-      link.href = src;
-      link.rel = "stylesheet";
-      link.async = false;
-      link.onload = () => {
-        console.log(i, ready, src);
-        if (i == cssDependencies.length - 1) {
-          if (readyJSRef.current) {
-            setReady(true);
+      jsDependencies.forEach((src, i) => {
+        var script = document.createElement("script");
+        script.src = src;
+        script.type = "text/javascript";
+        script.async = false;
+        script.onload = () => {
+          if (i == jsDependencies.length - 1) {
+            if (readyCSSRef.current) {
+              dependencyContext.setCanRender((prevState) => ({
+                ...prevState,
+                [componentName]: true,
+              }));
+            }
+            readyJSRef.current = true;
           }
-          readyCSSRef.current = true;
-        }
-      };
-      document.head.appendChild(link);
-    });
+        };
+        document.head.appendChild(script);
+      });
+      cssDependencies.forEach((src, i) => {
+        var link = document.createElement("link");
+        link.href = src;
+        link.rel = "stylesheet";
+        link.async = false;
+        link.onload = () => {
+          if (i == cssDependencies.length - 1) {
+            if (readyJSRef.current) {
+              dependencyContext.setCanRender((prevState) => ({
+                ...prevState,
+                [componentName]: true,
+              }));
+            }
+            readyCSSRef.current = true;
+          }
+        };
+        document.head.appendChild(link);
+      });
+    }
   }, []);
-  return ready;
+  console.log(
+    "render dependencyContext.isLoadingDependencies.current",
+    dependencyContext.isLoadingDependencies.current
+  );
+  console.log(
+    "render dependencyContext.canRender[componentName]",
+    componentName,
+    dependencyContext.canRender[componentName]
+  );
+  return dependencyContext.canRender[componentName];
 }
 
 const dictComponent = {};
 dictComponent.BokehContent = BokehContent;
-function BokehContent({ spec, content_uuid }) {
+function BokehContent({
+  spec,
+  content_uuid,
+  external_js_dependencies,
+  external_css_dependencies,
+}) {
+  const ready = useDependencies({
+    componentName: "BokehContent",
+    jsDependencies: external_js_dependencies,
+    cssDependencies: external_css_dependencies,
+  });
+
   const divRef = useRef(null);
 
   useEffect(() => {
-    if (divRef.current && content_uuid && window.Bokeh && window.Bokeh.embed) {
+    if (divRef.current && content_uuid && ready) {
       window.Bokeh.embed.embed_item(spec, content_uuid);
     }
-  }, [divRef, content_uuid, window.Bokeh]);
+  }, [divRef, content_uuid, ready]);
 
   return html`<div id="${content_uuid}" ref="${divRef}" />`;
 }
@@ -108,10 +162,22 @@ function SVGContainer({ data }) {
 }
 
 dictComponent.TableContent = TableContent;
-function TableContent({ data, columns, content_uuid }) {
+function TableContent({
+  data,
+  columns,
+  content_uuid,
+  external_js_dependencies,
+  external_css_dependencies,
+}) {
   const tableRef = useRef(null);
+  const ready = useDependencies({
+    componentName: "TableContent",
+    jsDependencies: external_js_dependencies,
+    cssDependencies: external_css_dependencies,
+  });
+
   useEffect(() => {
-    if (tableRef.current && content_uuid && window.Tabulator) {
+    if (tableRef.current && content_uuid && ready) {
       var table = new window.Tabulator(`#${content_uuid}`, {
         data: data.map((d, i) => ({ id: i, ...d })),
         columns: columns.map((c) => ({ field: c, title: c })),
@@ -119,7 +185,7 @@ function TableContent({ data, columns, content_uuid }) {
         height: "30vh",
       });
     }
-  }, [tableRef, content_uuid]);
+  }, [tableRef, content_uuid, ready]);
 
   return html`<div ref=${tableRef} id="${content_uuid}"></div>`;
 }
@@ -256,9 +322,13 @@ function VizApp({ pageTitle, dateTime, description, elements }) {
   `;
 }
 
+const DependencyLoader = createContext({});
+
 function App() {
   const [configuration, setConfiguration] = useState(null);
   const [configurationRequest, setConfigurationRequest] = useState(null);
+  const isLoadingDependencies = useRef({});
+  const [canRender, setCanRender] = useState({});
 
   useEffect(() => {
     if (configurationRequest) {
@@ -288,46 +358,17 @@ function App() {
     }
   }, [window.configuration]);
 
-  // function loadScripts(sources) {
-  //   sources.forEach((src, i) => {
-  //     var script = document.createElement("script");
-  //     script.src = src;
-  //     script.type = "text/javascript";
-  //     script.async = false;
-  //     script.onload = () => {
-  //       setReadyScript(i == sources.length - 1);
-  //     };
-  //     document.head.appendChild(script);
-  //   });
-  // }
-
-  // function loadCSSScripts(sources) {
-  //   sources.forEach((src, i) => {
-  //     var link = document.createElement("link");
-  //     link.href = src;
-  //     link.rel = "stylesheet";
-  //     link.async = false;
-  //     link.onload = () => {
-  //       setReadyCSS(i == sources.length - 1);
-  //     };
-  //     document.head.appendChild(link);
-  //   });
-  // }
-
-  // useEffect(() => {
-  //   if (configuration) {
-  //     loadScripts(configuration.js_dependencies);
-  //     loadCSSScripts(configuration.css_dependencies);
-  //   }
-  // }, [configuration]);
-
   return configuration
-    ? html` <${VizApp}
+    ? html` <${DependencyLoader.Provider} value=${{
+        isLoadingDependencies: isLoadingDependencies,
+        canRender: canRender,
+        setCanRender: setCanRender,
+      }}><${VizApp}
         pageTitle="${configuration.title}"
         dateTime=${configuration.datetime}
         description=${configuration.description}
         elements=${configuration.elements}
-      />`
+      /></${DependencyLoader}>`
     : html`No configuration`;
 }
 
