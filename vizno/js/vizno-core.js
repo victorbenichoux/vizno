@@ -1,21 +1,10 @@
 "use strict";
 const { html, render, useEffect, useRef, useState } = window.htmPreact;
 
-const loadedComponents = {};
-function loadDependencies({ componentName, jsDependencies, cssDependencies }) {
-  if (loadedComponents[componentName]) {
-    return true;
-  }
-  console.log(componentName, jsDependencies, cssDependencies);
-  const [readyJS, setReadyJS] = useState(
-    loadedComponents[componentName] || false
-  );
-  const [readyCSS, setReadyCSS] = useState(
-    loadedComponents[componentName] || false
-  );
-  const [ready, setReady] = useState(
-    loadedComponents[componentName] || false
-  );
+function useDependencies({ componentName, jsDependencies, cssDependencies }) {
+  const readyJSRef = useRef(jsDependencies.length == 0);
+  const readyCSSRef = useRef(cssDependencies.length == 0);
+  const [ready, setReady] = useState(loadedComponents[componentName] || false);
   useEffect(() => {
     jsDependencies.forEach((src, i) => {
       var script = document.createElement("script");
@@ -23,7 +12,15 @@ function loadDependencies({ componentName, jsDependencies, cssDependencies }) {
       script.type = "text/javascript";
       script.async = false;
       script.onload = () => {
-        setReadyJS(i == jsDependencies.length - 1);
+        console.log(i, ready, src);
+        if (i == jsDependencies.length - 1) {
+          if (readyCSSRef.current) {
+            setReady(true);
+            loadedComponents[componentName] = true;
+          }
+
+          readyJSRef.current = true;
+        }
       };
       document.head.appendChild(script);
     });
@@ -33,19 +30,17 @@ function loadDependencies({ componentName, jsDependencies, cssDependencies }) {
       link.rel = "stylesheet";
       link.async = false;
       link.onload = () => {
-        setReadyCSS(i == sources.length - 1);
+        console.log(i, ready, src);
+        if (i == cssDependencies.length - 1) {
+          if (readyJSRef.current) {
+            setReady(true);
+          }
+          readyCSSRef.current = true;
+        }
       };
       document.head.appendChild(link);
     });
   }, []);
-
-  useEffect(() => {
-    if (readyJS && readyCSS) {
-      loadedComponents[componentName] = true;
-      setReady(true)
-    }
-  }, [readyJS, readyCSS]);
-
   return ready;
 }
 
@@ -71,7 +66,7 @@ function VegaContent({
   external_css_dependencies,
 }) {
   const divRef = useRef(null);
-  const ready = loadDependencies({
+  const ready = useDependencies({
     componentName: "VegaContent",
     jsDependencies: external_js_dependencies,
     cssDependencies: external_css_dependencies,
@@ -84,7 +79,7 @@ function VegaContent({
       window.vegaEmbed("#".concat(content_uuid), spec).catch(console.error);
     }
   }, [divRef, content_uuid, ready]);
-  console.log(ready)
+  console.log(ready);
   return html`<div id="${content_uuid}" ref="${divRef}" />`;
 }
 
