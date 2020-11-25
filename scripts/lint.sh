@@ -7,3 +7,6 @@ black vizno tests examples --check
 isort vizno tests examples --check-only
 flake8 vizno tests examples
 mypy vizno tests examples
+
+npm run tsc
+npm run lint

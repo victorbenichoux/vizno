@@ -60,7 +60,6 @@ output/*/index.html
 # mypy
 .mypy_cache
 
-/*.json
 /*.jsonl
 /*.log
 /ci-venv/

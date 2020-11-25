@@ -1,5 +1,3 @@
-"use strict";
-
 const {
   html,
   render,
@@ -31,7 +29,7 @@ function useDependencies({ componentName, jsDependencies, cssDependencies }) {
         [componentName]: true,
       };
       jsDependencies.forEach((src, i) => {
-        var script = document.createElement("script");
+        const script = document.createElement("script");
         script.src = src;
         script.type = "text/javascript";
         script.async = false;
@@ -49,7 +47,7 @@ function useDependencies({ componentName, jsDependencies, cssDependencies }) {
         document.head.appendChild(script);
       });
       cssDependencies.forEach((src, i) => {
-        var link = document.createElement("link");
+        const link = document.createElement("link");
         link.href = src;
         link.rel = "stylesheet";
         link.async = false;
@@ -67,19 +65,18 @@ function useDependencies({ componentName, jsDependencies, cssDependencies }) {
         document.head.appendChild(link);
       });
     }
-  }, []);
+  }, [componentName, cssDependencies, dependencyContext, jsDependencies]);
   return dependencyContext.canRender[componentName];
 }
 
 const dictComponent = {};
-
 
 dictComponent.BokehContent = BokehContent;
 /**
  * A Component that embeds Bokeh visuals
  * @param {Object} props
  * @param {Object} props.spec - An embeddable Bokeh item
- * @param {string} props.content_uuid - The id of the div to create and render to 
+ * @param {string} props.content_uuid - The id of the div to create and render to
  * @param {string[]} props.external_js_dependencies - The JS dependencies for BokehContent
  * @param {string[]} props.external_css_dependencies - The CSS dependencies for BokehContent
  */
@@ -101,7 +98,7 @@ function BokehContent({
     if (divRef.current && content_uuid && ready) {
       window.Bokeh.embed.embed_item(spec, content_uuid);
     }
-  }, [divRef, content_uuid, ready]);
+  }, [divRef, content_uuid, ready, spec]);
 
   return html`<div id="${content_uuid}" ref="${divRef}" />`;
 }
@@ -111,7 +108,7 @@ dictComponent.VegaContent = VegaContent;
  * A Component that embeds Altair/Vega visuals
  * @param {Object} props
  * @param {Object} props.spec - An embeddable Vega item
- * @param {string} props.content_uuid - The id of the div to create and render to 
+ * @param {string} props.content_uuid - The id of the div to create and render to
  * @param {string[]} props.external_js_dependencies - The JS dependencies for VegaContent
  * @param {string[]} props.external_css_dependencies - The CSS dependencies for VegaContent
  */
@@ -134,7 +131,7 @@ function VegaContent({
       spec.config.height = "container";
       window.vegaEmbed("#".concat(content_uuid), spec).catch(console.error);
     }
-  }, [divRef, content_uuid, ready]);
+  }, [divRef, content_uuid, ready, spec]);
   return html`<div id="${content_uuid}" ref="${divRef}" />`;
 }
 
@@ -150,7 +147,7 @@ function MarkdownText({ text }) {
     if (window.snarkdown && divRef.current) {
       divRef.current.innerHTML = window.snarkdown(text);
     }
-  }, [window.snarkdown]);
+  }, [text]);
 
   return html`<div ref="${divRef}" />`;
 }
@@ -162,7 +159,7 @@ function SVGContainer({ data }) {
     if (divRef.current) {
       divRef.current.innerHTML = data;
     }
-  }, []);
+  }, [data]);
 
   return html`<div ref="${divRef}" />`;
 }
@@ -172,7 +169,7 @@ dictComponent.TableContent = TableContent;
  * A Component that embeds tabular data with tabulator
  * @param {Object} props
  * @param {Object[]} props.columns - Columns of data
- * @param {string} props.content_uuid - The id of the div to create and render to 
+ * @param {string} props.content_uuid - The id of the div to create and render to
  * @param {string[]} props.external_js_dependencies - The JS dependencies for tabulator
  * @param {string[]} props.external_css_dependencies - The CSS dependencies for tabulator
  */
@@ -192,14 +189,14 @@ function TableContent({
 
   useEffect(() => {
     if (tableRef.current && content_uuid && ready) {
-      var table = new window.Tabulator(`#${content_uuid}`, {
+      new window.Tabulator(`#${content_uuid}`, {
         data: data.map((d, i) => ({ id: i, ...d })),
         columns: columns.map((c) => ({ field: c, title: c })),
         layout: "fitColumns",
         height: "30vh",
       });
     }
-  }, [tableRef, content_uuid, ready]);
+  }, [tableRef, content_uuid, ready, columns, data]);
 
   return html`<div ref=${tableRef} id="${content_uuid}"></div>`;
 }
@@ -247,14 +244,14 @@ function Header({ headerSpec }) {
   </div>`;
 }
 
-function Text({ textSpec }) {
+function TextElement({ textSpec }) {
   const { text } = textSpec;
   return html` <div class="vz-text-element">
     <${MarkdownText} text=${text} />
   </div>`;
 }
 
-function Element({ element }) {
+function ViznoElement({ element }) {
   const { element_type } = element;
   return html`<div class="vz-element">
     ${element_type === "widget"
@@ -262,7 +259,7 @@ function Element({ element }) {
       : element_type === "header"
       ? html`<${Header} headerSpec=${element} />`
       : element_type === "text"
-      ? html`<${Text} textSpec=${element} />`
+      ? html`<${TextElement} textSpec=${element} />`
       : null}
   </div>`;
 }
@@ -285,8 +282,8 @@ const widthToPureClass = [
 
 function WidgetLayout({ elements }) {
   let currentLine = [];
-  var currentLineWidth = 0;
-  var elementLines = [];
+  let currentLineWidth = 0;
+  let elementLines = [];
   for (let element of elements) {
     if (
       element.element_type !== "header" &&
@@ -309,7 +306,7 @@ function WidgetLayout({ elements }) {
       html`<div class="pure-g">
         ${line.map(
           (e) => html` <div class="pure-u-${widthToPureClass[e.layout.width]}">
-            <${Element} element=${e} />
+            <${ViznoElement} element=${e} />
           </div>`
         )}
       </div>`
@@ -360,29 +357,28 @@ function App() {
   }, [configurationRequest]);
 
   useEffect(() => {
-      if (window.location.search) {
-        let queryParams = new URLSearchParams(window.location.search);
-        if (queryParams.has("configurationRequestURL")) {
-          setConfigurationRequest(queryParams);
-        }
+    if (window.location.search) {
+      let queryParams = new URLSearchParams(window.location.search);
+      if (queryParams.has("configurationRequestURL")) {
+        setConfigurationRequest(queryParams);
       }
-      else {
-        var script = document.createElement("script");
-        script.src = "./vizno-config.js";
-        script.type = "text/javascript";
-        script.async = false;
-        script.onload = () => {
-          setConfiguration(window.configuration)
-        };
-        document.head.appendChild(script);
-      }
+    } else {
+      const script = document.createElement("script");
+      script.src = "./vizno-config.js";
+      script.type = "text/javascript";
+      script.async = false;
+      script.onload = () => {
+        setConfiguration(window.configuration);
+      };
+      document.head.appendChild(script);
+    }
   }, []);
 
   return configuration
     ? html` <${DependencyLoader.Provider} value=${{
-        isLoadingDependencies: isLoadingDependencies,
-        canRender: canRender,
-        setCanRender: setCanRender,
+        isLoadingDependencies,
+        canRender,
+        setCanRender,
       }}><${VizApp}
         pageTitle="${configuration.title}"
         dateTime=${configuration.datetime}
