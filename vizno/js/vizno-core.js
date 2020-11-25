@@ -1,13 +1,19 @@
 "use strict";
 const { html, render, useEffect, useRef, useState } = window.htmPreact;
 
-
 const loadedComponents = {};
 function loadDependencies({ componentName, jsDependencies, cssDependencies }) {
+  if (loadedComponents[componentName]) {
+    return true;
+  }
+  console.log(componentName, jsDependencies, cssDependencies);
   const [readyJS, setReadyJS] = useState(
     loadedComponents[componentName] || false
   );
   const [readyCSS, setReadyCSS] = useState(
+    loadedComponents[componentName] || false
+  );
+  const [ready, setReady] = useState(
     loadedComponents[componentName] || false
   );
   useEffect(() => {
@@ -31,15 +37,16 @@ function loadDependencies({ componentName, jsDependencies, cssDependencies }) {
       };
       document.head.appendChild(link);
     });
-  });
+  }, []);
 
-  useEffect(()=> {
+  useEffect(() => {
     if (readyJS && readyCSS) {
-      loadedComponents[componentName] = true
+      loadedComponents[componentName] = true;
+      setReady(true)
     }
-  }, [readyJS, readyCSS])
+  }, [readyJS, readyCSS]);
 
-  return readyCSS && readyJS;
+  return ready;
 }
 
 const dictComponent = {};
@@ -57,17 +64,27 @@ function BokehContent({ spec, content_uuid }) {
 }
 
 dictComponent.VegaContent = VegaContent;
-function VegaContent({ spec, content_uuid }) {
+function VegaContent({
+  spec,
+  content_uuid,
+  external_js_dependencies,
+  external_css_dependencies,
+}) {
   const divRef = useRef(null);
+  const ready = loadDependencies({
+    componentName: "VegaContent",
+    jsDependencies: external_js_dependencies,
+    cssDependencies: external_css_dependencies,
+  });
 
   useEffect(() => {
-    if (divRef.current && content_uuid && window.vegaEmbed) {
+    if (divRef.current && content_uuid && ready) {
       spec.config.width = "container";
       spec.config.height = "container";
       window.vegaEmbed("#".concat(content_uuid), spec).catch(console.error);
     }
-  }, [divRef, content_uuid, window.vegaEmbed]);
-
+  }, [divRef, content_uuid, ready]);
+  console.log(ready)
   return html`<div id="${content_uuid}" ref="${divRef}" />`;
 }
 
@@ -246,8 +263,6 @@ function VizApp({ pageTitle, dateTime, description, elements }) {
 
 function App() {
   const [configuration, setConfiguration] = useState(null);
-  const [readyScript, setReadyScript] = useState(false);
-  const [readyCSS, setReadyCSS] = useState(false);
   const [configurationRequest, setConfigurationRequest] = useState(null);
 
   useEffect(() => {
@@ -278,40 +293,40 @@ function App() {
     }
   }, [window.configuration]);
 
-  function loadScripts(sources) {
-    sources.forEach((src, i) => {
-      var script = document.createElement("script");
-      script.src = src;
-      script.type = "text/javascript";
-      script.async = false;
-      script.onload = () => {
-        setReadyScript(i == sources.length - 1);
-      };
-      document.head.appendChild(script);
-    });
-  }
+  // function loadScripts(sources) {
+  //   sources.forEach((src, i) => {
+  //     var script = document.createElement("script");
+  //     script.src = src;
+  //     script.type = "text/javascript";
+  //     script.async = false;
+  //     script.onload = () => {
+  //       setReadyScript(i == sources.length - 1);
+  //     };
+  //     document.head.appendChild(script);
+  //   });
+  // }
 
-  function loadCSSScripts(sources) {
-    sources.forEach((src, i) => {
-      var link = document.createElement("link");
-      link.href = src;
-      link.rel = "stylesheet";
-      link.async = false;
-      link.onload = () => {
-        setReadyCSS(i == sources.length - 1);
-      };
-      document.head.appendChild(link);
-    });
-  }
+  // function loadCSSScripts(sources) {
+  //   sources.forEach((src, i) => {
+  //     var link = document.createElement("link");
+  //     link.href = src;
+  //     link.rel = "stylesheet";
+  //     link.async = false;
+  //     link.onload = () => {
+  //       setReadyCSS(i == sources.length - 1);
+  //     };
+  //     document.head.appendChild(link);
+  //   });
+  // }
 
-  useEffect(() => {
-    if (configuration) {
-      loadScripts(configuration.js_dependencies);
-      loadCSSScripts(configuration.css_dependencies);
-    }
-  }, [configuration]);
+  // useEffect(() => {
+  //   if (configuration) {
+  //     loadScripts(configuration.js_dependencies);
+  //     loadCSSScripts(configuration.css_dependencies);
+  //   }
+  // }, [configuration]);
 
-  return configuration && readyScript && readyCSS
+  return configuration
     ? html` <${VizApp}
         pageTitle="${configuration.title}"
         dateTime=${configuration.datetime}
