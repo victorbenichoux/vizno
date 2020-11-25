@@ -13,6 +13,8 @@ const {
 /**
  * @param {Object} props
  * @param {string} props.componentName
+ * @param {string[]} props.jsDependencies
+ * @param {string[]} props.cssDependencies
  */
 function useDependencies({ componentName, jsDependencies, cssDependencies }) {
   const dependencyContext = useContext(DependencyLoader);
@@ -70,7 +72,17 @@ function useDependencies({ componentName, jsDependencies, cssDependencies }) {
 }
 
 const dictComponent = {};
+
+
 dictComponent.BokehContent = BokehContent;
+/**
+ * A Component that embeds Bokeh visuals
+ * @param {Object} props
+ * @param {Object} props.spec - An embeddable Bokeh item
+ * @param {string} props.content_uuid - The id of the div to create and render to 
+ * @param {string[]} props.external_js_dependencies - The JS dependencies for BokehContent
+ * @param {string[]} props.external_css_dependencies - The CSS dependencies for BokehContent
+ */
 function BokehContent({
   spec,
   content_uuid,
@@ -95,6 +107,14 @@ function BokehContent({
 }
 
 dictComponent.VegaContent = VegaContent;
+/**
+ * A Component that embeds Altair/Vega visuals
+ * @param {Object} props
+ * @param {Object} props.spec - An embeddable Vega item
+ * @param {string} props.content_uuid - The id of the div to create and render to 
+ * @param {string[]} props.external_js_dependencies - The JS dependencies for VegaContent
+ * @param {string[]} props.external_css_dependencies - The CSS dependencies for VegaContent
+ */
 function VegaContent({
   spec,
   content_uuid,
@@ -119,6 +139,11 @@ function VegaContent({
 }
 
 dictComponent.MarkdownText = MarkdownText;
+/**
+ * A Component that embeds Bokeh visuals
+ * @param {Object} props
+ * @param {string} props.text - Some markdown text
+ */
 function MarkdownText({ text }) {
   const divRef = useRef(null);
   useEffect(() => {
@@ -143,6 +168,14 @@ function SVGContainer({ data }) {
 }
 
 dictComponent.TableContent = TableContent;
+/**
+ * A Component that embeds tabular data with tabulator
+ * @param {Object} props
+ * @param {Object[]} props.columns - Columns of data
+ * @param {string} props.content_uuid - The id of the div to create and render to 
+ * @param {string[]} props.external_js_dependencies - The JS dependencies for tabulator
+ * @param {string[]} props.external_css_dependencies - The CSS dependencies for tabulator
+ */
 function TableContent({
   data,
   columns,
