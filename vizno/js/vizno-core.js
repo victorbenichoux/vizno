@@ -327,17 +327,23 @@ function App() {
   }, [configurationRequest]);
 
   useEffect(() => {
-    if (window.configuration) {
-      setConfiguration(window.configuration);
-    } else {
       if (window.location.search) {
         let queryParams = new URLSearchParams(window.location.search);
         if (queryParams.has("configurationRequestURL")) {
           setConfigurationRequest(queryParams);
         }
       }
-    }
-  }, [window.configuration]);
+      else {
+        var script = document.createElement("script");
+        script.src = "./vizno-config.js";
+        script.type = "text/javascript";
+        script.async = false;
+        script.onload = () => {
+          setConfiguration(window.configuration)
+        };
+        document.head.appendChild(script);
+      }
+  }, []);
 
   return configuration
     ? html` <${DependencyLoader.Provider} value=${{
