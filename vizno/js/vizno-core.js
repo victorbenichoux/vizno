@@ -1,8 +1,48 @@
 "use strict";
 const { html, render, useEffect, useRef, useState } = window.htmPreact;
 
-const dictComponent = {};
 
+const loadedComponents = {};
+function loadDependencies({ componentName, jsDependencies, cssDependencies }) {
+  const [readyJS, setReadyJS] = useState(
+    loadedComponents[componentName] || false
+  );
+  const [readyCSS, setReadyCSS] = useState(
+    loadedComponents[componentName] || false
+  );
+  useEffect(() => {
+    jsDependencies.forEach((src, i) => {
+      var script = document.createElement("script");
+      script.src = src;
+      script.type = "text/javascript";
+      script.async = false;
+      script.onload = () => {
+        setReadyJS(i == jsDependencies.length - 1);
+      };
+      document.head.appendChild(script);
+    });
+    cssDependencies.forEach((src, i) => {
+      var link = document.createElement("link");
+      link.href = src;
+      link.rel = "stylesheet";
+      link.async = false;
+      link.onload = () => {
+        setReadyCSS(i == sources.length - 1);
+      };
+      document.head.appendChild(link);
+    });
+  });
+
+  useEffect(()=> {
+    if (readyJS && readyCSS) {
+      loadedComponents[componentName] = true
+    }
+  }, [readyJS, readyCSS])
+
+  return readyCSS && readyJS;
+}
+
+const dictComponent = {};
 dictComponent.BokehContent = BokehContent;
 function BokehContent({ spec, content_uuid }) {
   const divRef = useRef(null);
@@ -267,7 +307,7 @@ function App() {
   useEffect(() => {
     if (configuration) {
       loadScripts(configuration.js_dependencies);
-      loadCSSScripts(configuration.css_dependencies)
+      loadCSSScripts(configuration.css_dependencies);
     }
   }, [configuration]);
 
