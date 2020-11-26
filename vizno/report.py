@@ -68,8 +68,6 @@ class ReportConfiguration(pydantic.BaseModel):
     description: str = ""
     datetime: str
     elements: Sequence[ElementConfiguration]
-    js_dependencies: List[str]
-    css_dependencies: List[str]
 
     @pydantic.validator("datetime")
     def validate_datetime(v):
@@ -137,7 +135,7 @@ class Report:
 
         copy_resource("index.html", output_dir)
         copy_resource("vizno.css", output_dir)
-        copy_resource("vizno-core.js", output_dir)
+        copy_resource("vizno-core.min.js", output_dir)
         copy_resource("vz-ico.png", output_dir)
 
         with open(

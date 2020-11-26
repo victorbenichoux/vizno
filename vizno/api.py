@@ -1,7 +1,6 @@
 import urllib.parse
 
 import fastapi
-import pkg_resources
 from fastapi.staticfiles import StaticFiles
 from starlette.requests import Request
 from starlette.responses import RedirectResponse
@@ -13,7 +12,7 @@ class ViznoApp(fastapi.FastAPI):
         self.static_url = static_url
         self.mount(
             static_url,
-            StaticFiles(directory=pkg_resources.resource_filename("vizno", "js")),
+            StaticFiles(packages=["vizno"]),
             name="static",
         )
 
