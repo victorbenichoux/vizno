@@ -11,3 +11,5 @@ matplotlib
 altair
 pandas
 bokeh
+# api
+requests
