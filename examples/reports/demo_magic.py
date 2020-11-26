@@ -33,4 +33,3 @@ plot.circle(xs, ys)
 
 
 r = Report.magic(title="Magic report", description="A magically gathered report")
-r.render("examples/output/magic")

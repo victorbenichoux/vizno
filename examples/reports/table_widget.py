@@ -15,5 +15,3 @@ r = Report(
 )
 
 r.widget(products, width=12, name="A table", description="with a *description*")
-
-r.render("examples/output/table_widget")

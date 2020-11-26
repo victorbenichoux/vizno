@@ -118,6 +118,3 @@ print("Hello")
 4. Numbers are ignored
     """  # NOQA
 )
-
-
-r.render("examples/output/demo")

@@ -32,6 +32,3 @@ r.widget("Size 9 (newline)", width=9, newline=True)
 r.widget("Size 10 (newline)", width=10, newline=True)
 r.widget("Size 11 (newline)", width=11, newline=True)
 r.widget("Size 12 (newline)", width=12, newline=True)
-
-
-r.render("examples/output/layout")

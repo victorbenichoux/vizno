@@ -10,6 +10,3 @@ r.widget(
     name="A second widget",
     description="with another *description*",
 )
-
-
-r.render("examples/output/basic")

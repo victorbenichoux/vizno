@@ -21,5 +21,3 @@ r = Report(
 )
 
 r.widget(chart, name="An altair widget")
-
-r.render("examples/output/altair")

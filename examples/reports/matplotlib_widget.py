@@ -12,5 +12,3 @@ r = Report(
 )
 
 r.widget(f, width=12, name="A matplotlib widget", description="with a *description*")
-
-r.render("examples/output/matplotlib_widget")

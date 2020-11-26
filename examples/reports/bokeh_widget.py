@@ -12,6 +12,3 @@ plot.circle(
 )
 
 r.widget(plot, name="A bokeh widget")
-
-
-r.render("examples/output/bokeh")
