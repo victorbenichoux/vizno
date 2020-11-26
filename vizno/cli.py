@@ -5,9 +5,9 @@ import importlib
 import os
 import subprocess
 import sys
+import tempfile
 import time
 from contextlib import contextmanager
-from pathlib import Path
 
 import typer
 import watchdog.events
@@ -17,7 +17,9 @@ realpath = os.path.realpath(__file__)
 dir_realpath = os.path.dirname(os.path.dirname(realpath))
 sys.path.append(dir_realpath)
 
-from vizno.report import Report
+import requests
+
+from vizno.report import Report  # noqa: E402
 
 
 class ReportFileChangedHandler(watchdog.events.PatternMatchingEventHandler):
@@ -69,8 +71,12 @@ def render_from_file(fn, output_dir):
     find_and_render(report_module, output_dir)
 
 
-def report(
-    report_fn: str, output_dir: Path = ".", reload: bool = False, dev: bool = False
+app = typer.Typer()
+
+
+@app.command()
+def render(
+    report_fn: str, output_dir: str = ".", reload: bool = False, dev: bool = False
 ):
     fn = os.path.realpath(report_fn)
     report_module = import_report_module(fn)
@@ -94,8 +100,43 @@ def report(
         observer.join()
 
 
+class ReportFileChangedHandlerWithPush(watchdog.events.PatternMatchingEventHandler):
+    def __init__(self, fn, output_dir, **kwargs):
+        self.fn = fn
+        self.output_dir = output_dir
+        super().__init__(**kwargs)
+
+    def on_modified(self, event):
+        super(ReportFileChangedHandlerWithPush, self).on_modified(event)
+        print(f"Detected file change in {event.src_path}...")
+        render_from_file(self.fn, self.output_dir)
+        requests.post("http://127.0.0.1:8000/update")
+
+
+@app.command()
+def serve(report_fn: str):
+    env = copy.copy(os.environ)
+    with tempfile.TemporaryDirectory() as tmpdir:
+        fn = os.path.realpath(report_fn)
+        report_module = import_report_module(fn)
+        find_and_render(report_module, tmpdir)
+        observer = watchdog.observers.Observer()
+        event_handler = ReportFileChangedHandlerWithPush(fn, tmpdir, patterns=[fn])
+        observer.schedule(event_handler, os.path.dirname(fn))
+        observer.start()
+        env["SERVER_DIR"] = tmpdir
+        proc = subprocess.Popen(["uvicorn", "vizno.server:app"], env=env)
+        try:
+            while True:
+                time.sleep(1)
+        except KeyboardInterrupt:
+            proc.terminate()
+            observer.stop()
+        observer.join()
+
+
 def main():
-    typer.run(report)
+    app()
 
 
 if __name__ == "__main__":

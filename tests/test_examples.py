@@ -26,7 +26,14 @@ def test_examples(example_fn):
     with tempfile.TemporaryDirectory() as tmpdir:
         assert (
             subprocess.call(
-                [sys.executable, "vizno/cli.py", example_fn, "--output-dir", tmpdir],
+                [
+                    sys.executable,
+                    "vizno/cli.py",
+                    "render",
+                    example_fn,
+                    "--output-dir",
+                    tmpdir,
+                ],
                 env=env,
             )
             == 0
