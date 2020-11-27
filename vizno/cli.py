@@ -1,43 +1,64 @@
-#!/usr/bin/env python3
-
 import copy
 import importlib
 import os
+import queue
 import subprocess
 import sys
 import tempfile
-import time
 from contextlib import contextmanager
 
+import requests
 import typer
 import watchdog.events
 import watchdog.observers
-
-realpath = os.path.realpath(__file__)
-dir_realpath = os.path.dirname(os.path.dirname(realpath))
-sys.path.append(dir_realpath)
-
-import requests
 
 from vizno.report import Report  # noqa: E402
 
 
 class ReportFileChangedHandler(watchdog.events.PatternMatchingEventHandler):
-    def __init__(self, fn, output_dir, **kwargs):
-        self.fn = fn
-        self.output_dir = output_dir
+    def __init__(self, queue, **kwargs):
         super().__init__(**kwargs)
+        self.queue = queue
 
     def on_modified(self, event):
-        super(ReportFileChangedHandler, self).on_modified(event)
-        print(f"Detected file change in {event.src_path}...")
-        render_from_file(self.fn, self.output_dir)
+        self.queue.put(True)
+
+
+class ObserverState:
+    observer: watchdog.observers.Observer
+    queue: queue.Queue
+    fn: str
+
+    def __init__(self, fn):
+        self.fn = fn
+        self.queue = queue.Queue()
+        self.observer = None
+
+    def start(self):
+        self.observer = watchdog.observers.Observer()
+        self.queue = queue.Queue()
+        event_handler = ReportFileChangedHandler(queue=self.queue, patterns=[self.fn])
+        self.observer.schedule(event_handler, os.path.dirname(self.fn))
+        self.observer.start()
+
+    def stop(self):
+        if self.observer:
+            self.observer.stop()
+            self.observer.join()
+            self.observer = None
+
+
+@contextmanager
+def safe_observer_bypass(obs):
+    obs.stop()
+    try:
+        yield
+    finally:
+        obs.start()
 
 
 @contextmanager
 def add_to_path(p):
-    import sys
-
     old_path = sys.path
     sys.path = sys.path[:]
     sys.path.insert(0, p)
@@ -75,42 +96,23 @@ app = typer.Typer()
 
 
 @app.command()
-def render(
-    report_fn: str, output_dir: str = ".", reload: bool = False, dev: bool = False
-):
+def render(report_fn: str, output_dir: str = ".", reload: bool = False):
     fn = os.path.realpath(report_fn)
-    report_module = import_report_module(fn)
-    find_and_render(report_module, output_dir)
+    render_from_file(fn, report_fn)
     if reload:
-        observer = watchdog.observers.Observer()
-        event_handler = ReportFileChangedHandler(fn, output_dir, patterns=[fn])
-        observer.schedule(event_handler, os.path.dirname(fn))
-        if dev:
-            vizno_src_path = os.path.join(dir_realpath, "vizno")
-            dev_event_handler = ReportFileChangedHandler(
-                fn, output_dir, patterns=["*/index.html", "*.js", "*.py", "*.css"]
-            )
-            observer.schedule(dev_event_handler, vizno_src_path, recursive=True)
-        observer.start()
+        obs = ObserverState(fn)
+        obs.start()
         try:
             while True:
-                time.sleep(1)
+                try:
+                    obs.queue.get(timeout=1)
+                    with safe_observer_bypass(obs):
+                        render_from_file(fn, report_fn)
+                except queue.Empty:
+                    pass
         except KeyboardInterrupt:
-            observer.stop()
-        observer.join()
-
-
-class ReportFileChangedHandlerWithPush(watchdog.events.PatternMatchingEventHandler):
-    def __init__(self, fn, output_dir, **kwargs):
-        self.fn = fn
-        self.output_dir = output_dir
-        super().__init__(**kwargs)
-
-    def on_modified(self, event):
-        super(ReportFileChangedHandlerWithPush, self).on_modified(event)
-        print(f"Detected file change in {event.src_path}...")
-        render_from_file(self.fn, self.output_dir)
-        requests.post("http://127.0.0.1:8000/update")
+            pass
+        obs.stop()
 
 
 @app.command()
@@ -118,21 +120,24 @@ def serve(report_fn: str):
     env = copy.copy(os.environ)
     with tempfile.TemporaryDirectory() as tmpdir:
         fn = os.path.realpath(report_fn)
-        report_module = import_report_module(fn)
-        find_and_render(report_module, tmpdir)
-        observer = watchdog.observers.Observer()
-        event_handler = ReportFileChangedHandlerWithPush(fn, tmpdir, patterns=[fn])
-        observer.schedule(event_handler, os.path.dirname(fn))
-        observer.start()
+        render_from_file(fn, tmpdir)
+        obs = ObserverState(fn)
         env["SERVER_DIR"] = tmpdir
         proc = subprocess.Popen(["uvicorn", "vizno.server:app"], env=env)
+        obs.start()
         try:
             while True:
-                time.sleep(1)
+                try:
+                    obs.queue.get(timeout=0.1)
+                    with safe_observer_bypass(obs):
+                        render_from_file(fn, tmpdir)
+                        requests.post("http://127.0.0.1:8000/update")
+                except queue.Empty:
+                    pass
         except KeyboardInterrupt:
-            proc.terminate()
-            observer.stop()
-        observer.join()
+            pass
+        proc.terminate()
+        obs.stop()
 
 
 def main():

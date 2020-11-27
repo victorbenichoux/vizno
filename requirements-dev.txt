@@ -13,3 +13,6 @@ pandas
 bokeh
 # api
 requests
+aiofiles
+uvicorn
+websockets
