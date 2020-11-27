@@ -29,6 +29,7 @@ r.widget(
     description="It contains the above figure, but "
     "also a description, which _may include_ "
     "[markdown](https://daringfireball.net/projects/markdown/) ***formatted*** text",
+    layout={"width": 6}
 )
 
 chart = (
@@ -44,12 +45,12 @@ chart = (
     .encode(x="a", y="b")
 )
 
-r.widget(chart, name="An altair widget")
+r.widget(chart, name="An altair widget", layout={"width": 6})
 
 plot = bokeh_figure(plot_width=400, plot_height=300)
 plot.circle(xs, ys)
 
-r.widget(plot, name="A bokeh widget")
+r.widget(plot, name="A bokeh widget", layout={"width": 6})
 
 r.widget(
     pd.DataFrame(
@@ -58,8 +59,8 @@ r.widget(
             "b": ys,
         }
     ),
-    name="A table",
-)
+    name="A table", layout={"width": 6})
+
 r.text(
     """
 It is possible to just write some Markdown text.
