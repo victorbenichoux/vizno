@@ -12,6 +12,7 @@ function App() {
     configuration: null,
     shouldUpdate: true,
   });
+  const hasWebSocket = useRef(false);
 
   useEffect(() => {
     if (configurationRequest) {
@@ -35,13 +36,16 @@ function App() {
 
   useEffect(() => {
     if (status.shouldUpdate) {
-      const ws = new WebSocket("ws://localhost:8000/ws");
-      ws.onmessage = () => {
-        setStatus({
-          configuration: null,
-          shouldUpdate: true,
-        });
-      };
+      if (!hasWebSocket.current) {
+        const ws = new WebSocket("ws://localhost:8000/ws");
+        ws.onmessage = () => {
+          hasWebSocket.current = true;
+          setStatus({
+            configuration: null,
+            shouldUpdate: true,
+          });
+        };
+      }
 
       if (window.location.search) {
         let queryParams = new URLSearchParams(window.location.search);
