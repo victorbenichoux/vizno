@@ -29,6 +29,7 @@ def import_report_module(fn):
     with add_to_path(fn_dir):
         spec = importlib.util.spec_from_file_location(fn, fn)
         module = importlib.util.module_from_spec(spec)
+        sys.modules[fn] = module
         spec.loader.exec_module(module)
         return module
 
