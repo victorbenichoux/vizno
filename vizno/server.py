@@ -8,8 +8,6 @@ from starlette.websockets import WebSocket, WebSocketDisconnect
 
 app = fastapi.FastAPI()
 
-os.listdir(os.environ["SERVER_DIR"])
-
 app.mount("/static", StaticFiles(directory=os.environ["SERVER_DIR"]))
 
 
