@@ -23,6 +23,7 @@ for renderer in [
     "vizno.renderers.matplotlib",
     "vizno.renderers.table",
     "vizno.renderers.code",
+    "vizno.renderers.latex",
 ]:
     try:
         importlib.import_module(renderer)

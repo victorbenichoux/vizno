@@ -166,6 +166,26 @@ function CodeContent({
   }
 }
 
+dictComponent.LatexContent = LatexContent;
+function LatexContent({
+  external_js_dependencies,
+  external_css_dependencies,
+  text,
+}) {
+  const ready = useDependencies({
+    componentName: "LatexContent",
+    jsDependencies: external_js_dependencies,
+    cssDependencies: external_css_dependencies,
+  });
+  if (ready) {
+    customElements.define("latex-js", window.latexjs.LaTeXJSComponent);
+    return html`<latex-js baseURL="https://cdn.jsdelivr.net/npm/latex.js/dist/"
+      >${text}</latex-js
+    >`;
+  }
+}
+
+
 dictComponent.FallbackContent = FallbackContent;
 function FallbackContent({ detected_type }) {
   return html`<p class="vz-text">Unknown content type "${detected_type}"</p>`;
