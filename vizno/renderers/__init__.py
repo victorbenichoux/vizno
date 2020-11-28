@@ -1,19 +1,18 @@
 import functools
-from typing import Any, Callable, List
+from typing import Any, Callable, List, Optional
 
 import pydantic
 
 
 class ContentConfiguration(pydantic.BaseModel):
     component: str
-    component_module: str = "vizno-core.js"
+    component_module: Optional[str]
     external_js_dependencies: List[str] = []
     external_css_dependencies: List[str] = []
 
 
 class FallbackContentConfiguration(ContentConfiguration):
     component: str = "FallbackContent"
-    component_module: str = "vizno-core.js"
     detected_type: str
 
 

@@ -6,6 +6,7 @@ This package contains the parent class for vizno reports.
 import importlib
 import json
 import os
+import shutil
 import time
 import uuid
 from typing import List, Optional, Sequence
@@ -137,6 +138,12 @@ class Report:
         copy_resource("vizno.css", output_dir)
         copy_resource("vizno-core.min.js", output_dir)
         copy_resource("vz-ico.png", output_dir)
+
+        for element in configuration.elements:
+            if isinstance(element, WidgetConfiguration):
+                if element.content.component_module:
+                    module_path = os.path.realpath(element.content.component_module)
+                    shutil.copy(module_path, output_dir)
 
         with open(
             os.path.join(output_dir, "vizno-config.js"), "w", encoding="utf-8"

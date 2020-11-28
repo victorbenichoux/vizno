@@ -15,7 +15,6 @@ rcParams["svg.fonttype"] = "none"
 
 class MatplotlibContentConfiguration(ContentConfiguration):
     component: str = "SVGContent"
-    component_module: str = "vizno-core.js"
     data: str
 
 

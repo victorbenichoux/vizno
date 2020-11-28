@@ -9,7 +9,6 @@ from vizno.renderers import ContentConfiguration, render
 
 class TableContentConfiguration(ContentConfiguration):
     component: str = "TableContent"
-    component_module: str = "vizno-core.js"
     data: List[dict]
     columns: List[str]
     content_uuid: str
