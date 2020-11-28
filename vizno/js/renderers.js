@@ -197,7 +197,7 @@ function MathJaxContent({
   });
   const mathJaxRef = useRef(null);
   useEffect(() => {
-    if (read && window.MathJax) {
+    if (ready && window.MathJax) {
       window.MathJax.typeset(() => mathJaxRef.current);
     }
   });
