@@ -36,7 +36,7 @@ class UpdateNotifier:
 notifier = UpdateNotifier()
 
 
-@app.get("/report")
+@app.get("/")
 def redirect_to_index():
     return RedirectResponse(url="/static/index.html")
 
