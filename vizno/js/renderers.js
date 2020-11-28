@@ -137,6 +137,35 @@ function SVGContent({ data }) {
   return html`<${SVGContainer} data="${data}" />`;
 }
 
+dictComponent.CodeContent = CodeContent;
+function CodeContent({
+  external_js_dependencies,
+  external_css_dependencies,
+  code,
+  language,
+}) {
+  console.log({
+    external_js_dependencies,
+    external_css_dependencies,
+    code,
+    language,
+  });
+  const ready = useDependencies({
+    componentName: "CodeContent",
+    jsDependencies: external_js_dependencies,
+    cssDependencies: external_css_dependencies,
+  });
+  const codeRef = useRef(null);
+  useEffect(() => {
+    if (codeRef.current) {
+      window.hljs.highlightBlock(codeRef.current);
+    }
+  });
+  if (ready) {
+    return html`<pre><code ref=${codeRef} class="language-${language}">${code}</code></pre>`;
+  }
+}
+
 dictComponent.FallbackContent = FallbackContent;
 function FallbackContent({ detected_type }) {
   return html`<p class="vz-text">Unknown content type "${detected_type}"</p>`;

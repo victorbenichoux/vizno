@@ -22,6 +22,7 @@ for renderer in [
     "vizno.renderers.bokeh",
     "vizno.renderers.matplotlib",
     "vizno.renderers.table",
+    "vizno.renderers.code",
 ]:
     try:
         importlib.import_module(renderer)
