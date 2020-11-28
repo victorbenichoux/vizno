@@ -29,7 +29,7 @@ r.widget(
     description="It contains the above figure, but "
     "also a description, which _may include_ "
     "[markdown](https://daringfireball.net/projects/markdown/) ***formatted*** text",
-    layout={"width": 6}
+    layout={"width": 6},
 )
 
 chart = (
@@ -59,7 +59,9 @@ r.widget(
             "b": ys,
         }
     ),
-    name="A table", layout={"width": 6})
+    name="A table",
+    layout={"width": 6},
+)
 
 r.text(
     """
