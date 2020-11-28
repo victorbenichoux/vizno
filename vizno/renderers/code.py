@@ -4,7 +4,7 @@ from typing import Optional
 
 import pydantic
 
-from vizno.renderers import ContentConfiguration, magic_include, render
+from vizno.renderers import ContentConfiguration, render
 
 
 class CodeContent(pydantic.BaseModel):
@@ -28,6 +28,7 @@ def _(obj: CodeContent) -> CodeContentConfiguration:
             "https://unpkg.com/@highlightjs/cdn-assets@10.4.0/highlight.min.js"
         ],
         external_css_dependencies=[
-            f"https://unpkg.com/@highlightjs/cdn-assets@10.4.0/styles/{obj.highlightjs_style}.min.css"
+            "https://unpkg.com/@highlightjs/cdn-assets@"
+            f"10.4.0/styles/{obj.highlightjs_style}.min.css"
         ],
     )

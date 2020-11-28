@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from typing import Optional
-
 import pydantic
 
-from vizno.renderers import ContentConfiguration, magic_include, render
+from vizno.renderers import ContentConfiguration, render
 
 
 class MathJaxContent(pydantic.BaseModel):
