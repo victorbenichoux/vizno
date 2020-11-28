@@ -1,0 +1,6 @@
+typer
+pydantic
+# cli
+watchdog
+# api
+fastapi

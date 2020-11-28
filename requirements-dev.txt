@@ -1,0 +1,18 @@
+-r requirements.txt
+
+mypy
+flake8
+black
+pytest
+isort
+coverage
+# plotting
+matplotlib
+altair
+pandas
+bokeh
+# api
+requests
+aiofiles
+uvicorn
+websockets
