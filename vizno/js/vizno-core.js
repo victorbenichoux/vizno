@@ -37,14 +37,21 @@ function App() {
   useEffect(() => {
     if (status.shouldUpdate) {
       if (!hasWebSocket.current) {
-        const ws = new WebSocket("ws://localhost:8000/ws");
-        ws.onmessage = () => {
-          hasWebSocket.current = true;
-          setStatus({
-            configuration: null,
-            shouldUpdate: true,
-          });
-        };
+        try {
+          const ws = new WebSocket("ws://localhost:8000/ws");
+          ws.onmessage = () => {
+            hasWebSocket.current = true;
+            setStatus({
+              configuration: null,
+              shouldUpdate: true,
+            });
+          };
+          ws.onerror = () => {
+            console.log("No auto update available");
+          };
+        } catch (error) {
+          console.log("No auto update available", error);
+        }
       }
 
       if (window.location.search) {
