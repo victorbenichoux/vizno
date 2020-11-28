@@ -142,11 +142,34 @@ function FallbackContent({ detected_type }) {
   return html`<p class="vz-text">Unknown content type "${detected_type}"</p>`;
 }
 
+function VZCustomComponent({ component, spec }) {
+  console.log("Preparing to render custom component:", component);
+  const {
+    component_module,
+    external_js_dependencies,
+    external_css_dependencies,
+    ...args
+  } = spec;
+  const ready = useDependencies({
+    componentName: component,
+    jsDependencies: [...external_js_dependencies, component_module],
+    cssDependencies: external_css_dependencies,
+  });
+  return ready
+    ? html`<${window[component]} ...${args} />`
+    : html`<p class="vz-text">
+        Could not resolve custom component ${component} from module
+        ${component_module}
+      </p>`;
+}
+
 export function WidgetContent({ content }) {
   const { component, ...spec } = content;
   return html` <div class="vz-widget-content">
     ${dictComponent[component]
       ? html`<${dictComponent[component]} ...${spec} />`
+      : spec.component_module
+      ? html`<${VZCustomComponent} component=${component} spec=${spec} />`
       : html`<p class="vz-text">Component has no renderable content.</p>`}
   </div>`;
 }
