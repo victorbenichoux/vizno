@@ -10,6 +10,9 @@ from bokeh.plotting import figure as bokeh_figure
 from vizno.renderers import FallbackContentConfiguration
 from vizno.renderers.altair import AltairContentConfiguration
 from vizno.renderers.bokeh import BokehContentConfiguration
+from vizno.renderers.code import CodeContent, CodeContentConfiguration
+from vizno.renderers.latex import LatexContent, LatexContentConfiguration
+from vizno.renderers.mathjax import MathJaxContent, MathJaxContentConfiguration
 from vizno.renderers.matplotlib import MatplotlibContentConfiguration
 from vizno.report import Report
 
@@ -18,7 +21,10 @@ class OddContent:
     pass
 
 
-@pytest.fixture(scope="module", params=["matplotlib", "odd", "altair", "bokeh"])
+@pytest.fixture(
+    scope="module",
+    params=["matplotlib", "odd", "altair", "bokeh", "code", "latex", "mathjax"],
+)
 def content(request):
     if request.param == "matplotlib":
         f = plt.figure()
@@ -47,6 +53,26 @@ def content(request):
             [random.random() for _ in range(100)], [random.random() for _ in range(100)]
         )
         yield (plot, BokehContentConfiguration)
+    if request.param == "code":
+        yield (
+            CodeContent(code="lambda x: x", language="python"),
+            CodeContentConfiguration,
+        )
+    if request.param == "latex":
+        yield (
+            LatexContent(text="$$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$"),
+            LatexContentConfiguration,
+        )
+    if request.param == "mathjax":
+        yield (
+            MathJaxContent(text="$$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$"),
+            MathJaxContentConfiguration,
+        )
+    if request.param == "custom":
+        yield (
+            MathJaxContent(text="$$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$"),
+            MathJaxContentConfiguration,
+        )
 
 
 def test_renderers(content):
