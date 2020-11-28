@@ -55,7 +55,7 @@ app = typer.Typer()
 @app.command()
 def render(report_fn: str, output_dir: str = ".", reload: bool = False):
     fn = os.path.realpath(report_fn)
-    render_from_file(fn, report_fn)
+    render_from_file(fn, output_dir)
     if reload:
         current_mtime = os.stat(fn).st_mtime
         try:
@@ -63,7 +63,7 @@ def render(report_fn: str, output_dir: str = ".", reload: bool = False):
                 time.sleep(0.1)
                 if os.stat(fn).st_mtime != current_mtime:
                     current_mtime = os.stat(fn).st_mtime
-                    render_from_file(fn, report_fn)
+                    render_from_file(fn, output_dir)
         except KeyboardInterrupt:
             pass
 
