@@ -184,7 +184,25 @@ function LatexContent({
     >`;
   }
 }
-
+dictComponent.MathJaxContent = MathJaxContent;
+function MathJaxContent({
+  external_js_dependencies,
+  external_css_dependencies,
+  text,
+}) {
+  const ready = useDependencies({
+    componentName: "MathJaxContent",
+    jsDependencies: external_js_dependencies,
+    cssDependencies: external_css_dependencies,
+  });
+  const mathJaxRef = useRef(null);
+  useEffect(() => {
+    if (read && window.MathJax) {
+      window.MathJax.typeset(() => mathJaxRef.current);
+    }
+  });
+  return html`<div ref=${mathJaxRef}>${text}</MathJax-js>`;
+}
 
 dictComponent.FallbackContent = FallbackContent;
 function FallbackContent({ detected_type }) {

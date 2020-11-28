@@ -24,6 +24,7 @@ for renderer in [
     "vizno.renderers.table",
     "vizno.renderers.code",
     "vizno.renderers.latex",
+    "vizno.renderers.mathjax",
 ]:
     try:
         importlib.import_module(renderer)
