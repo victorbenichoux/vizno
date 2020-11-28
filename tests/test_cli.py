@@ -49,6 +49,6 @@ def test_cli_post_update(server_fixture):
 
 def test_ws(server_fixture):
     with server_fixture.websocket_connect("/ws") as websocket:
-        response = server_fixture.post("/update")
+        server_fixture.post("/update")
         data = websocket.receive_text()
         assert data == "update"
