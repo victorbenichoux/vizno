@@ -1,6 +1,7 @@
 import urllib.parse
 
 import fastapi
+from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.staticfiles import StaticFiles
 from starlette.requests import Request
 from starlette.responses import RedirectResponse
@@ -9,6 +10,7 @@ from starlette.responses import RedirectResponse
 class ViznoApp(fastapi.FastAPI):
     def __init__(self, static_url: str = "/static", **kwargs):
         super().__init__(**kwargs)
+        self.add_middleware(GZipMiddleware, minimum_size=1000)
         self.static_url = static_url
         self.mount(
             static_url,
