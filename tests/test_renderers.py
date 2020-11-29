@@ -28,7 +28,7 @@ class OddContent:
 def content(request):
     if request.param == "matplotlib":
         f = plt.figure()
-        yield (f, MatplotlibContentConfiguration)
+        yield (f, SVGContentConfiguration)
         f.clf()
         del f
     if request.param == "odd":
