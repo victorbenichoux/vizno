@@ -201,7 +201,7 @@ function MathJaxContent({
       window.MathJax.typeset(() => mathJaxRef.current);
     }
   });
-  return html`<div ref=${mathJaxRef}>${text}</MathJax-js>`;
+  return html`<div ref=${mathJaxRef}>${text}</div>`;
 }
 
 dictComponent.PlotlyComponent = PlotlyComponent;
