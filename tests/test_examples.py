@@ -8,10 +8,15 @@ import pytest
 
 from tests import ROOT_DIR
 
-EXAMPLES_DIR = os.path.join(ROOT_DIR, "examples", "reports")
+EXAMPLES_DIR = [
+    os.path.join(ROOT_DIR, "examples", "renderers"),
+    os.path.join(ROOT_DIR, "examples", "reports"),
+]
+
 EXAMPLES = [
-    os.path.join(EXAMPLES_DIR, fn)
-    for fn in os.listdir(os.path.join(EXAMPLES_DIR))
+    os.path.join(d, fn)
+    for d in EXAMPLES_DIR
+    for fn in os.listdir(d)
     if fn.endswith(".py")
 ]
 
