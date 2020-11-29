@@ -25,6 +25,7 @@ for renderer in [
     "vizno.renderers.code",
     "vizno.renderers.latex",
     "vizno.renderers.mathjax",
+    "vizno.renderers.plotly",
 ]:
     try:
         importlib.import_module(renderer)

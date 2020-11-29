@@ -204,6 +204,27 @@ function MathJaxContent({
   return html`<div ref=${mathJaxRef}>${text}</MathJax-js>`;
 }
 
+dictComponent.PlotlyComponent = PlotlyComponent;
+function PlotlyComponent({
+  content_uuid,
+  spec,
+  external_js_dependencies,
+  external_css_dependencies,
+}) {
+  const ready = useDependencies({
+    componentName: "PlotlyComponent",
+    jsDependencies: external_js_dependencies,
+    cssDependencies: external_css_dependencies,
+  });
+  const plotlyRef = useRef(null);
+  useEffect(() => {
+    if (ready && window.Plotly) {
+      window.Plotly.react(content_uuid, spec.data, spec.layout);
+    }
+  });
+  return html`<div ref=${plotlyRef} id=${content_uuid} />`;
+}
+
 dictComponent.FallbackContent = FallbackContent;
 function FallbackContent({ detected_type }) {
   return html`<p class="vz-text">Unknown content type "${detected_type}"</p>`;

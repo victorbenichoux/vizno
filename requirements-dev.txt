@@ -12,6 +12,7 @@ matplotlib
 altair
 pandas
 bokeh
+plotly
 # api
 requests
 aiofiles
