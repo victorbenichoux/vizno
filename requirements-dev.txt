@@ -13,6 +13,7 @@ altair
 pandas
 bokeh
 plotly
+pygal
 # api
 requests
 aiofiles
