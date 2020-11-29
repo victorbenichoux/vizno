@@ -3,7 +3,7 @@ import io
 
 import matplotlib
 
-from vizno.renderers import ContentConfiguration, magic_include, render
+from vizno.renderers import magic_include, render
 from vizno.renderers.svg import SVGContentConfiguration, clean_svg
 
 matplotlib.use("Agg")
