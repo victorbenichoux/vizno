@@ -13,7 +13,7 @@ from vizno.renderers.bokeh import BokehContentConfiguration
 from vizno.renderers.code import CodeContent, CodeContentConfiguration
 from vizno.renderers.latex import LatexContent, LatexContentConfiguration
 from vizno.renderers.mathjax import MathJaxContent, MathJaxContentConfiguration
-from vizno.renderers.matplotlib import MatplotlibContentConfiguration
+from vizno.renderers.svg import SVGContentConfiguration
 from vizno.report import Report
 
 

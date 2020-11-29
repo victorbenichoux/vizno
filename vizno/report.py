@@ -26,6 +26,7 @@ for renderer in [
     "vizno.renderers.latex",
     "vizno.renderers.mathjax",
     "vizno.renderers.plotly",
+    "vizno.renderers.pygal",
 ]:
     try:
         importlib.import_module(renderer)
