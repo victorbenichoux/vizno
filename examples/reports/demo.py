@@ -3,8 +3,13 @@ import random
 import altair
 import matplotlib.pyplot as plt
 import pandas as pd
+import plotly.graph_objects as go
+import pygal
 from bokeh.plotting import figure as bokeh_figure
 
+from vizno.renderers.code import CodeContent
+from vizno.renderers.latex import LatexContent
+from vizno.renderers.mathjax import MathJaxContent
 from vizno.report import Report
 
 xs = [random.random() for _ in range(100)]
@@ -16,7 +21,12 @@ r = Report(
 )
 
 
-r.header("Some Header", description="In each section we can find multiple widgets.")
+r.header(
+    "Python plotting libraries",
+    description="""
+`vizno` supports all the common Python plotting libraries.
+""",
+)
 
 f = plt.figure()
 ax = f.add_subplot(111)
@@ -25,10 +35,8 @@ ax.set_xlabel("Label")
 
 r.widget(
     f,
-    name="This is a matplotlib widget",
-    description="It contains the above figure, but "
-    "also a description, which _may include_ "
-    "[markdown](https://daringfireball.net/projects/markdown/) ***formatted*** text",
+    name="Matplotlib",
+    description="A [matplotlib](https://matplotlib.org/) figure",
     layout={"width": 6},
 )
 
@@ -45,12 +53,61 @@ chart = (
     .encode(x="a", y="b")
 )
 
-r.widget(chart, name="An altair widget", layout={"width": 6})
+r.widget(
+    chart,
+    name="Atlair",
+    description="An [altair](https://altair-viz.github.io/) figure",
+    layout={"width": 6},
+)
 
 plot = bokeh_figure(plot_width=400, plot_height=300)
 plot.circle(xs, ys)
 
-r.widget(plot, name="A bokeh widget", layout={"width": 6})
+r.widget(
+    plot,
+    name="Bokeh",
+    description="A [bokeh](https://docs.bokeh.org/en/latest/index.html#) figure",
+    layout={"width": 6},
+)
+
+
+pygal_figure = pygal.XY(stroke=False)
+pygal_figure.add("x/y", list(zip(xs, ys)))
+
+r.widget(
+    pygal_figure,
+    name="Pygal",
+    description="A [pygal](http://www.pygal.org/en/stable/) figure",
+    layout={"width": 6},
+)
+
+
+plotly_figure = go.Figure()
+plotly_figure.add_trace(
+    go.Scatter(
+        x=xs,
+        y=ys,
+        mode="markers",
+        marker=go.scatter.Marker(size=5),
+    )
+)
+
+
+r.widget(
+    plotly_figure,
+    name="Plotly",
+    description="A [plotly](https://github.com/plotly/plotly.py) figure",
+    layout={"width": 6},
+)
+
+
+r.header(
+    "Table data",
+    description="""
+`vizno` supports rendering tabular data from dataframes.
+""",
+)
+
 
 r.widget(
     pd.DataFrame(
@@ -60,7 +117,13 @@ r.widget(
         }
     ),
     name="A table",
-    layout={"width": 6},
+)
+
+r.header(
+    "Typesetting",
+    description="""
+`vizno` supports rendering Markdown text.
+""",
 )
 
 r.text(
@@ -120,4 +183,50 @@ print("Hello")
 2. Lists
 4. Numbers are ignored
     """  # NOQA
+)
+
+r.header(
+    "Advanced typesetting",
+    description="""
+`vizno` supports advanced typesetting.
+""",
+)
+
+r.widget(
+    CodeContent(
+        code="""def do_something(argument):
+    print(f"Hello {argument}!")
+do_something("ok")""",
+        language="python",
+    ),
+    name="Code",
+    layout={"width": 6},
+)
+
+r.widget(
+    MathJaxContent(
+        text="""
+When \(a \\ne 0\), there are two solutions to \(ax^2 + bx + c = 0\) and they are
+$$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
+"""
+    ),
+    name="MathJax",
+    layout={"width": 6},
+)
+
+r.widget(
+    LatexContent(
+        text="""
+\documentclass{article}
+
+\\begin{document}
+
+When $a \\ne 0$, there are two solutions to $ax^2 + bx + c = 0$ and they are
+$$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
+
+\end{document}
+"""
+    ),
+    name="LaTeX",
+    layout={"width": 6},
 )
