@@ -18,7 +18,7 @@ html {
   color: #757575;
   font-size: 1rem;
   padding: 0px;
-  margin:0px
+  margin: 0px;
 }
 
 .vz-header h2 {
@@ -88,6 +88,10 @@ html {
   padding: 10px;
   overflow-x: scroll;
   margin: 10px;
+}
+
+.vz-text-element {
+  padding: 1em;
 }
 
 .vz-text-element blockquote {
