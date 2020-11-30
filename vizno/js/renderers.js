@@ -144,26 +144,22 @@ function CodeContent({
   code,
   language,
 }) {
-  console.log({
-    external_js_dependencies,
-    external_css_dependencies,
-    code,
-    language,
-  });
   const ready = useDependencies({
     componentName: "CodeContent",
     jsDependencies: external_js_dependencies,
     cssDependencies: external_css_dependencies,
   });
   const codeRef = useRef(null);
+  const hasRendered = useRef(false);
+
   useEffect(() => {
-    if (codeRef.current) {
-      window.hljs.highlightBlock(codeRef.current);
+    if (ready && codeRef.current && !hasRendered.current) {
+      codeRef.current.innerHTML = window.hljs.highlight(language, code).value;
+      hasRendered.current = true;
     }
   });
-  if (ready) {
-    return html`<pre><code ref=${codeRef} class="language-${language}">${code}</code></pre>`;
-  }
+
+  return html`<pre><code ref=${codeRef}></code></pre>`;
 }
 
 dictComponent.LatexContent = LatexContent;
@@ -196,9 +192,16 @@ function MathJaxContent({
     cssDependencies: external_css_dependencies,
   });
   const mathJaxRef = useRef(null);
+  const hasRendered = useRef(false);
   useEffect(() => {
-    if (ready && window.MathJax) {
+    if (
+      ready &&
+      window.MathJax &&
+      hasRendered.current &&
+      !hasRendered.current
+    ) {
       window.MathJax.typeset(() => mathJaxRef.current);
+      hasRendered.current = true;
     }
   });
   return html`<div ref=${mathJaxRef}>${text}</div>`;
@@ -231,7 +234,6 @@ function FallbackContent({ detected_type }) {
 }
 
 function VZCustomComponent({ component, spec }) {
-  console.log("Preparing to render custom component:", component);
   const {
     component_module,
     external_js_dependencies,
