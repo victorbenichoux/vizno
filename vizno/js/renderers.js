@@ -58,12 +58,18 @@ function VegaContent({
 
   useEffect(() => {
     if (divRef.current && content_uuid && ready) {
-      spec.config.width = "container";
-      spec.config.height = "container";
+      console.log(spec);
+      // spec.config.width = "container";
+      spec.height = "container";
+      spec.width = "container";
       window.vegaEmbed("#".concat(content_uuid), spec).catch(console.error);
     }
   }, [divRef, content_uuid, ready, spec]);
-  return html`<div id="${content_uuid}" ref="${divRef}" />`;
+  return html`<div
+    id="${content_uuid}"
+    ref="${divRef}"
+    style="width: 100%; height:40vh"
+  />`;
 }
 
 dictComponent.MarkdownText = MarkdownText;

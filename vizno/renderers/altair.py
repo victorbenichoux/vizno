@@ -13,11 +13,14 @@ class AltairContentConfiguration(ContentConfiguration):
     component: str = "VegaContent"
     spec: dict
     content_uuid: str
+    container_height: str = "40vh"
 
 
 @magic_include
 @render.register
-def _(chart: altair.Chart) -> AltairContentConfiguration:
+def _(
+    chart: altair.Chart, container_height: str = "40vh"
+) -> AltairContentConfiguration:
     return AltairContentConfiguration(
         spec=chart.to_dict(),
         external_js_dependencies=[
@@ -27,4 +30,5 @@ def _(chart: altair.Chart) -> AltairContentConfiguration:
             "https://cdn.jsdelivr.net/npm/vega-embed@6",
         ],
         content_uuid=f"vega-{uuid.uuid4().hex[:8]}",
+        container_height=container_height,
     )
