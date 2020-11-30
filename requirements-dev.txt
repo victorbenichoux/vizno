@@ -19,3 +19,6 @@ requests
 aiofiles
 uvicorn
 websockets
+# doc
+mkdocs-material
+mkdocs-git-revision-date-localized-plugin
