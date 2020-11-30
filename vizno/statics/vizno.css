@@ -88,6 +88,7 @@ html {
   /* border: solid 1px darkgray; */
   padding: 10px;
   overflow-x: scroll;
+  margin: 10px;
 }
 
 .vz-text-element blockquote {

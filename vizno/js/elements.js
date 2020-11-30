@@ -35,15 +35,13 @@ function TextElement({ textSpec }) {
 
 function ViznoElement({ element }) {
   const { element_type } = element;
-  return html`<div class="vz-element">
-    ${element_type === "widget"
-      ? html` <${Widget} widgetSpec=${element} />`
-      : element_type === "header"
-      ? html`<${Header} headerSpec=${element} />`
-      : element_type === "text"
-      ? html`<${TextElement} textSpec=${element} />`
-      : null}
-  </div>`;
+  return element_type === "widget"
+    ? html` <${Widget} widgetSpec=${element} />`
+    : element_type === "header"
+    ? html`<${Header} headerSpec=${element} />`
+    : element_type === "text"
+    ? html`<${TextElement} textSpec=${element} />`
+    : null;
 }
 
 const widthToPureClass = [
