@@ -102,7 +102,7 @@ export function VizApp({ pageTitle, dateTime, description, elements }) {
         <div class="vz-datetime"><p>${dateTime}</p></div>
       </div>
       ${description
-        ? html`<div class="vz-report-description vz-element">
+        ? html`<div class="vz-report-description">
             <${MarkdownText} text=${description} />
           </div>`
         : null}

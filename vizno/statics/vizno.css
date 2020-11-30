@@ -6,7 +6,7 @@ html {
 
 .vz-text {
   color: #757575;
-  font-size: 0.8rem;
+  font-size: 1rem;
 }
 
 .vz-description {
@@ -17,11 +17,8 @@ html {
 .vz-report-description {
   color: #757575;
   font-size: 1rem;
-}
-
-.vz-element {
-  margin: 0px;
-  padding: 10px;
+  padding: 0px;
+  margin:0px
 }
 
 .vz-header h2 {
@@ -75,8 +72,8 @@ html {
 
 .vz-body {
   top: 0;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 2em;
+  padding-right: 2em;
   padding-top: 0px;
   background-color: whitesmoke;
 }
