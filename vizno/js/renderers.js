@@ -222,7 +222,9 @@ function PlotlyComponent({
   const plotlyRef = useRef(null);
   useEffect(() => {
     if (ready && window.Plotly) {
-      window.Plotly.react(content_uuid, spec.data, spec.layout);
+      window.Plotly.react(content_uuid, spec.data, spec.layout, {
+        responsive: true,
+      });
     }
   });
   return html`<div ref=${plotlyRef} id=${content_uuid} />`;
