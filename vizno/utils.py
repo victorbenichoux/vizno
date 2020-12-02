@@ -1,6 +1,5 @@
 import importlib.resources
 import os
-import re
 import shutil
 from typing import Dict, Optional
 
@@ -24,5 +23,5 @@ def copy_resource(
                 for l in fresource:
                     newl = l
                     for pattern, replacement in replace.items():
-                        newl = re.sub(re.escape(pattern), replacement, newl)
+                        newl = newl.replace(pattern, replacement)
                     fdestination.write(newl)
