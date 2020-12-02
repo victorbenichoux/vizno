@@ -11,14 +11,14 @@ from vizno.cli import render
 def test_render():
     fn = os.path.join(ROOT_DIR, "tests", "testdata", "report.py")
     with tempfile.TemporaryDirectory() as tmp_dir:
-        render(fn, tmp_dir)
+        render(fn, os.path.join(tmp_dir, "index.html"))
 
 
 @pytest.fixture(scope="session")
 def server_fixture():
     with tempfile.TemporaryDirectory() as tmp_dir:
         fn = os.path.join(ROOT_DIR, "tests", "testdata", "report.py")
-        render(fn, tmp_dir)
+        render(fn, os.path.join(tmp_dir, "index.html"))
         os.environ["SERVER_DIR"] = tmp_dir
         from vizno.server import app
 

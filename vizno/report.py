@@ -134,16 +134,17 @@ class Report:
             ],
         )
 
-    def render(self, output_dir: str, with_statics: bool = False):
+    def render(self, output_fn: str, with_statics: bool = False):
         configuration = self.get_configuration()
 
-        output_dir = os.path.realpath(output_dir)
+        output_fn = os.path.realpath(output_fn)
+        output_dir, fn = os.path.split(output_fn)
         os.makedirs(output_dir, exist_ok=True)
 
         if not with_statics:
             copy_resource(
                 "index.html",
-                output_dir,
+                output_fn,
                 replace={
                     **{
                         "configuration = undefined": f"configuration = JSON.parse("
@@ -164,24 +165,26 @@ class Report:
         else:
             copy_resource(
                 "index.html",
-                output_dir,
+                output_fn,
                 replace={
                     "configuration = undefined": "configuration=JSON.parse("
                     f"{json.dumps(configuration.json())}"
                     ")"
                 },
             )
-            copy_resource("vizno.css", output_dir)
-            copy_resource("vizno-core.min.js", output_dir)
-            copy_resource("vz-ico.png", output_dir)
+            copy_resource("vizno.css", os.path.join(output_dir, "vizno.css"))
+            copy_resource(
+                "vizno-core.min.js", os.path.join(output_dir, "vizno-core.min.js")
+            )
+            copy_resource("vz-ico.png", os.path.join(output_dir, "vz-ico.png"))
 
         for element in configuration.elements:
             if isinstance(element, WidgetConfiguration):
                 if element.content.component_module:
                     module_path = os.path.realpath(element.content.component_module)
-                    shutil.copy(module_path, output_dir)
+                    shutil.copy(module_path, output_fn)
 
-        print(f"Success:\n\tfile://{os.path.join(output_dir, 'index.html')}")
+        print(f"Success:\n\tfile://{output_fn}")
 
     @staticmethod
     def magic(title: str = "", description: str = "", datetime: str = ""):

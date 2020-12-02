@@ -1,5 +1,6 @@
 import copy
 import os
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -29,6 +30,8 @@ def test_examples(example_fn):
     else:
         env["PYTHONPATH"] = ROOT_DIR
     with tempfile.TemporaryDirectory() as tmpdir:
+        output_dir, fn = os.path.split(example_fn)
+        report_name = fn.replace(".py", ".html")
         assert (
             subprocess.call(
                 [
@@ -36,16 +39,18 @@ def test_examples(example_fn):
                     "vizno/cli.py",
                     "render",
                     example_fn,
-                    "--output-dir",
-                    tmpdir,
+                    "--output",
+                    os.path.join(tmpdir, report_name),
                 ],
                 env=env,
             )
             == 0
         )
-        assert set(os.listdir(tmpdir)) == {
-            "index.html",
-        }
+        if os.environ.get("UPDATE_EXAMPLES"):
+            shutil.copy2(
+                os.path.join(tmpdir, report_name), os.path.join(output_dir, report_name)
+            )
+        assert os.path.isfile(os.path.join(output_dir, report_name))
 
 
 def test_examples_with_statics():
@@ -62,8 +67,8 @@ def test_examples_with_statics():
                     "vizno/cli.py",
                     "render",
                     EXAMPLES[0],
-                    "--output-dir",
-                    tmpdir,
+                    "--output",
+                    os.path.join(tmpdir, "index.html"),
                     "--with-statics",
                 ],
                 env=env,

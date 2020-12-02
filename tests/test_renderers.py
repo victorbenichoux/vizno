@@ -1,3 +1,4 @@
+import os
 import random
 import tempfile
 
@@ -82,4 +83,4 @@ def test_renderers(content):
 
     assert isinstance(r.get_configuration().elements[0].content, content[1])
     with tempfile.TemporaryDirectory() as tmpdir:
-        r.render(tmpdir)
+        r.render(os.path.join(tmpdir, "index.html"))
