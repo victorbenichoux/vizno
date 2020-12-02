@@ -68,21 +68,3 @@ Contributions are what make the open source community such an amazing place to b
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
-
-## Contact
-
-Project Link: [https://github.com/victorbenichoux/vizno](https://github.com/victorbenichoux/vizno)
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-
-[contributors-shield]: https://img.shields.io/github/contributors/victorbenichoux/repo.svg?style=for-the-badge
-[contributors-url]: https://github.com/victorbenichoux/repo/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/victorbenichoux/repo.svg?style=for-the-badge
-[forks-url]: https://github.com/victorbenichoux/repo/network/members
-[stars-shield]: https://img.shields.io/github/stars/victorbenichoux/repo.svg?style=for-the-badge
-[stars-url]: https://github.com/victorbenichoux/repo/stargazers
-[issues-shield]: https://img.shields.io/github/issues/victorbenichoux/repo.svg?style=for-the-badge
-[issues-url]: https://github.com/victorbenichoux/repo/issues
-[license-shield]: https://img.shields.io/github/license/victorbenichoux/repo.svg?style=for-the-badge
-[license-url]: https://github.com/victorbenichoux/repo/blob/master/LICENSE.txt
