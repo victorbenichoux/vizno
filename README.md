@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/victorbenichoux/vizno">
-    <img src="./.github/resources/vizno.svg" alt="Logo" width="80" height="80">
+    <img src="https://raw.githubusercontent.com/victorbenichoux/vizno/main/.github/resources/vizno.svg" alt="Logo" width="80" height="80">
   </a>
 </p>
 <h1 align="center"> vizno </h1>
