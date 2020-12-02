@@ -28,6 +28,8 @@ r.widget(f)
 r.render(output_dir) # output a standalone HTML report to a directory
 ```
 
+Refer to the [documentation](https://victorbenichoux.github.io/vizno/) for more information.
+
 ## Content supported
 
 `vizno` supports rendering objects from the major Python visualization libraries:
