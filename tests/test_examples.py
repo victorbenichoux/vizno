@@ -45,7 +45,6 @@ def test_examples(example_fn):
         )
         assert set(os.listdir(tmpdir)) == {
             "index.html",
-            "vizno-config.js",
         }
 
 
@@ -73,7 +72,6 @@ def test_examples_with_statics():
         )
         assert set(os.listdir(tmpdir)) == {
             "index.html",
-            "vizno-config.js",
             "vizno-core.min.js",
             "vizno.css",
             "vz-ico.png",

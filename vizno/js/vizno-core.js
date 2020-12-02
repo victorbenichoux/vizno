@@ -60,17 +60,10 @@ function App() {
           setConfigurationRequest(queryParams);
         }
       } else {
-        const script = document.createElement("script");
-        script.src = "vizno-config.js";
-        script.type = "text/javascript";
-        script.async = false;
-        script.onload = () => {
-          setStatus({
-            shouldUpdate: false,
-            configuration: window.configuration,
-          });
-        };
-        document.head.appendChild(script);
+        setStatus({
+          shouldUpdate: false,
+          configuration: window.configuration,
+        });
       }
     }
   }, [status]);

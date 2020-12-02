@@ -145,13 +145,32 @@ class Report:
                 "index.html",
                 output_dir,
                 replace={
-                    static_asset: "https://cdn.jsdelivr.net/gh/victorbenichoux/"
-                    f"vizno@{__version__}/vizno/statics/{static_asset}"
-                    for static_asset in ["vizno-core.min.js", "vz-ico.png", "vizno.css"]
+                    **{
+                        "configuration = undefined": f"configuration = JSON.parse("
+                        f"{json.dumps(configuration.json())}"
+                        ")"
+                    },
+                    **{
+                        static_asset: "https://cdn.jsdelivr.net/gh/victorbenichoux/"
+                        f"vizno@{__version__}/vizno/statics/{static_asset}"
+                        for static_asset in [
+                            "vizno-core.min.js",
+                            "vz-ico.png",
+                            "vizno.css",
+                        ]
+                    },
                 },
             )
         else:
-            copy_resource("index.html", output_dir)
+            copy_resource(
+                "index.html",
+                output_dir,
+                replace={
+                    "configuration = undefined": "configuration=JSON.parse("
+                    f"{json.dumps(configuration.json())}"
+                    ")"
+                },
+            )
             copy_resource("vizno.css", output_dir)
             copy_resource("vizno-core.min.js", output_dir)
             copy_resource("vz-ico.png", output_dir)
@@ -162,12 +181,6 @@ class Report:
                     module_path = os.path.realpath(element.content.component_module)
                     shutil.copy(module_path, output_dir)
 
-        with open(
-            os.path.join(output_dir, "vizno-config.js"), "w", encoding="utf-8"
-        ) as f:
-            f.write(
-                "configuration=JSON.parse(" f"{json.dumps(configuration.json())}" ")"
-            )
         print(f"Success:\n\tfile://{os.path.join(output_dir, 'index.html')}")
 
     @staticmethod
