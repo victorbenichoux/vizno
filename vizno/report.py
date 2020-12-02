@@ -13,6 +13,7 @@ from typing import List, Optional, Sequence
 
 import pydantic
 
+from vizno import __version__
 from vizno.magic import iterate_frame_objects, renderable_objects
 from vizno.renderers import ContentConfiguration, render
 from vizno.utils import copy_resource
@@ -133,16 +134,27 @@ class Report:
             ],
         )
 
-    def render(self, output_dir: str):
+    def render(self, output_dir: str, with_statics: bool = False):
         configuration = self.get_configuration()
 
         output_dir = os.path.realpath(output_dir)
         os.makedirs(output_dir, exist_ok=True)
 
-        copy_resource("index.html", output_dir)
-        copy_resource("vizno.css", output_dir)
-        copy_resource("vizno-core.min.js", output_dir)
-        copy_resource("vz-ico.png", output_dir)
+        if not with_statics:
+            copy_resource(
+                "index.html",
+                output_dir,
+                replace={
+                    static_asset: "https://cdn.jsdelivr.net/gh/victorbenichoux/"
+                    f"vizno@{__version__}/vizno/statics/{static_asset}"
+                    for static_asset in ["vizno-core.min.js", "vz-ico.png", "vizno.css"]
+                },
+            )
+        else:
+            copy_resource("index.html", output_dir)
+            copy_resource("vizno.css", output_dir)
+            copy_resource("vizno-core.min.js", output_dir)
+            copy_resource("vz-ico.png", output_dir)
 
         for element in configuration.elements:
             if isinstance(element, WidgetConfiguration):

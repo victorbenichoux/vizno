@@ -34,28 +34,33 @@ def import_report_module(fn):
         return module
 
 
-def find_and_render(module, output_dir):
+def find_and_render(module, output_dir, with_statics: bool = False):
     report_name = next(
         v
         for v in dir(module)
         if not v.startswith("__") and isinstance(getattr(module, v), Report)
     )
     report = getattr(module, report_name)
-    report.render(output_dir)
+    report.render(output_dir, with_statics)
 
 
-def render_from_file(fn, output_dir):
+def render_from_file(fn, output_dir, with_statics: bool = False):
     report_module = import_report_module(fn)
-    find_and_render(report_module, output_dir)
+    find_and_render(report_module, output_dir, with_statics)
 
 
 app = typer.Typer()
 
 
 @app.command()
-def render(report_fn: str, output_dir: str = ".", reload: bool = False):
+def render(
+    report_fn: str,
+    output_dir: str = ".",
+    reload: bool = False,
+    with_statics: bool = False,
+):
     fn = os.path.realpath(report_fn)
-    render_from_file(fn, output_dir)
+    render_from_file(fn, output_dir, with_statics=with_statics)
     if reload:
         current_mtime = os.stat(fn).st_mtime
         try:
@@ -63,7 +68,7 @@ def render(report_fn: str, output_dir: str = ".", reload: bool = False):
                 time.sleep(0.1)
                 if os.stat(fn).st_mtime != current_mtime:
                     current_mtime = os.stat(fn).st_mtime
-                    render_from_file(fn, output_dir)
+                    render_from_file(fn, output_dir, with_statics=with_statics)
         except KeyboardInterrupt:
             pass
 

@@ -45,8 +45,36 @@ def test_examples(example_fn):
         )
         assert set(os.listdir(tmpdir)) == {
             "index.html",
-            "vizno.css",
-            "vizno-core.min.js",
-            "vz-ico.png",
             "vizno-config.js",
+        }
+
+
+def test_examples_with_statics():
+    env = copy.copy(os.environ)
+    if "PYTHONPATH" in env:
+        env["PYTHONPATH"] += ":" + ROOT_DIR
+    else:
+        env["PYTHONPATH"] = ROOT_DIR
+    with tempfile.TemporaryDirectory() as tmpdir:
+        assert (
+            subprocess.call(
+                [
+                    sys.executable,
+                    "vizno/cli.py",
+                    "render",
+                    EXAMPLES[0],
+                    "--output-dir",
+                    tmpdir,
+                    "--with-statics",
+                ],
+                env=env,
+            )
+            == 0
+        )
+        assert set(os.listdir(tmpdir)) == {
+            "index.html",
+            "vizno-config.js",
+            "vizno-core.min.js",
+            "vizno.css",
+            "vz-ico.png",
         }

@@ -30,9 +30,9 @@ def server_fixture():
 PATHS = [
     ("/", 200),
     ("/static/index.html", 200),
-    ("/static/vizno.css", 200),
-    ("/static/vizno-core.min.js", 200),
-    ("/static/vz-ico.png", 200),
+    ("/static/vizno.css", 404),
+    ("/static/vizno-core.min.js", 404),
+    ("/static/vz-ico.png", 404),
 ]
 
 
