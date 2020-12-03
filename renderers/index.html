@@ -1,0 +1,864 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Visual layout for python.">
+      
+      
+      
+      
+        <meta name="author" content="Victor Benichoux">
+      
+      <link rel="shortcut icon" href="../vizno.svg">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.1.6">
+    
+    
+      
+        <title>Widgets - vizno</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.6910b76c.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.196e0c26.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+      
+  
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#elements" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href=".." title="vizno" class="md-header-nav__button md-logo" aria-label="vizno">
+      
+  <img src="../vizno.svg" alt="logo">
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            vizno
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              Widgets
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header-nav__source">
+        
+<a href="https://github.com/victorbenichoux/vizno/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    victorbenichoux/vizno
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="vizno" class="md-nav__button md-logo" aria-label="vizno">
+      
+  <img src="../vizno.svg" alt="logo">
+
+    </a>
+    vizno
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/victorbenichoux/vizno/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    victorbenichoux/vizno
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href=".." class="md-nav__link">
+      Index
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Widgets
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
+    <a href="./" class="md-nav__link md-nav__link--active">
+      Widgets
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#elements" class="md-nav__link">
+    Elements
+  </a>
+  
+    <nav class="md-nav" aria-label="Elements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#widgets" class="md-nav__link">
+    Widgets
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#markdown" class="md-nav__link">
+    Markdown
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#header" class="md-nav__link">
+    Header
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#widget-contents" class="md-nav__link">
+    Widget contents
+  </a>
+  
+    <nav class="md-nav" aria-label="Widget contents">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#matplotlib" class="md-nav__link">
+    Matplotlib
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#altair" class="md-nav__link">
+    Altair
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bokeh" class="md-nav__link">
+    Bokeh
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plotly" class="md-nav__link">
+    Plotly
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pygal" class="md-nav__link">
+    Pygal
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#svg" class="md-nav__link">
+    SVG
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data" class="md-nav__link">
+    Data
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#typesetting" class="md-nav__link">
+    Typesetting
+  </a>
+  
+    <nav class="md-nav" aria-label="Typesetting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#code" class="md-nav__link">
+    Code
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#latex" class="md-nav__link">
+    LaTeX
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mathjax" class="md-nav__link">
+    MathJax
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-rendering" class="md-nav__link">
+    Custom rendering
+  </a>
+  
+    <nav class="md-nav" aria-label="Custom rendering">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#with-external-dependencies" class="md-nav__link">
+    With external dependencies
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../rendering/" class="md-nav__link">
+      Rendering
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../cli/" class="md-nav__link">
+      CLI
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#elements" class="md-nav__link">
+    Elements
+  </a>
+  
+    <nav class="md-nav" aria-label="Elements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#widgets" class="md-nav__link">
+    Widgets
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#markdown" class="md-nav__link">
+    Markdown
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#header" class="md-nav__link">
+    Header
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#widget-contents" class="md-nav__link">
+    Widget contents
+  </a>
+  
+    <nav class="md-nav" aria-label="Widget contents">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#matplotlib" class="md-nav__link">
+    Matplotlib
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#altair" class="md-nav__link">
+    Altair
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bokeh" class="md-nav__link">
+    Bokeh
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plotly" class="md-nav__link">
+    Plotly
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pygal" class="md-nav__link">
+    Pygal
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#svg" class="md-nav__link">
+    SVG
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data" class="md-nav__link">
+    Data
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#typesetting" class="md-nav__link">
+    Typesetting
+  </a>
+  
+    <nav class="md-nav" aria-label="Typesetting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#code" class="md-nav__link">
+    Code
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#latex" class="md-nav__link">
+    LaTeX
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mathjax" class="md-nav__link">
+    MathJax
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-rendering" class="md-nav__link">
+    Custom rendering
+  </a>
+  
+    <nav class="md-nav" aria-label="Custom rendering">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#with-external-dependencies" class="md-nav__link">
+    With external dependencies
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/victorbenichoux/vizno/edit/master/docs/renderers.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                  <h1>Widgets</h1>
+                
+                <h2 id="elements">Elements<a class="headerlink" href="#elements" title="Permanent link">&para;</a></h2>
+<p>Given a <code>Report</code> object, add elements to it by calling the <code>Report.widget</code>, <code>Report.header</code> or <code>Report.text</code></p>
+<h3 id="widgets">Widgets<a class="headerlink" href="#widgets" title="Permanent link">&para;</a></h3>
+<p>Widgets are the most importan elements because they can contain visualizations:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">r</span> <span class="o">=</span> <span class="n">Report</span><span class="p">()</span>
+<span class="n">r</span><span class="o">.</span><span class="n">widget</span><span class="p">(</span>
+    <span class="n">content</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Title&quot;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Description&quot;</span><span class="p">,</span>
+    <span class="n">layout</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="n">newline</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+    <span class="p">)</span>
+</code></pre></div>
+
+<ul>
+<li><code>content</code> is a figure object, see below for supported options</li>
+<li><code>name</code> appears as a header to the widget element</li>
+<li><code>description</code> is markdown rendered below the widget content</li>
+<li>The layout grid is 12 units wide, 6 is half of the full widths.</li>
+<li><code>newline</code> ensures that the widget is rendered on a new line</li>
+</ul>
+<h3 id="markdown">Markdown<a class="headerlink" href="#markdown" title="Permanent link">&para;</a></h3>
+<p>All titles and descriptions support Markdown text using <a href="https://github.com/developit/snarkdown">snarkdown</a>.</p>
+<p>It is also possible to render a text element instead of a widget:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">r</span> <span class="o">=</span> <span class="n">Report</span><span class="p">()</span>
+<span class="n">r</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s2">&quot;Some **Markdown** text&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="header">Header<a class="headerlink" href="#header" title="Permanent link">&para;</a></h3>
+<p>Finally, one can add <code>header</code> sections to the <code>Report</code> object:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">r</span> <span class="o">=</span> <span class="n">Report</span><span class="p">()</span>
+<span class="n">r</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;A header&quot;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Markdown that goes directly below the header&quot;</span>
+    <span class="p">)</span>
+</code></pre></div>
+
+<h2 id="widget-contents">Widget contents<a class="headerlink" href="#widget-contents" title="Permanent link">&para;</a></h2>
+<p><code>vizno</code> lays out and renders your Python visualizations in lightweight web pages. They can either be shared as standalone files, or rendered with fastAPI.</p>
+<p>It supports rendering from the major Python visualization libraries:</p>
+<h3 id="matplotlib">Matplotlib<a class="headerlink" href="#matplotlib" title="Permanent link">&para;</a></h3>
+<p>It is possible to render <a href="https://matplotlib.org/">matplotlib</a> figures within a vizno widget.</p>
+<p>The figure has to be a <code>matplotlib.pyploy.Figure</code> subclass, and will be exported to SVG and included in the final report.</p>
+<p>The <code>figure</code> object is exported as an SVG using the <code>Agg</code> interface, and is then cleaned before being passed to the backend. This cleaning process is tweakable through keyword arguments passed to the <code>Report.widget</code> call (see the SVG section).</p>
+<p>Checkout the <code>examples/renderers/matplotlib.py</code> for an example, and the <a href="../examples/matplotlib.html">resulting report</a>.</p>
+<h3 id="altair">Altair<a class="headerlink" href="#altair" title="Permanent link">&para;</a></h3>
+<p><a href="https://altair-viz.github.io/">altair</a> charts can be rendered by passing them as the first argument of the <code>Report.widget()</code> function. They have to be instances of <code>altair.Chart</code>.</p>
+<p>They are rendered by using the <code>Chart.to_dict()</code> function, and in the frontend by the <code>vega</code> JS library.</p>
+<p>Checkout the <code>examples/renderers/altair.py</code> for an example, and the <a href="../examples/altair.html">resulting report</a>.</p>
+<h3 id="bokeh">Bokeh<a class="headerlink" href="#bokeh" title="Permanent link">&para;</a></h3>
+<p><a href="https://docs.bokeh.org/en/latest/index.html">bokeh</a> models can be rendererd by passing them as the first argument of the <code>Report.widget()</code> function. They have to be instances of <code>bokeh.models.Model</code> .</p>
+<p>They are rendered by using <code>bokeh.embed.json_item</code> and then by <code>BokehJS</code> in the frontend.</p>
+<p>Checkout the <code>examples/renderers/bokeh.py</code> for an example, and the <a href="../examples/bokeh.html">resulting report</a>.</p>
+<h3 id="plotly">Plotly<a class="headerlink" href="#plotly" title="Permanent link">&para;</a></h3>
+<p><a href="https://github.com/plotly/plotly.py">plotly</a> components can be rendered by passing them as the first argument of the <code>Report.widget()</code> function. They have to be instances of <code>plotly.basedatatypes.BaseFigure</code>.</p>
+<p>They are rendered by first saving them using <code>BaseFigure.to_dict()</code> method, and by <code>plotly.js</code> in the frontend.</p>
+<p>Checkout the <code>examples/renderers/plotly.py</code> for an example, and the <a href="../examples/plotly.html">resulting report</a>.</p>
+<h3 id="pygal">Pygal<a class="headerlink" href="#pygal" title="Permanent link">&para;</a></h3>
+<p><a href="http://www.pygal.org/en/stable/">pygal</a> charts can be rendered by passing them as the first argument of the <code>Report.widget()</code> function. They have to be instances of <code>pygal.graph.graph.Graph</code>.</p>
+<p>They are rendered as SVG using <code>pygal</code>'s <code>Graph.render(disable_xml_declaration=True)</code> function and pass through the same cleaning process as the other SVG contents (see below).</p>
+<p>Checkout the <code>examples/renderers/pygal.py</code> for an example, and the <a href="../examples/pygal.html">resulting report</a>.</p>
+<h3 id="svg">SVG<a class="headerlink" href="#svg" title="Permanent link">&para;</a></h3>
+<p>SVG rendering can be tweaked with keyword arguments passed to the <code>Report.widget</code> calls.</p>
+<ul>
+<li><code>inherit_font</code> (default <code>True</code>) the font inside the figure is replaced by the report's font</li>
+<li><code>width</code>/<code>height</code> override the width/height of the SVG in inches</li>
+<li><code>scale</code> (default <code>down</code>) control the scaling behavior of the SVG: <code>full</code> sets the width/height to 100% of the parent container. <code>fixed</code> sets the specified widths and heights, <code>down</code> preserves the height of the original SVG, and sets the width to <code>100%</code>.</li>
+</ul>
+<h2 id="data">Data<a class="headerlink" href="#data" title="Permanent link">&para;</a></h2>
+<p>It also supports displaying large <a href="">pandas</a> dataframes as tables (using <a href="http://tabulator.info/">tabulator</a>).</p>
+<p>Checkout the <code>examples/renderers/table.py</code> for an example, and the <a href="../examples/table.html">resulting report</a>.</p>
+<h2 id="typesetting">Typesetting<a class="headerlink" href="#typesetting" title="Permanent link">&para;</a></h2>
+<h3 id="code">Code<a class="headerlink" href="#code" title="Permanent link">&para;</a></h3>
+<p>It is possible to render syntax-highlighted code with <a href="https://highlightjs.org/">highlightjs</a>. To do so, pass a <code>CodeContent</code> structure to <code>Report.widget</code>, for example:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">vizno.renderers.code</span> <span class="kn">import</span> <span class="n">CodeContent</span>
+<span class="n">r</span><span class="o">.</span><span class="n">widget</span><span class="p">(</span> <span class="n">CodeContent</span><span class="p">(</span>
+        <span class="n">code</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">def do_something(argument):</span>
+<span class="s2">    print(f&quot;Hello </span><span class="si">{argument}</span><span class="s2">!&quot;)</span>
+<span class="s2">do_something(&quot;ok)</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="n">language</span><span class="o">=</span><span class="s2">&quot;python&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p>Checkout the <code>examples/renderers/code.py</code> for an example, and the <a href="../examples/code.html">resulting report</a>.</p>
+<h3 id="latex">LaTeX<a class="headerlink" href="#latex" title="Permanent link">&para;</a></h3>
+<p>It is possible to render full LaTeX documents by passing a <code>LatexContent(text=...)</code> object to a widget. It will be rendered with <a href="https://latex.js.org/">latex.js</a>.</p>
+<p>Checkout the <code>examples/renderers/latex.py</code> for an example, and the <a href="../examples/latex.html">resulting report</a>.</p>
+<h3 id="mathjax">MathJax<a class="headerlink" href="#mathjax" title="Permanent link">&para;</a></h3>
+<p>It is possible to render full MathJax documents by passing a <code>MathJaxContent(text=...)</code> object to a widget. It will be rendered with <a href="https://www.mathjax.org/">mathjax</a>.</p>
+<p>Checkout the <code>examples/renderers/mathjax.py</code> for an example, and the <a href="../examples/mathjax.html">resulting report</a>.</p>
+<h2 id="custom-rendering">Custom rendering<a class="headerlink" href="#custom-rendering" title="Permanent link">&para;</a></h2>
+<p>!!! warning This section requires some knowledge of JS/React</p>
+<p>It is possible to provide a completely custom renderer that will render its content inside a widget. To do so you need two files.</p>
+<p>In the python file, define the necessary configurations and register your rendering function with the main <code>vizno.renderers.render</code> dispact. as so:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span> <span class="nn">pydantic</span>
+
+<span class="kn">from</span> <span class="nn">vizno.renderers</span> <span class="kn">import</span> <span class="n">ContentConfiguration</span><span class="p">,</span> <span class="n">render</span>
+<span class="kn">from</span> <span class="nn">vizno.report</span> <span class="kn">import</span> <span class="n">Report</span>
+
+
+<span class="k">class</span> <span class="nc">CustomObject</span><span class="p">(</span><span class="n">pydantic</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="o">...</span>
+
+
+<span class="k">class</span> <span class="nc">CustomRenderConfiguration</span><span class="p">(</span><span class="n">ContentConfiguration</span><span class="p">):</span>
+    <span class="o">...</span>
+
+<span class="nd">@render</span><span class="o">.</span><span class="n">register</span>
+<span class="k">def</span> <span class="nf">_</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">CustomObject</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="k">return</span> <span class="n">CustomRenderConfiguration</span><span class="p">(</span>
+        <span class="n">component</span><span class="o">=</span><span class="s2">&quot;MyCustomComponent&quot;</span><span class="p">,</span>
+        <span class="n">component_module</span><span class="o">=</span><span class="s2">&quot;my_renderer.js&quot;</span><span class="p">,</span>
+        <span class="n">parameter</span><span class="o">=</span><span class="n">obj</span><span class="o">.</span><span class="n">parameter</span>
+    <span class="p">)</span>
+</code></pre></div>
+
+<p>The second file should expose a custom Preact+htm component. Its props will be the fields of the <code>ContentConfiguration</code> defined in the python file. Here is a possible content for <code>my_renderer.js</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="kd">function</span> <span class="nx">MyCustomComponent</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">html</span><span class="sb">`&lt;p&gt;something&lt;/p&gt;`</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>When rendering, the <code>my_renderer.js</code> file will be moved to within the render directory (or served as a static file). When <code>vizno-core.js</code> encounters a widget content that has <code>component_module="my_renderer.js"</code> it will attempt to import it (by adding a <code>script</code> node), and then render the content by looking for <code>window.MyCustomComponent</code>.</p>
+<p>Checkout the <code>examples/custom_renderer/custom_renderer.py</code> for an example.</p>
+<h3 id="with-external-dependencies">With external dependencies<a class="headerlink" href="#with-external-dependencies" title="Permanent link">&para;</a></h3>
+<p>If you need external dependencies, you first need to define them in Python. Add the necessary URLs as lists of strings in the <code>external_js_dependencies</code> and <code>external_css_dependencies</code> fields of the of the <code>ContentConfiguration</code> you return.</p>
+<p>In JS you can use the custom <code>useDependencies</code> hook which will import dependencies for you (no need to import it) and make sure that they are correctly loaded before rendering (as well as controlling that each external library is only loaded once).</p>
+<p>A typical pattern looks like this:</p>
+<p>In Python:</p>
+<div class="codehilite"><pre><span></span><code><span class="nd">@render</span><span class="o">.</span><span class="n">register</span>
+<span class="k">def</span> <span class="nf">_</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">CustomObject</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="k">return</span> <span class="n">CustomRenderConfiguration</span><span class="p">(</span>
+        <span class="n">component</span><span class="o">=</span><span class="s2">&quot;MyCustomComponent&quot;</span><span class="p">,</span>
+        <span class="n">component_module</span><span class="o">=</span><span class="s2">&quot;my_renderer.js&quot;</span><span class="p">,</span>
+        <span class="n">parameter</span><span class="o">=</span><span class="n">parameter</span>
+        <span class="n">external_js_dependencies</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;https://where.my/js/lives&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+        <span class="n">external_js_dependencies</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;https://where.my/css/lives&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+    <span class="p">)</span>
+</code></pre></div>
+
+<p>In <code>my_renderer.js</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="kd">function</span> <span class="nx">MyCustomComponent</span><span class="p">({</span>
+  <span class="nx">external_js_dependencies</span><span class="p">,</span>
+  <span class="nx">external_css_dependencies</span><span class="p">,</span>
+  <span class="nx">some_parameter</span><span class="p">,</span>
+<span class="p">})</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">ready</span> <span class="o">=</span> <span class="nx">useDependencies</span><span class="p">({</span>
+    <span class="nx">componentName</span><span class="o">:</span> <span class="s2">&quot;MyCustomComponent&quot;</span><span class="p">,</span>
+    <span class="nx">jsDependencies</span><span class="o">:</span> <span class="nx">external_js_dependencies</span><span class="p">,</span>
+    <span class="nx">cssDependencies</span><span class="o">:</span> <span class="nx">external_css_dependencies</span><span class="p">,</span>
+  <span class="p">});</span>
+
+  <span class="kr">const</span> <span class="nx">divRef</span> <span class="o">=</span> <span class="nx">useRef</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+
+  <span class="nx">useEffect</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">divRef</span><span class="p">.</span><span class="nx">current</span> <span class="o">&amp;&amp;</span> <span class="nx">ready</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nb">window</span><span class="p">.</span><span class="nx">YourImportedLibrary</span><span class="p">.</span><span class="nx">doSomething</span><span class="p">(</span><span class="nx">divRef</span><span class="p">.</span><span class="nx">current</span><span class="p">,</span> <span class="nx">some_parameter</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">},</span> <span class="p">[</span><span class="nx">divRef</span><span class="p">,</span> <span class="nx">ready</span><span class="p">,</span> <span class="nx">some_parameter</span><span class="p">]);</span>
+
+  <span class="k">return</span> <span class="nx">html</span><span class="sb">`&lt;div ref=&quot;</span><span class="si">${</span><span class="nx">divRef</span><span class="si">}</span><span class="sb">&quot; /&gt;`</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+                
+                  
+                    
+
+<hr>
+<div class="md-source-date">
+  <small>
+    
+      Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">December 3, 2020</span>
+    
+  </small>
+</div>
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href=".." class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Index
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../rendering/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Rendering
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/vendor.fd16492e.min.js"></script>
+      <script src="../assets/javascripts/bundle.7836ba4d.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: "..",
+          features: [],
+          search: Object.assign({
+            worker: "../assets/javascripts/worker/search.4ac00218.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>
