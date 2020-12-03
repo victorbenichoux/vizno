@@ -12,6 +12,8 @@
 
 `vizno` lays out and renders your Python visualizations in lightweight web pages. They can either be shared as standalone files, or rendered with fastAPI.
 
+Check out the [demonstration report](https://victorbenichoux.github.io/vizno/examples/demo.html) for a demonstration of what it looks like, it's a single HTML file!
+
 ## Quickstart
 
 You can use `vizno` with your existing Python code in no time:
