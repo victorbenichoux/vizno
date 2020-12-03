@@ -10,6 +10,8 @@
 
 `vizno` allows you to generate lightweight, portable and servable reports by laying out text and graphics together.
 
+![demo](./demo.gif)
+
 Check out the [demonstration report](examples/demo.html) for a demonstration of what it looks like, it's a single HTML file!
 
 # Installation
