@@ -20,7 +20,7 @@ Check out the [demonstration report](examples/demo.html) for a demonstration of 
 
 # Installation
 
-Install vizno with PyPi:
+Install vizno with PyPI:
 
 ```bash
 pip install vizno

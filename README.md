@@ -22,6 +22,12 @@ Check out the [demonstration report](https://victorbenichoux.github.io/vizno/exa
 
 ## Quickstart
 
+Install `vizno` from PyPI:
+
+```bash
+pip install vizno
+```
+
 You can use `vizno` with your existing Python code in no time:
 
 ```python
