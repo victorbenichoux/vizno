@@ -30,7 +30,8 @@ def test_examples(example_fn):
     else:
         env["PYTHONPATH"] = ROOT_DIR
     with tempfile.TemporaryDirectory() as tmpdir:
-        output_dir, fn = os.path.split(example_fn)
+        _, fn = os.path.split(example_fn)
+        output_dir = os.path.join(ROOT_DIR, "docs", "examples")
         report_name = fn.replace(".py", ".html")
         assert (
             subprocess.call(
