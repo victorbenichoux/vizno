@@ -1,4 +1,5 @@
 import importlib.resources
+import json
 import shutil
 from typing import Dict, Optional
 
@@ -22,3 +23,8 @@ def copy_resource(
                     for pattern, replacement in replace.items():
                         newl = newl.replace(pattern, replacement)
                     fdestination.write(newl)
+
+
+def safe_configuration_dump(configuration):
+    dump = json.dumps(configuration.json())
+    return dump.replace("<script>", '<scr"+"ipt>').replace("</script>", '</scr"+"ipt>')

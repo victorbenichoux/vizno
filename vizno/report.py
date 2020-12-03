@@ -4,7 +4,6 @@ This package contains the parent class for vizno reports.
 """
 
 import importlib
-import json
 import os
 import shutil
 import time
@@ -16,7 +15,7 @@ import pydantic
 from vizno import __version__
 from vizno.magic import iterate_frame_objects, renderable_objects
 from vizno.renderers import ContentConfiguration, render
-from vizno.utils import copy_resource
+from vizno.utils import copy_resource, safe_configuration_dump
 
 for renderer in [
     "vizno.renderers.altair",
@@ -148,7 +147,7 @@ class Report:
                 replace={
                     **{
                         "configuration = undefined": f"configuration = JSON.parse("
-                        f"{json.dumps(configuration.json())}"
+                        f"{safe_configuration_dump(configuration)}"
                         ")"
                     },
                     **{
@@ -168,7 +167,7 @@ class Report:
                 output_fn,
                 replace={
                     "configuration = undefined": "configuration=JSON.parse("
-                    f"{json.dumps(configuration.json())}"
+                    f"{safe_configuration_dump(configuration)}"
                     ")"
                 },
             )
