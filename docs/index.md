@@ -10,6 +10,16 @@
 
 `vizno` allows you to generate lightweight, portable and servable reports by laying out text and graphics together.
 
+Check out the [demonstration report](examples/demo.html) for a demonstration of what it looks like, it's a single HTML file!
+
+# Installation
+
+Install vizno with PyPi:
+
+```bash
+pip install vizno
+```
+
 # Quick start
 
 Create a python script `my_report.py`:

@@ -59,7 +59,7 @@ The figure has to be a `matplotlib.pyploy.Figure` subclass, and will be exported
 
 The `figure` object is exported as an SVG using the `Agg` interface, and is then cleaned before being passed to the backend. This cleaning process is tweakable through keyword arguments passed to the `Report.widget` call (see the SVG section).
 
-Checkout the `examples/renderers/matplotlib.py` for an example.
+Checkout the `examples/renderers/matplotlib.py` for an example, and the [resulting report](./examples/matplotlib.html).
 
 ### Altair
 
@@ -67,7 +67,7 @@ Checkout the `examples/renderers/matplotlib.py` for an example.
 
 They are rendered by using the `Chart.to_dict()` function, and in the frontend by the `vega` JS library.
 
-Checkout the `examples/renderers/altair.py` for an example.
+Checkout the `examples/renderers/altair.py` for an example, and the [resulting report](./examples/altair.html).
 
 ### Bokeh
 
@@ -75,7 +75,7 @@ Checkout the `examples/renderers/altair.py` for an example.
 
 They are rendered by using `bokeh.embed.json_item` and then by `BokehJS` in the frontend.
 
-Checkout the `examples/renderers/bokeh.py` for an example.
+Checkout the `examples/renderers/bokeh.py` for an example, and the [resulting report](./examples/bokeh.html).
 
 ### Plotly
 
@@ -83,7 +83,7 @@ Checkout the `examples/renderers/bokeh.py` for an example.
 
 They are rendered by first saving them using `BaseFigure.to_dict()` method, and by `plotly.js` in the frontend.
 
-Checkout the `examples/renderers/plotly.py` for an example.
+Checkout the `examples/renderers/plotly.py` for an example, and the [resulting report](./examples/plotly.html).
 
 ### Pygal
 
@@ -91,7 +91,8 @@ Checkout the `examples/renderers/plotly.py` for an example.
 
 They are rendered as SVG using `pygal`'s `Graph.render(disable_xml_declaration=True)` function and pass through the same cleaning process as the other SVG contents (see below).
 
-Checkout the `examples/renderers/pygal.py` for an example.
+Checkout the `examples/renderers/pygal.py` for an example, and the [resulting report](./examples/pygal.html).
+
 
 ### SVG
 
@@ -105,7 +106,8 @@ SVG rendering can be tweaked with keyword arguments passed to the `Report.widget
 
 It also supports displaying large [pandas]() dataframes as tables (using [tabulator](http://tabulator.info/)).
 
-Checkout the `examples/renderers/table.py` for an example.
+Checkout the `examples/renderers/table.py` for an example, and the [resulting report](./examples/table.html).
+
 
 ## Typesetting
 
@@ -126,19 +128,20 @@ do_something("ok)
 )
 ```
 
-Checkout the `examples/renderers/code.py` for an example.
+Checkout the `examples/renderers/code.py` for an example, and the [resulting report](./examples/code.html).
+
 
 ### LaTeX
 
 It is possible to render full LaTeX documents by passing a `LatexContent(text=...)` object to a widget. It will be rendered with [latex.js](https://latex.js.org/).
 
-Checkout the `examples/renderers/latex.py` for an example.
+Checkout the `examples/renderers/latex.py` for an example, and the [resulting report](./examples/latex.html).
 
 ### MathJax
 
 It is possible to render full MathJax documents by passing a `MathJaxContent(text=...)` object to a widget. It will be rendered with [mathjax](https://www.mathjax.org/).
 
-Checkout the `examples/renderers/mathjax.py` for an example.
+Checkout the `examples/renderers/mathjax.py` for an example, and the [resulting report](./examples/mathjax.html).
 
 ## Custom rendering
 
